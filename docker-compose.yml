@@ -17,6 +17,7 @@ services:
         user: 1000:1000
         links:
           - mysql
+          - mysql_test
         volumes:
           - ./:/var/www/html
           - ./docker/config/php/php.ini:/usr/local/etc/php/php.ini
