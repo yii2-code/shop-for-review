@@ -10,5 +10,6 @@ return [
             'class' => \yii\caching\FileCache::class,
             'cachePath' => '@common/runtime/cache'
         ],
+        'db' => require __DIR__ . '/require/db.php'
     ],
 ];

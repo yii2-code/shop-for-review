@@ -16,6 +16,13 @@ return [
         '@npm' => '@vendor/npm-asset',
     ],
     'controllerMap' => [
+        'migrate' => [
+            'class' => \yii\console\controllers\MigrateController::class,
+            'migrationNamespaces' => [
+                'shop\migrations',
+            ],
+            'migrationPath' => null,
+        ],
         'fixture' => [
             'class' => 'yii\console\controllers\FixtureController',
             'namespace' => 'common\fixtures',
