@@ -36,14 +36,11 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
-        */
+        'backendHostInfo' => require __DIR__ . '/../../backend/config/require/urlManager.php',
+        'frontendHostInfo' => require __DIR__ . '/require/urlManager.php',
+        'urlManager' => function () {
+            return Yii::$app->get('frontendHostInfo');
+        }
     ],
     'params' => $params,
 ];
