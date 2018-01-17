@@ -6,9 +6,13 @@ RUN apt-get update && apt-get install -y \
     libjpeg62-turbo-dev \
     libpng-dev
 
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
-RUN docker-php-ext-install pdo_mysql zip gd
+RUN docker-php-ext-configure gd \
+    --with-freetype-dir=/usr/include/ \
+    --with-jpeg-dir=/usr/include/ \
+    --with-png-dir=/usr/png/
+
 RUN docker-php-ext-install -j$(nproc) gd
+RUN docker-php-ext-install pdo_mysql zip
 
 RUN pecl install xdebug-2.5.5
 RUN docker-php-ext-enable xdebug
