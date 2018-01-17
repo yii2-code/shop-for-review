@@ -27,15 +27,27 @@ services:
     mysql:
         image: mysql:5.7.20
         environment:
-          MYSQL_USER: ${MYSQL_USERNAME}
-          MYSQL_PASSWORD: ${MYSQL_USERNAME}
-          MYSQL_DATABASE: ${MYSQL_PASSWORD}
-          MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD_ROOT}
+            MYSQL_USER: ${MYSQL_USERNAME}
+            MYSQL_PASSWORD: ${MYSQL_USERNAME}
+            MYSQL_DATABASE: ${MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD_ROOT}
         volumes:
-          - ./docker/server/mysql:/var/lib/mysql
+            - ./docker/server/mysql:/var/lib/mysql
         networks:
-          self:
-            ipv4_address: ${MYSQL_HOST}
+            self:
+                ipv4_address: ${MYSQL_HOST}
+    mysql_test:
+        image: mysql:5.7.20
+        environment:
+            MYSQL_USER: ${MYSQL_USERNAME_TEST}
+            MYSQL_PASSWORD: ${MYSQL_USERNAME_TEST}
+            MYSQL_DATABASE: ${MYSQL_PASSWORD_TEST}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD_ROOT_TEST}
+        volumes:
+            - ./docker/server/mysql_test:/var/lib/mysql
+        networks:
+            self:
+                ipv4_address: ${MYSQL_HOST_TEST}
     node:
         image: node:9.3.0
         working_dir: /var/www/html
