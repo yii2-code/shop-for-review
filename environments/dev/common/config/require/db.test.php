@@ -12,7 +12,7 @@ return [
     'username' => 'shop_test',
     'password' => 'shop_test',
     'charset' => 'utf8',
-    'tablePrefix' => 'shop_',
+    'tablePrefix' => 'test_',
     'enableQueryCache' => true,
     'queryCacheDuration' => 1 * 60 * 60,
     'enableSchemaCache' => YII_ENV_PROD,
