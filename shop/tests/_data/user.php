@@ -7,7 +7,7 @@
  */
 
 return [
-    [
+    '1' => [
         'id' => 1,
         'login' => 'test',
         'password' => password_hash('test', PASSWORD_DEFAULT),

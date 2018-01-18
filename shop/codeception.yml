@@ -13,8 +13,6 @@ modules:
     config:
         Yii2:
             configFile: 'tests/config/main.php'
-            part: fixtures
-        Db:
-            dsn: 'mysql:host=172.73.251.5;dbname=shop_test'
-            user: 'shop_test'
-            password: 'shop_test'
+            part:
+                - fixtures
+                - orm
