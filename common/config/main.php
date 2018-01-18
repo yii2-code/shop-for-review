@@ -3,6 +3,7 @@ return [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
+        '@app' => realpath(__DIR__ . '/../../app'),
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
