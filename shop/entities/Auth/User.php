@@ -53,7 +53,6 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * @param string $password
-     * @param string $repeatPassword
      * @param string $login
      * @param string $email
      * @return User
@@ -61,7 +60,6 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function requestSignup(
         string $password,
-        string $repeatPassword,
         string $login,
         string $email
     ): self

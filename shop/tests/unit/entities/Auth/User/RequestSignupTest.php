@@ -18,7 +18,6 @@ class RequestSignupTest extends Unit
     {
         $model = User::requestSignup(
             $password = 'password',
-            $repeatPassword = 'password',
             $login = 'login',
             $email = 'email@test.com'
         );
