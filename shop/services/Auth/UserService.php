@@ -6,9 +6,11 @@
  * Time: 20:50
  */
 
+declare(strict_types=1);
+
 namespace shop\services\Auth;
 
-
+use DomainException;
 use shop\entities\Auth\User;
 use shop\services\BaseService;
 use shop\types\Auth\SignupType;
@@ -49,8 +51,12 @@ class UserService
      * @return User
      * @throws \yii\base\Exception
      */
-    public function signup(SignupType $type)
+    public function signup(SignupType $type): User
     {
+        if (!$this->isEqual($type->password, $type->repeatPassword)) {
+            throw new DomainException('Password must be equal to Repeat Password');
+        }
+
         $user = User::requestSignup($type->password, $type->login, $type->email);
         $this->baseService->save($user);
 
@@ -65,5 +71,15 @@ class UserService
         }
 
         return $user;
+    }
+
+    /**
+     * @param string $password
+     * @param string $repeatPassword
+     * @return bool
+     */
+    public function isEqual(string $password, string $repeatPassword): bool
+    {
+        return $password == $repeatPassword;
     }
 }

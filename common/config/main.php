@@ -7,10 +7,11 @@ return [
         '@runtime' => '@shop/runtime',
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
+    'bootstrap' => [\common\config\SetUp::class],
     'components' => [
         'cache' => [
             'class' => \yii\caching\FileCache::class,
-            'cachePath' => '@common/runtime/cache'
+            'cachePath' => '@runtime/cache'
         ],
         'db' => require __DIR__ . '/require/db.php'
     ],
