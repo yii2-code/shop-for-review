@@ -13,10 +13,10 @@ use Codeception\Test\Unit;
 use shop\entities\Auth\User;
 
 /**
- * Class GenerateResetTokenTest
+ * Class GeneratePasswordResetTokenTest
  * @package shop\tests\unit\entities\Auth\User
  */
-class GenerateResetTokenTest extends Unit
+class GeneratePasswordResetTokenTest extends Unit
 {
 
     /**
@@ -27,7 +27,7 @@ class GenerateResetTokenTest extends Unit
         $model = new User();
         $model->generatePasswordResetToken();
         $token = $model->password_reset_token;
-        $timestamp = substr($token, strpos($token, '_') + 1);
+        $timestamp = substr($token, strrpos($token, '_') + 1);
         $this->assertEquals(date('Y-m-d'), date('Y-m-d', $timestamp), 'Token is invalid');
     }
 }
