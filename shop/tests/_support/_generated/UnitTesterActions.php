@@ -812,7 +812,6 @@ trait UnitTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeEmailIsSent', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -851,7 +850,6 @@ trait UnitTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeEmailIsSent', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
