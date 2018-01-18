@@ -2,6 +2,6 @@
 include:
     - shop
 paths:
-    log: console/runtime/logs
+    log: common/runtime/logs
 settings:
     colors: true
