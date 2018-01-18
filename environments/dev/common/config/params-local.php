@@ -1,5 +1,5 @@
 <?php
 return [
-    'backendHostInfo' => 'cp.example.self',
-    'frontendHostInfo' => 'example.self',
+    'backendHostInfo' => 'cp.shop.self',
+    'frontendHostInfo' => 'shop.self',
 ];

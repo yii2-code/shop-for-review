@@ -8,9 +8,9 @@
 
 return [
     'class' => yii\db\Connection::class,
-    'dsn' => 'mysql:host=mysql;dbname=example',
-    'username' => 'example',
-    'password' => 'example',
+    'dsn' => 'mysql:host=172.73.251.4;dbname=shop',
+    'username' => 'shop',
+    'password' => 'shop',
     'charset' => 'utf8',
     'tablePrefix' => 'shop_',
     'enableQueryCache' => true,
