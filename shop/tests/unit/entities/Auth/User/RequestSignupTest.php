@@ -69,11 +69,37 @@ class RequestSignupTest extends Unit
         $user = $this->tester->grabFixture('user', '1');
 
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('');
-        $model = User::requestSignup(
+        $this->expectExceptionMessage(sprintf('Email "%s" has already been token', $user->email));
+        User::requestSignup(
             $password = 'password',
             $login = 'login',
             $email = $user->email
+        );
+    }
+
+    /**
+     * @throws \shop\tests\_generated\ModuleException
+     * @throws \yii\base\Exception
+     */
+    public function testFailedOnLogin()
+    {
+        $this->tester->haveFixtures([
+            'user' => [
+                'class' => UserFixture::class,
+                'dataFile' => '@shop/tests/_data/user.php',
+            ]
+        ]);
+
+        /** @var $user User */
+        $user = $this->tester->grabFixture('user', '1');
+
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage(sprintf('Login "%s" has already been token', $user->login));
+
+        User::requestSignup(
+            $password = 'password',
+            $login = $user->login,
+            $email = 'email@test2.com'
         );
     }
 }

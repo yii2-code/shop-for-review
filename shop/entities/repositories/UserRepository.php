@@ -27,4 +27,13 @@ class UserRepository
     {
         return (bool)User::find()->email($email)->exists();
     }
+
+    /**
+     * @param string $login
+     * @return bool
+     */
+    public function existsLogin(string $login): bool
+    {
+        return (bool)User::find()->login($login)->exists();
+    }
 }

@@ -54,4 +54,13 @@ class UserQuery extends ActiveQuery
     {
         return $this->andWhere([User::tableName() . '.[[email]]' => $email]);
     }
+
+    /**
+     * @param string $login
+     * @return UserQuery
+     */
+    public function login(string $login): self
+    {
+        return $this->andWhere([User::tableName() . '.[[login]]' => $login]);
+    }
 }
