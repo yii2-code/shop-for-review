@@ -45,4 +45,13 @@ class UserQuery extends ActiveQuery
     {
         return $this->andWhere([User::tableName() . '.[[id]]' => $id]);
     }
+
+    /**
+     * @param string $email
+     * @return UserQuery
+     */
+    public function email(string $email): self
+    {
+        return $this->andWhere([User::tableName() . '.[[email]]' => $email]);
+    }
 }

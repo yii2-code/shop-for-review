@@ -8,10 +8,12 @@
 
 declare(strict_types=1);
 
-namespace Shop\entities\Auth;
+namespace shop\entities\Auth;
 
-
+use app\behaviors\TimestampBehavior;
+use DomainException;
 use shop\entities\query\Auth\UserQuery;
+use shop\entities\repositories\UserRepository;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
@@ -43,6 +45,16 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'TimestampBehavior' => TimestampBehavior::class,
+        ];
+    }
+
+    /**
      * @return UserQuery|\yii\db\ActiveQuery
      */
     public static function find()
@@ -66,13 +78,24 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $model = new static();
         $model->login = $login;
-        $model->email = $email;
+        $model->setEmail($email);
         $model->status = static::STATUS_CONFIRM_EMAIL;
         $model->generateResetEmailToken();
         $model->setPassword($password);
         return $model;
     }
 
+    /**
+     * @param string $email
+     */
+    public function setEmail(string $email): void
+    {
+        $repository = new UserRepository();
+        if ($repository->existsEmail($email)) {
+            throw new DomainException('');
+        }
+        $this->email = $email;
+    }
 
     /**
      * @throws \yii\base\Exception
