@@ -27,7 +27,6 @@ class GenerateResetTokenTest extends Unit
         $model = new User();
         $model->generatePasswordResetToken();
         $token = $model->password_reset_token;
-        codecept_debug($model->password_reset_token);
         $timestamp = substr($token, strpos($token, '_') + 1);
         $this->assertEquals(date('Y-m-d'), date('Y-m-d', $timestamp), 'Token is invalid');
     }

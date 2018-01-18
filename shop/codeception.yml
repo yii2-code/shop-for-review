@@ -16,3 +16,4 @@ modules:
             part:
                 - fixtures
                 - orm
+                - email
