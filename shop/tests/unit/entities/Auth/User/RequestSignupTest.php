@@ -37,8 +37,8 @@ class RequestSignupTest extends Unit
         );
 
         $this->assertNotEmpty($model->request_email_token, 'request_email_token is empty');
-        $this->assertTrue($model->validatePassword($password));
-        $this->assertTrue($model->save());
+        $this->assertTrue($model->validatePassword($password), 'password is not verify');
+        $this->assertTrue($model->save(), 'Model does not save');
 
         $this->tester->seeRecord(
             User::class,

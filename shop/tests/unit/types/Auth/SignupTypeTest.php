@@ -28,34 +28,44 @@ class SignupTypeTest extends Unit
         $type->email = 'test@email.com';
         $type->password = 'password';
         $type->repeatPassword = 'password';
-        $this->assertTrue($type->validate());
+        $this->assertTrue($type->validate(), 'model does not validate');
     }
 
     public function testRequired()
     {
         $type = new SignupType();
-        $this->assertFalse($type->validate());
-        $this->assertArrayHasKey('login', $type->getErrors());
-        $this->assertArrayHasKey('email', $type->getErrors());
-        $this->assertArrayHasKey('password', $type->getErrors());
+        $this->assertFalse($type->validate(), 'Model validates');
+        $this->assertArrayHasKey('login', $type->getErrors(), 'Property login has not error');
+        $this->assertArrayHasKey('email', $type->getErrors(), 'Property email has not error');
+        $this->assertArrayHasKey('password', $type->getErrors(), 'Property password has not error');
     }
 
     public function testEmail()
     {
         $type = new SignupType();
         $type->email = 'tests';
-        $this->assertFalse($type->validate());
-        $this->assertArrayHasKey('email', $type->getErrors());
+        $this->assertFalse($type->validate(), 'Model validates');
+        $this->assertArrayHasKey('email', $type->getErrors(), 'Property email has not error');
+    }
+
+    public function testLess()
+    {
+        $type = new SignupType();
+        $type->password = 'tst';
+        $type->login = 'ts';
+        $this->assertFalse($type->validate(), 'Model validates');
+        $this->assertArrayHasKey('password', $type->getErrors(), 'Property password has not error');
+        $this->assertArrayHasKey('login', $type->getErrors(), 'Property login has not error');
     }
 
     public function testGreat()
     {
         $type = new SignupType();
-        $type->password = 'tst';
-        $type->login = 'ts';
-        $this->assertFalse($type->validate());
-        $this->assertArrayHasKey('password', $type->getErrors());
-        $this->assertArrayHasKey('login', $type->getErrors());
+        $type->password = str_repeat('t', 101);
+        $type->login = str_repeat('t', 101);
+        $this->assertFalse($type->validate(), 'Model validates');
+        $this->assertArrayHasKey('password', $type->getErrors(), 'Property password has not error');
+        $this->assertArrayHasKey('login', $type->getErrors(), 'Property login has not error');
     }
 
     /**
@@ -76,7 +86,8 @@ class SignupTypeTest extends Unit
         $type = new SignupType();
         $type->login = $user->login;
         $type->email = $user->email;
-        $this->assertFalse($type->validate());
-        $this->assertArrayHasKey('password', $type->getErrors());
+        $this->assertFalse($type->validate(), 'Model validates');
+        $this->assertArrayHasKey('login', $type->getErrors(), 'Property login has not error');
+        $this->assertArrayHasKey('email', $type->getErrors(), 'Property email has not error');
     }
 }

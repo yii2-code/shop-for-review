@@ -25,7 +25,7 @@ class IsEqualTest extends Unit
     {
         /** @var UserService $service */
         $service = \Yii::createObject(UserService::class);
-        $this->assertTrue($service->isEqual('password', 'password'));
+        $this->assertTrue($service->isEqual('password', 'password'), 'Password is not equal to resetPassword');
     }
 
     /**
@@ -35,6 +35,6 @@ class IsEqualTest extends Unit
     {
         /** @var UserService $service */
         $service = \Yii::createObject(UserService::class);
-        $this->assertFalse($service->isEqual('password', 'password3'));
+        $this->assertFalse($service->isEqual('password', 'password3'), 'Password is equal resetPassword');
     }
 }

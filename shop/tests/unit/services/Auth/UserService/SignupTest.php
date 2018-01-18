@@ -47,7 +47,7 @@ class SignupTest extends Unit
         $type->repeatPassword = 'password';
         $type->email = 'test@email';
         $model = $service->signup($type);
-        $this->assertInstanceOf(User::class, $model);
+        $this->assertInstanceOf(User::class, $model, sprintf('%s does not instance of %s', $model::className(), User::class));
         $this->tester->seeEmailIsSent(1);
     }
 }
