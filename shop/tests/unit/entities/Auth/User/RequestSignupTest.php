@@ -6,14 +6,24 @@
  * Time: 17:08
  */
 
-namespace Shop\tests\unit\entities\Auth\User;
-
+namespace shop\tests\unit\entities\Auth\User;
 
 use Codeception\Test\Unit;
+use DomainException;
 use shop\entities\Auth\User;
+use shop\tests\fixtures\UserFixture;
 
 class RequestSignupTest extends Unit
 {
+    /**
+     * @var \shop\tests\UnitTester
+     */
+    protected $tester;
+
+
+    /**
+     * @throws \yii\base\Exception
+     */
     public function testSuccess()
     {
         $model = User::requestSignup(
@@ -26,9 +36,29 @@ class RequestSignupTest extends Unit
         $this->assertEquals($email, $model->email, 'Email does not equals');
         $this->assertEquals(User::STATUS_CONFIRM_EMAIL, $model->status, 'Status does not equals');
         $this->assertNotEmpty($model->request_email_token, 'request_email_token is empty');
-        $this->assertInternalType('string', $model->request_email_token, 'request_email_token is not string');
-        $this->assertNotEmpty($model->password, 'password is empty');
-        $this->assertInternalType('string', $model->password, 'password is not string');
         $this->assertTrue($model->validatePassword($password));
+        $this->assertTrue($model->save());
+    }
+
+
+    /**
+     * @throws \yii\base\Exception
+     */
+    public function testFailedOnEmail()
+    {
+        $this->tester->haveFixtures([
+            'user' => [
+                'class' => UserFixture::class,
+                'dataFile' => '@shop/tests/_data/user.php',
+            ]
+        ]);
+
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('');
+        $model = User::requestSignup(
+            $password = 'password',
+            $login = 'login',
+            $email = 'email@test.com'
+        );
     }
 }
