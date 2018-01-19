@@ -14,6 +14,7 @@ use shop\entities\Auth\User;
 use shop\services\Auth\UserService;
 use shop\tests\stubs\services\BaseService;
 use shop\types\Auth\SignupType;
+use Yii;
 
 class SignupTest extends Unit
 {
@@ -22,7 +23,6 @@ class SignupTest extends Unit
      */
     protected $tester;
 
-
     /**
      * @throws \shop\tests\_generated\ModuleException
      * @throws \yii\base\Exception
@@ -30,7 +30,7 @@ class SignupTest extends Unit
     public function testSuccessSendEmail()
     {
         /** @var UserService $service */
-        $service = \Yii::createObject(UserService::class, [new BaseService()]);
+        $service = Yii::createObject(UserService::class, [new BaseService()]);
         $type = new SignupType();
         $type->login = 'login';
         $type->password = 'password';

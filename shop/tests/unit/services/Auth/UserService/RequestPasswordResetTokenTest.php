@@ -11,7 +11,7 @@ namespace shop\tests\unit\services\Auth\UserService;
 
 use Codeception\Test\Unit;
 
-class RequestPasswordResetToken extends Unit
+class RequestPasswordResetTokenTest extends Unit
 {
 
 }

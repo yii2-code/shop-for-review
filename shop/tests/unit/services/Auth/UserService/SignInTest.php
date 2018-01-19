@@ -8,11 +8,8 @@
 
 namespace shop\tests\unit\services\Auth\UserService;
 
-
-use Codeception\Test\Unit;
 use DomainException;
 use shop\entities\Auth\User;
-use shop\services\Auth\UserService;
 use shop\tests\fixtures\UserFixture;
 use shop\tests\UnitTester;
 use shop\types\Auth\SignInType;
@@ -29,7 +26,6 @@ class SignInTest extends Unit
 
     /**
      * @throws \shop\tests\_generated\ModuleException
-     * @throws \yii\base\InvalidConfigException
      */
     public function testSuccess()
     {
@@ -47,17 +43,13 @@ class SignInTest extends Unit
         $type->login = $user->login;
         $type->password = 'password2';
 
-        /** @var UserService $service */
-        $service = \Yii::createObject(UserService::class);
-
-        $user = $service->signIn($type);
+        $user = $this->service->signIn($type);
 
         $this->assertInstanceOf(User::class, $user, sprintf('The class %s is not instance of %s', $user::className(), User::class));
     }
 
     /**
      * @throws \shop\tests\_generated\ModuleException
-     * @throws \yii\base\InvalidConfigException
      */
     public function testNotLogin()
     {
@@ -65,13 +57,10 @@ class SignInTest extends Unit
         $type->login = 'invalid';
         $type->password = 'invalid';
 
-        /** @var UserService $service */
-        $service = \Yii::createObject(UserService::class);
-
 
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('The Login and Password is not valid');
-        $service->signIn($type);
+        $this->service->signIn($type);
 
         $this->tester->haveFixtures([
             'user' => [
@@ -89,13 +78,12 @@ class SignInTest extends Unit
 
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('The Login and Password is not valid');
-        $service->signIn($type);
+        $this->service->signIn($type);
     }
 
 
     /**
      * @throws \shop\tests\_generated\ModuleException
-     * @throws \yii\base\InvalidConfigException
      */
     public function testConfirmEmail()
     {
@@ -113,18 +101,15 @@ class SignInTest extends Unit
         $type->login = $user->login;
         $type->password = 'password1';
 
-        /** @var UserService $service */
-        $service = \Yii::createObject(UserService::class);
 
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('You must active email');
-        $service->signIn($type);
+        $this->service->signIn($type);
         $this->tester->seeEmailIsSent(1);
     }
 
     /**
      * @throws \shop\tests\_generated\ModuleException
-     * @throws \yii\base\InvalidConfigException
      */
     public function testDelete()
     {
@@ -142,11 +127,8 @@ class SignInTest extends Unit
         $type->login = $user->login;
         $type->password = 'password3';
 
-        /** @var UserService $service */
-        $service = \Yii::createObject(UserService::class);
-
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('You is blocked');
-        $service->signIn($type);
+        $this->service->signIn($type);
     }
 }
