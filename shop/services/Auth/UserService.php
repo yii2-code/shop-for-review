@@ -14,6 +14,7 @@ use DomainException;
 use shop\entities\Auth\User;
 use shop\entities\repositories\UserRepository;
 use shop\services\BaseService;
+use shop\types\Auth\RequestPasswordResetType;
 use shop\types\Auth\SignInType;
 use shop\types\Auth\SignupType;
 use Yii;
@@ -128,6 +129,21 @@ class UserService
 
         $this->baseService->save($user);
 
+        return $user;
+    }
+
+    /**
+     * @param RequestPasswordResetType $type
+     * @return User
+     * @throws NotFoundHttpException
+     * @throws \yii\base\Exception
+     */
+    public function requestPasswordReset(RequestPasswordResetType $type): User
+    {
+        $user = $this->userRepository->findOneByEmail($type->email);
+        $this->baseService->notFoundHttpException($user);
+        $user->generatePasswordResetToken();
+        $this->baseService->save($user);
         return $user;
     }
 

@@ -39,6 +39,15 @@ class UserRepository
 
     /**
      * @param string $email
+     * @return null|User
+     */
+    public function findOneByEmail(string $email): ?User
+    {
+        return User::find()->email($email)->limit(1)->one();
+    }
+
+    /**
+     * @param string $email
      * @return bool
      */
     public function existsEmail(string $email): bool
