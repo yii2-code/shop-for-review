@@ -10,7 +10,6 @@ namespace shop\tests\unit\services\Auth\UserService;
 
 use DomainException;
 use shop\entities\Auth\User;
-use shop\tests\fixtures\UserFixture;
 use shop\tests\UnitTester;
 use shop\types\Auth\SignInType;
 
@@ -29,16 +28,7 @@ class SignInTest extends Unit
      */
     public function testSuccess()
     {
-        $this->tester->haveFixtures([
-            'user' => [
-                'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir() . '/user.php',
-            ]
-        ]);
-
-
-        /** @var User $user */
-        $user = $this->tester->grabFixture('user', 2);
+        $user = $this->grabUser(2);
         $type = new SignInType();
         $type->login = $user->login;
         $type->password = 'password2';
@@ -62,15 +52,7 @@ class SignInTest extends Unit
         $this->expectExceptionMessage('The Login and Password is not valid');
         $this->service->signIn($type);
 
-        $this->tester->haveFixtures([
-            'user' => [
-                'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir() . '/user.php',
-            ]
-        ]);
-
-        /** @var User $user */
-        $user = $this->tester->grabFixture('user', 2);
+        $user = $this->grabUser(2);
 
         $type = new SignInType();
         $type->login = $user->login;
@@ -87,15 +69,7 @@ class SignInTest extends Unit
      */
     public function testConfirmEmail()
     {
-        $this->tester->haveFixtures([
-            'user' => [
-                'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir() . '/user.php',
-            ]
-        ]);
-
-        /** @var User $user */
-        $user = $this->tester->grabFixture('user', 1);
+        $user = $this->grabUser(1);
 
         $type = new SignInType();
         $type->login = $user->login;
@@ -113,15 +87,7 @@ class SignInTest extends Unit
      */
     public function testDelete()
     {
-        $this->tester->haveFixtures([
-            'user' => [
-                'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir() . '/user.php',
-            ]
-        ]);
-
-        /** @var User $user */
-        $user = $this->tester->grabFixture('user', 3);
+        $user = $this->grabUser(3);
 
         $type = new SignInType();
         $type->login = $user->login;

@@ -9,8 +9,6 @@
 namespace shop\tests\unit\services\Auth\UserService;
 
 use shop\entities\Auth\User;
-use shop\tests\fixtures\UserFixture;
-use shop\tests\UnitTester;
 use Yii;
 use yii\web\NotFoundHttpException;
 
@@ -21,30 +19,19 @@ use yii\web\NotFoundHttpException;
 class ActiveEmailTest extends Unit
 {
 
-    /** @var UnitTester */
-    protected $tester;
-
     /**
      * @throws NotFoundHttpException
      * @throws \shop\tests\_generated\ModuleException
      */
     public function testSuccess()
     {
-        $this->tester->haveFixtures([
-            'user' => [
-                'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir() . '/user.php',
-            ]
-        ]);
-
-        /** @var User $user1 */
-        $user1 = $this->tester->grabFixture('user', 1);
+        $user1 = $this->grabUser(1);
 
         $model = $this->service->activeEmail($user1->request_email_token);
         $this->assertEquals(User::STATUS_ACTIVE, $model->status, 'Property status does not equal');
 
         /** @var User $user2 */
-        $user2 = $this->tester->grabFixture('user', 1);
+        $user2 = $this->grabUser(2);
 
         $this->service->activeEmail($user2->request_email_token);
     }
@@ -76,15 +63,7 @@ class ActiveEmailTest extends Unit
      */
     public function testDelete()
     {
-        $this->tester->haveFixtures([
-            'user' => [
-                'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir() . '/user.php',
-            ]
-        ]);
-
-        /** @var User $user */
-        $user = $this->tester->grabFixture('user', 3);
+        $user = $this->grabUser(3);
 
         $this->expectException(NotFoundHttpException::class);
         $this->expectExceptionMessage('The required page does not exist');
