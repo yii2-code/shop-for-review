@@ -12,6 +12,7 @@ namespace shop\services;
 use DomainException;
 use RuntimeException;
 use yii\db\ActiveRecord;
+use yii\web\NotFoundHttpException;
 
 /**
  * Class BaseService
@@ -27,6 +28,17 @@ class BaseService
     {
         if (is_null($model)) {
             throw new DomainException($message);
+        }
+    }
+
+    /**
+     * @param ActiveRecord|null $model
+     * @throws NotFoundHttpException
+     */
+    public function notFoundHttpException(ActiveRecord $model = null)
+    {
+        if (is_null($model)) {
+            throw new NotFoundHttpException('The required page does not exist');
         }
     }
 

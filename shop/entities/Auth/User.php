@@ -80,7 +80,7 @@ class User extends ActiveRecord implements IdentityInterface
         $model = new static();
         $model->setLogin($login);
         $model->setEmail($email);
-        $model->status = static::STATUS_CONFIRM_EMAIL;
+        $model->setStatus(static::STATUS_CONFIRM_EMAIL);
         $model->generateRequestEmailToken();
         $model->setPassword($password);
         return $model;
@@ -108,6 +108,14 @@ class User extends ActiveRecord implements IdentityInterface
             throw new DomainException(sprintf('Login "%s" has already been token', $login));
         }
         $this->login = $login;
+    }
+
+    /**
+     * @param int $status
+     */
+    public function setStatus(int $status): void
+    {
+        $this->status = $status;
     }
 
     /**

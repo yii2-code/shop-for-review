@@ -18,6 +18,7 @@ use shop\types\Auth\SignInType;
 use shop\types\Auth\SignupType;
 use Yii;
 use yii\mail\MailerInterface;
+use yii\web\NotFoundHttpException;
 
 /**
  * Class UserService
@@ -101,6 +102,31 @@ class UserService
         if (!$user->isActive()) {
             throw new DomainException('The Login and Password is not valid');
         }
+
+        return $user;
+    }
+
+    /**
+     * @param string $token
+     * @return User
+     * @throws NotFoundHttpException
+     */
+    public function activeEmail(string $token): User
+    {
+        if (empty($token)) {
+            throw new NotFoundHttpException('The required page does not exist');
+        }
+
+        $user = $this->userRepository->findOneByRequestEmailToken($token);
+        $this->baseService->notFoundHttpException($user);
+
+        if (!$user->isConfirmEmail() && !$user->isActive()) {
+            throw new NotFoundHttpException('The required page does not exist');
+        }
+
+        $user->setStatus($user::STATUS_ACTIVE);
+
+        $this->baseService->save($user);
 
         return $user;
     }

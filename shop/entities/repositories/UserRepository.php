@@ -20,6 +20,24 @@ use shop\entities\Auth\User;
 class UserRepository
 {
     /**
+     * @param string $login
+     * @return null|User
+     */
+    public function findOneByLogin(string $login): ?User
+    {
+        return User::find()->login($login)->limit(1)->one();
+    }
+
+    /**
+     * @param string $token
+     * @return null|User
+     */
+    public function findOneByRequestEmailToken(string $token): ?User
+    {
+        return User::find()->requestEmailToken($token)->limit(1)->one();
+    }
+
+    /**
      * @param string $email
      * @return bool
      */
@@ -35,14 +53,5 @@ class UserRepository
     public function existsLogin(string $login): bool
     {
         return (bool)User::find()->login($login)->exists();
-    }
-
-    /**
-     * @param string $login
-     * @return null|User
-     */
-    public function findOneByLogin(string $login): ?User
-    {
-        return User::find()->login($login)->limit(1)->one();
     }
 }

@@ -63,4 +63,13 @@ class UserQuery extends ActiveQuery
     {
         return $this->andWhere([User::tableName() . '.[[login]]' => $login]);
     }
+
+    /**
+     * @param string $token
+     * @return UserQuery
+     */
+    public function requestEmailToken(string $token): self
+    {
+        return $this->andWhere([User::tableName() . '.[[request_email_token]]' => $token]);
+    }
 }
