@@ -36,4 +36,13 @@ class UserRepository
     {
         return (bool)User::find()->login($login)->exists();
     }
+
+    /**
+     * @param string $login
+     * @return null|User
+     */
+    public function findOneByLogin(string $login): ?User
+    {
+        return User::find()->login($login)->limit(1)->one();
+    }
 }

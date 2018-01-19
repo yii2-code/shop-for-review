@@ -11,8 +11,21 @@ $config = yii\helpers\ArrayHelper::merge(
     require __DIR__ . '/../../../common/config/main-local.php',
     require __DIR__ . '/../../../common/config/test.php',
     require __DIR__ . '/../../../common/config/test-local.php',
-    require __DIR__ . '/../../../backend/config/main.php',
-    require __DIR__ . '/../../../backend/config/main-local.php'
+    [
+        'components' => [
+            'mailer' => [
+                'class' => 'yii\swiftmailer\Mailer',
+                'viewPath' => '@shop/mail',
+                // send all mails to a file by default. You have to set
+                // 'useFileTransport' to false and configure a transport
+                // for the mailer to send real emails.
+                'useFileTransport' => true,
+                'messageConfig' => [
+                    'from' => 'test@email.com'
+                ]
+            ],
+        ],
+    ]
 );
 
 return $config;

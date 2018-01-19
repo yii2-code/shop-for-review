@@ -9,6 +9,7 @@
 namespace shop\services;
 
 
+use DomainException;
 use RuntimeException;
 use yii\db\ActiveRecord;
 
@@ -18,6 +19,17 @@ use yii\db\ActiveRecord;
  */
 class BaseService
 {
+    /**
+     * @param ActiveRecord|null $model
+     * @param string $message
+     */
+    public function domainException(ActiveRecord $model = null, string $message = 'Domain error'): void
+    {
+        if (is_null($model)) {
+            throw new DomainException($message);
+        }
+    }
+
     /**
      * @param ActiveRecord $model
      */

@@ -119,7 +119,6 @@ class User extends ActiveRecord implements IdentityInterface
         $this->request_email_token = Yii::$app->security->generateRandomString(64);
     }
 
-
     /**
      * @throws \yii\base\Exception
      */
@@ -144,6 +143,30 @@ class User extends ActiveRecord implements IdentityInterface
     public function validatePassword(string $password): bool
     {
         return password_verify($password, $this->password);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->status == static::STATUS_ACTIVE;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isConfirmEmail(): bool
+    {
+        return $this->status == static::STATUS_CONFIRM_EMAIL;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDelete()
+    {
+        return $this->status == static::STATUS_DELETE;
     }
 
     /**

@@ -14,7 +14,6 @@ use shop\entities\Auth\User;
 use shop\services\Auth\UserService;
 use shop\tests\stubs\services\BaseService;
 use shop\types\Auth\SignupType;
-use yii\swiftmailer\Mailer;
 
 class SignupTest extends Unit
 {
@@ -30,17 +29,8 @@ class SignupTest extends Unit
      */
     public function testSuccessSendEmail()
     {
-        /** @var Mailer $mailer */
-        $mailer = \Yii::$app->mailer;
-        $mailer->messageConfig = [
-            'from' => 'test@email.com',
-        ];
-        $mailer->viewPath = '@shop/mail';
-
-        $service = new UserService(
-            new BaseService(),
-            $mailer
-        );
+        /** @var UserService $service */
+        $service = \Yii::createObject(UserService::class, [new BaseService()]);
         $type = new SignupType();
         $type->login = 'login';
         $type->password = 'password';

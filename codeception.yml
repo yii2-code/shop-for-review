@@ -4,5 +4,4 @@ include:
 paths:
     log: common/runtime/logs
 settings:
-    lint: false
     colors: true
