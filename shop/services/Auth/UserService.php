@@ -15,6 +15,7 @@ use shop\entities\Auth\User;
 use shop\entities\repositories\UserRepository;
 use shop\services\BaseService;
 use shop\types\Auth\RequestPasswordResetType;
+use shop\types\Auth\ResetPasswordType;
 use shop\types\Auth\SignInType;
 use shop\types\Auth\SignupType;
 use Yii;
@@ -145,6 +146,11 @@ class UserService
         $user->generatePasswordResetToken();
         $this->baseService->save($user);
         return $user;
+    }
+
+    public function resetPassword(ResetPasswordType $type)
+    {
+
     }
 
     /**
