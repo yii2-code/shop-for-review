@@ -48,7 +48,7 @@ class BaseService
     public function save(ActiveRecord $model)
     {
         if (!$model->save()) {
-            throw new RuntimeException('Saving error');
+            throw new RuntimeException('Unable to save model');
         }
     }
 }
