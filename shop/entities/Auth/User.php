@@ -14,6 +14,7 @@ use app\behaviors\TimestampBehavior;
 use DomainException;
 use shop\entities\query\Auth\UserQuery;
 use shop\entities\repositories\UserRepository;
+use shop\helpers\UserHelper;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
@@ -124,7 +125,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function generateRequestEmailToken(): void
     {
-        $this->request_email_token = Yii::$app->security->generateRandomString(64);
+        $this->request_email_token = UserHelper::generateRequestEmail();
     }
 
     /**
@@ -132,7 +133,15 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function generatePasswordResetToken(): void
     {
-        $this->password_reset_token = sprintf('%s_%s', Yii::$app->security->generateRandomString(64), time());
+        $this->password_reset_token = UserHelper::generatePasswordReset();
+    }
+
+    /**
+     * Removes password reset token
+     */
+    public function removePasswordResetToken()
+    {
+        $this->password_reset_token = null;
     }
 
     /**

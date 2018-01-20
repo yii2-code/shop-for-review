@@ -6,14 +6,17 @@
  * Time: 14:24
  */
 
+use shop\entities\Auth\User;
+use shop\helpers\UserHelper;
+
 return [
     '1' => [
         'id' => 1,
         'login' => 'login1',
         'password' => password_hash('password1', PASSWORD_DEFAULT),
         'email' => 'email@test1.com',
-        'request_email_token' => Yii::$app->security->generateRandomString(64),
-        'status' => \shop\entities\Auth\User::STATUS_CONFIRM_EMAIL,
+        'request_email_token' => UserHelper::generateRequestEmail(),
+        'status' => User::STATUS_CONFIRM_EMAIL,
         'created_at' => (new DateTime())->format('Y-m-d H:i:s'),
         'updated_at' => (new DateTime())->format('Y-m-d H:i:s'),
     ],
@@ -22,8 +25,9 @@ return [
         'login' => 'login2',
         'password' => password_hash('password2', PASSWORD_DEFAULT),
         'email' => 'email@test2.com',
-        'request_email_token' => Yii::$app->security->generateRandomString(64),
-        'status' => \shop\entities\Auth\User::STATUS_ACTIVE,
+        'request_email_token' => UserHelper::generateRequestEmail(),
+        'password_reset_token' => UserHelper::generatePasswordReset(),
+        'status' => User::STATUS_ACTIVE,
         'created_at' => (new DateTime())->format('Y-m-d H:i:s'),
         'updated_at' => (new DateTime())->format('Y-m-d H:i:s'),
     ],
@@ -32,8 +36,8 @@ return [
         'login' => 'login3',
         'password' => password_hash('password3', PASSWORD_DEFAULT),
         'email' => 'email@test3.com',
-        'request_email_token' => Yii::$app->security->generateRandomString(64),
-        'status' => \shop\entities\Auth\User::STATUS_DELETE,
+        'request_email_token' => UserHelper::generateRequestEmail(),
+        'status' => User::STATUS_DELETE,
         'created_at' => (new DateTime())->format('Y-m-d H:i:s'),
         'updated_at' => (new DateTime())->format('Y-m-d H:i:s'),
     ],

@@ -134,26 +134,6 @@ class UserService
     }
 
     /**
-     * @param RequestPasswordResetType $type
-     * @return User
-     * @throws NotFoundHttpException
-     * @throws \yii\base\Exception
-     */
-    public function requestPasswordReset(RequestPasswordResetType $type): User
-    {
-        $user = $this->userRepository->findOneByEmail($type->email);
-        $this->baseService->notFoundHttpException($user);
-        $user->generatePasswordResetToken();
-        $this->baseService->save($user);
-        return $user;
-    }
-
-    public function resetPassword(ResetPasswordType $type)
-    {
-
-    }
-
-    /**
      * @param User $user
      */
     public function send(User $user): void

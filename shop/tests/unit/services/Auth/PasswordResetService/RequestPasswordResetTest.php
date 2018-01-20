@@ -6,8 +6,7 @@
  * Time: 20:36
  */
 
-namespace shop\tests\unit\services\Auth\UserService;
-
+namespace shop\tests\unit\services\Auth\PasswordResetService;
 
 use shop\types\Auth\RequestPasswordResetType;
 use yii\web\NotFoundHttpException;
@@ -16,7 +15,7 @@ use yii\web\NotFoundHttpException;
  * Class RequestPasswordResetTokenTest
  * @package shop\tests\unit\services\Auth\UserService
  */
-class RequestPasswordResetTokenTest extends Unit
+class RequestPasswordResetTest extends Unit
 {
     /**
      * @throws NotFoundHttpException

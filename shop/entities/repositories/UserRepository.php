@@ -38,6 +38,15 @@ class UserRepository
     }
 
     /**
+     * @param string $token
+     * @return null|User
+     */
+    public function findOneByPasswordReset(string $token): ?User
+    {
+        return User::find()->passwordReset($token)->limit(1)->one();
+    }
+
+    /**
      * @param string $email
      * @return null|User
      */
