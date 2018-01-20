@@ -34,6 +34,8 @@ class SetUp implements BootstrapInterface
             $mailer->messageConfig = [
                 'from' => $app->params['adminEmail'],
             ];
+
+            return $mailer;
         });
 
         $container->set(UserService::class, [], [1 => Instance::of('mailerShop')]);

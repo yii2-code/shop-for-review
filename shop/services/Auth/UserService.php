@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace shop\services\Auth;
 
 use DomainException;
+use Exception;
 use shop\entities\Auth\User;
 use shop\entities\repositories\UserRepository;
 use shop\helpers\UserHelper;
@@ -60,20 +61,27 @@ class UserService
     /**
      * @param SignupType $type
      * @return User
-     * @throws \yii\base\Exception
+     * @throws Exception
+     * @throws \yii\db\Exception
      */
     public function signup(SignupType $type): User
     {
-        if (!UserHelper::isEqual($type->password, $type->repeatPassword)) {
-            throw new DomainException('Password must be equal to Repeat Password');
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            if (!UserHelper::isEqual($type->password, $type->repeatPassword)) {
+                throw new DomainException('Password must be equal to Repeat Password');
+            }
+
+            $user = User::requestSignup($type->password, $type->login, $type->email);
+            $this->baseService->save($user);
+
+            $this->send($user);
+            $transaction->commit();
+            return $user;
+        } catch (Exception $exception) {
+            $transaction->rollBack();
+            throw $exception;
         }
-
-        $user = User::requestSignup($type->password, $type->login, $type->email);
-        $this->baseService->save($user);
-
-        $this->send($user);
-
-        return $user;
     }
 
     /**

@@ -9,7 +9,7 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', \frontend\config\SetUp::class],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [
@@ -30,6 +30,7 @@ return [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                    'logFile' => '@runtime/logs/frontend.log',
                 ],
             ],
         ],
