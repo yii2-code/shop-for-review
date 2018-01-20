@@ -5,6 +5,10 @@
  * Date: 17.01.18
  * Time: 20:02
  */
+$params = array_merge(
+    require __DIR__ . '/../../../common/config/params.php',
+    require __DIR__ . '/../../../common/config/params-local.php'
+);
 
 $config = yii\helpers\ArrayHelper::merge(
     require __DIR__ . '/../../../common/config/main.php',
@@ -25,6 +29,7 @@ $config = yii\helpers\ArrayHelper::merge(
                 ]
             ],
         ],
+        'params' => $params
     ]
 );
 

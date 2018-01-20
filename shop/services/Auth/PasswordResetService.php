@@ -17,6 +17,7 @@ use shop\helpers\UserHelper;
 use shop\services\BaseService;
 use shop\types\Auth\RequestPasswordResetType;
 use shop\types\Auth\ResetPasswordType;
+use Yii;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -70,6 +71,10 @@ class PasswordResetService
      */
     public function resetPassword(string $token, ResetPasswordType $type): User
     {
+        if (!$this->validatePasswordReset($token, Yii::$app->params['user.passwordResetTokenExpire'])) {
+            throw new DomainException('This token is invalid');
+        }
+
         if (!UserHelper::isEqual($type->password, $type->repeatPassword)) {
             throw new DomainException('Password must be equal to Repeat Password');
         }
@@ -80,5 +85,22 @@ class PasswordResetService
         $user->removePasswordResetToken();
         $this->baseService->save($user);
         return $user;
+    }
+
+    /**
+     * @param string $token
+     * @param int $expire
+     * @return bool
+     */
+    public function validatePasswordReset(string $token, int $expire): bool
+    {
+        if (empty($token)) {
+            return false;
+        }
+        $timestamp = substr($token, strrpos($token, '_') + 1);
+        if (!is_numeric($timestamp)) {
+            return false;
+        }
+        return time() < $timestamp + $expire;
     }
 }
