@@ -17,9 +17,8 @@ use shop\types\Auth\ResetPasswordType;
  * Class ResetPasswordTest
  * @package shop\tests\unit\services\Auth\PasswordResetService
  */
-class ResetPasswordTest extends Unit
+class ResetTest extends Unit
 {
-
     /**
      * @throws \shop\tests\_generated\ModuleException
      */
@@ -30,7 +29,7 @@ class ResetPasswordTest extends Unit
         $type = new ResetPasswordType();
         $type->password = 'password';
         $type->repeatPassword = 'password';
-        $model = $this->service->resetPassword($user->password_reset_token, $type);
+        $model = $this->service->reset($user->password_reset_token, $type);
         $model->validate($type->password);
         $this->assertNull($model->password_reset_token);
     }
@@ -46,6 +45,6 @@ class ResetPasswordTest extends Unit
 
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('The required user does not exist');
-        $this->service->resetPassword(UserHelper::generatePasswordReset(), $type);
+        $this->service->reset(UserHelper::generatePasswordReset(), $type);
     }
 }

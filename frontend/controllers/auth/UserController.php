@@ -60,13 +60,14 @@ class UserController extends Controller
             try {
                 $model = $this->userService->signIn($type);
                 $this->login($model);
+                return $this->goHome();
             } catch (DomainException $exception) {
                 Yii::$app->session->addFlash('warning', $exception->getMessage());
             } catch (RuntimeException $exception) {
                 Yii::$app->errorHandler->logException($exception);
                 Yii::$app->session->addFlash('warning', 'Runtime error');
             }
-            return $this->goHome();
+
         }
         return $this->render('sign-in', ['type' => $type]);
     }

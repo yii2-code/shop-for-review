@@ -46,7 +46,7 @@ AppAsset::register($this);
         $menuItems[] = ['label' => 'Sign in', 'url' => ['/sign-in']];
     } else {
         $menuItems[] = '<li>'
-            . Html::beginForm(['/sign-uot'], 'post')
+            . Html::beginForm(['/sign-out'], 'post')
             . Html::submitButton(
                 'Sign out (' . Yii::$app->user->identity->login . ')',
                 ['class' => 'btn btn-link logout']

@@ -55,7 +55,7 @@ class PasswordResetService
      * @throws NotFoundHttpException
      * @throws \yii\base\Exception
      */
-    public function requestPasswordReset(RequestPasswordResetType $type): User
+    public function request(RequestPasswordResetType $type): User
     {
         $user = $this->userRepository->findOneByEmail($type->email);
         $this->baseService->notFoundHttpException($user);
@@ -69,7 +69,7 @@ class PasswordResetService
      * @param ResetPasswordType $type
      * @return User
      */
-    public function resetPassword(string $token, ResetPasswordType $type): User
+    public function reset(string $token, ResetPasswordType $type): User
     {
         if (!$this->validatePasswordReset($token, Yii::$app->params['user.passwordResetTokenExpire'])) {
             throw new DomainException('This token is invalid');

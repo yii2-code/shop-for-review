@@ -15,7 +15,7 @@ use yii\web\NotFoundHttpException;
  * Class RequestPasswordResetTokenTest
  * @package shop\tests\unit\services\Auth\UserService
  */
-class RequestPasswordResetTest extends Unit
+class RequestTest extends Unit
 {
     /**
      * @throws NotFoundHttpException
@@ -29,7 +29,7 @@ class RequestPasswordResetTest extends Unit
         $type = new RequestPasswordResetType();
         $this->assertNull($user->password_reset_token);
         $type->email = $user->email;
-        $model = $this->service->requestPasswordReset($type);
+        $model = $this->service->request($type);
         $this->assertNotNull($model->password_reset_token);
     }
 
@@ -44,6 +44,6 @@ class RequestPasswordResetTest extends Unit
 
         $type = new RequestPasswordResetType();
         $type->email = 'test@email.com';
-        $this->service->requestPasswordReset($type);
+        $this->service->request($type);
     }
 }

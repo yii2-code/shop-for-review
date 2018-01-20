@@ -17,6 +17,8 @@ return [
         'sign-in' => 'auth/user/sign-in',
         'signup' => 'auth/user/signup',
         'sign-out' => 'auth/user/sign-out',
-        'active-email/<token>' => 'auth/user/active-email'
+        'active-email/<token>' => 'auth/user/active-email',
+        'request' => 'auth/password-reset/request',
+        'reset/<token>' => 'auth/password-reset/reset',
     ],
 ];
