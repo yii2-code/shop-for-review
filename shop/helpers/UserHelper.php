@@ -37,4 +37,14 @@ class UserHelper
     {
         return sprintf('%s_%s', Yii::$app->security->generateRandomString(64), time());
     }
+
+    /**
+     * @param string $string
+     * @param string $repeat
+     * @return bool
+     */
+    public static function isEqual(string $string, string $repeat): bool
+    {
+        return $string == $repeat;
+    }
 }

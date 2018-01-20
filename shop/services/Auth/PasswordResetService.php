@@ -10,8 +10,10 @@ declare(strict_types=1);
 
 namespace shop\services\Auth;
 
+use DomainException;
 use shop\entities\Auth\User;
 use shop\entities\repositories\UserRepository;
+use shop\helpers\UserHelper;
 use shop\services\BaseService;
 use shop\types\Auth\RequestPasswordResetType;
 use shop\types\Auth\ResetPasswordType;
@@ -68,6 +70,10 @@ class PasswordResetService
      */
     public function resetPassword(string $token, ResetPasswordType $type): User
     {
+        if (!UserHelper::isEqual($type->password, $type->repeatPassword)) {
+            throw new DomainException('Password must be equal to Repeat Password');
+        }
+
         $user = $this->userRepository->findOneByPasswordReset($token);
         $this->baseService->domainException($user, 'The required user does not exist');
         $user->setPassword($type->password);

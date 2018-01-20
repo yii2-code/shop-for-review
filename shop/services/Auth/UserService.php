@@ -13,9 +13,8 @@ namespace shop\services\Auth;
 use DomainException;
 use shop\entities\Auth\User;
 use shop\entities\repositories\UserRepository;
+use shop\helpers\UserHelper;
 use shop\services\BaseService;
-use shop\types\Auth\RequestPasswordResetType;
-use shop\types\Auth\ResetPasswordType;
 use shop\types\Auth\SignInType;
 use shop\types\Auth\SignupType;
 use Yii;
@@ -65,7 +64,7 @@ class UserService
      */
     public function signup(SignupType $type): User
     {
-        if (!$this->isEqual($type->password, $type->repeatPassword)) {
+        if (!UserHelper::isEqual($type->password, $type->repeatPassword)) {
             throw new DomainException('Password must be equal to Repeat Password');
         }
 
@@ -147,15 +146,5 @@ class UserService
         if (!$sent) {
             Yii::warning('Sending error', 'shop');
         }
-    }
-
-    /**
-     * @param string $password
-     * @param string $repeatPassword
-     * @return bool
-     */
-    public function isEqual(string $password, string $repeatPassword): bool
-    {
-        return $password == $repeatPassword;
     }
 }
