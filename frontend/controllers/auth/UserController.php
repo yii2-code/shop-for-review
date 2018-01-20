@@ -10,6 +10,8 @@ namespace frontend\controllers\auth;
 
 
 use DomainException;
+use RuntimeException;
+use shop\entities\Auth\User;
 use shop\services\Auth\UserService;
 use shop\types\Auth\SignInType;
 use shop\types\Auth\SignupType;
@@ -54,7 +56,29 @@ class UserController extends Controller
     {
         $type = new SignInType();
 
+        if ($type->load(Yii::$app->request->post()) && $type->validate()) {
+            try {
+                $model = $this->userService->signIn($type);
+                $this->login($model);
+            } catch (DomainException $exception) {
+                Yii::$app->session->addFlash('warning', $exception->getMessage());
+            } catch (RuntimeException $exception) {
+                Yii::$app->errorHandler->logException($exception);
+                Yii::$app->session->addFlash('warning', 'Runtime error');
+            }
+            return $this->goHome();
+        }
         return $this->render('sign-in', ['type' => $type]);
+    }
+
+    /**
+     * @return \yii\web\Response
+     */
+    public function actionSignOut()
+    {
+        Yii::$app->user->logout();
+
+        return $this->goHome();
     }
 
     /**
@@ -72,12 +96,35 @@ class UserController extends Controller
                 Yii::$app->session->addFlash('info', 'You is success signup. The message is sent to you for active profile account');
             } catch (DomainException $exception) {
                 Yii::$app->session->addFlash('warning', $exception->getMessage());
-            } catch (\RuntimeException $exception) {
+            } catch (RuntimeException $exception) {
                 Yii::$app->errorHandler->logException($exception);
                 Yii::$app->session->addFlash('warning', 'Runtime error');
             }
         }
 
         return $this->render('signup', ['type' => $type]);
+    }
+
+
+    /**
+     * @param $token
+     * @return \yii\web\Response
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function actionActiveEmail($token)
+    {
+        $model = $this->userService->activeEmail($token);
+        $this->login($model);
+        return $this->goHome();
+    }
+
+    /**
+     * @param User $model
+     */
+    public function login(User $model): void
+    {
+        if (!Yii::$app->user->login($model)) {
+            throw new RuntimeException('Login error');
+        }
     }
 }

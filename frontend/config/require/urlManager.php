@@ -16,5 +16,7 @@ return [
     'rules' => [
         'sign-in' => 'auth/user/sign-in',
         'signup' => 'auth/user/signup',
+        'sign-out' => 'auth/user/sign-out',
+        'active-email/<token>' => 'auth/user/active-email'
     ],
 ];

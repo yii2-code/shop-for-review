@@ -15,7 +15,6 @@ use DomainException;
 use shop\entities\query\Auth\UserQuery;
 use shop\entities\repositories\UserRepository;
 use shop\helpers\UserHelper;
-use Yii;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -192,7 +191,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentity($id)
     {
-        return User::find()->id($id);
+        return User::find()->id($id)->limit(1)->one();
     }
 
     /**
