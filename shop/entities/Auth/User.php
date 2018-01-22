@@ -30,6 +30,8 @@ use yii\web\IdentityInterface;
  * @property $password_reset_token string
  * @property $created_at string
  * @property $updated_at string
+ *
+ * @property $auths Auth[]
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -68,19 +70,21 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $password
      * @param string $login
      * @param string $email
+     * @param int $status
      * @return User
      * @throws \yii\base\Exception
      */
     public static function requestSignup(
         string $password,
         string $login,
-        string $email
+        string $email,
+        $status = self::STATUS_CONFIRM_EMAIL
     ): self
     {
         $model = new static();
         $model->setLogin($login);
         $model->setEmail($email);
-        $model->setStatus(static::STATUS_CONFIRM_EMAIL);
+        $model->setStatus($status);
         $model->generateEmailActive();
         $model->setPassword($password);
         return $model;
@@ -183,6 +187,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function isDelete()
     {
         return $this->status == static::STATUS_DELETE;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAuths()
+    {
+        return $this->hasMany(Auth::class, ['user_id' => 'id']);
     }
 
     /**

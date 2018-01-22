@@ -41,4 +41,14 @@ return [
         'created_at' => (new DateTime())->format('Y-m-d H:i:s'),
         'updated_at' => (new DateTime())->format('Y-m-d H:i:s'),
     ],
+    '4' => [
+        'id' => 4,
+        'login' => 'login4',
+        'password' => password_hash('password4', PASSWORD_DEFAULT),
+        'email' => 'email@test4.com',
+        'email_active_token' => UserHelper::generateEmailActive(),
+        'status' => User::STATUS_ACTIVE,
+        'created_at' => (new DateTime())->format('Y-m-d H:i:s'),
+        'updated_at' => (new DateTime())->format('Y-m-d H:i:s'),
+    ],
 ];

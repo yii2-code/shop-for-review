@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace shop\entities\Auth;
 
 use DomainException;
+use shop\entities\query\Auth\AuthQuery;
 use shop\entities\repositories\UserRepository;
 use yii\db\ActiveRecord;
 
@@ -22,6 +23,8 @@ use yii\db\ActiveRecord;
  * @property $user_id int
  * @property $source string
  * @property $source_id string
+ *
+ * @property $user User
  */
 class Auth extends ActiveRecord
 {
@@ -64,5 +67,21 @@ class Auth extends ActiveRecord
             throw new DomainException('Incorrectly user');
         }
         $this->user_id = $id;
+    }
+
+    /**
+     * @return AuthQuery|\yii\db\ActiveQuery
+     */
+    public static function find()
+    {
+        return new AuthQuery(static::class);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 }

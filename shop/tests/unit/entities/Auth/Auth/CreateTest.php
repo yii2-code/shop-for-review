@@ -9,10 +9,10 @@
 namespace shop\tests\unit\entities\Auth\Auth;
 
 
+use Codeception\Test\Unit;
 use DomainException;
 use shop\entities\Auth\Auth;
 use shop\tests\fixtures\UserFixture;
-use shop\tests\unit\services\Auth\UserService\Unit;
 use shop\tests\UnitTester;
 
 /**
@@ -26,9 +26,6 @@ class CreateTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @throws \shop\tests\_generated\ModuleException
-     */
     public function testSuccess()
     {
         $this->tester->haveFixtures([
@@ -40,13 +37,10 @@ class CreateTest extends Unit
 
         $user = $this->tester->grabFixture('user', 2);
 
-        $auth = Auth::create($user->id, 'source', 'sourceId');
+        $auth = Auth::create($user->id, 'source1', 'sourceId1');
         $this->assertTrue($auth->save(), 'Unable to save model');
     }
 
-    /**
-     *
-     */
     public function testUser()
     {
         $this->expectException(DomainException::class);
