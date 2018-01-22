@@ -26,21 +26,32 @@ class CreateTest extends Unit
      */
     protected $tester;
 
+    /**
+     * @group auth
+     * @throws \Exception
+     * @throws \Throwable
+     * @throws \shop\tests\_generated\ModuleException
+     * @throws \yii\db\StaleObjectException
+     */
     public function testSuccess()
     {
         $this->tester->haveFixtures([
             'user' => [
                 'class' => UserFixture::class,
                 'dataFile' => codecept_data_dir() . '/user.php',
-            ]
+            ],
         ]);
 
         $user = $this->tester->grabFixture('user', 2);
 
-        $auth = Auth::create($user->id, 'source1', 'sourceId1');
+        $auth = Auth::create($user->id, 'source', 'sourceId');
         $this->assertTrue($auth->save(), 'Unable to save model');
+        $this->assertNotFalse($auth->delete(), 'Unable to save model');
     }
 
+    /**
+     *
+     */
     public function testUser()
     {
         $this->expectException(DomainException::class);

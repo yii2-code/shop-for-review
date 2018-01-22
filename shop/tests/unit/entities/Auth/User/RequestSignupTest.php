@@ -26,6 +26,7 @@ class RequestSignupTest extends Unit
 
 
     /**
+     * @group auth
      * @throws \yii\base\Exception
      */
     public function testSuccess()

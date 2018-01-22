@@ -9,7 +9,7 @@
 namespace shop\tests\unit\types\Auth;
 
 
-use shop\tests\unit\services\Auth\UserService\Unit;
+use Codeception\Test\Unit;
 use shop\types\Auth\ResetPasswordType;
 
 class ResetPasswordTypeTest extends Unit

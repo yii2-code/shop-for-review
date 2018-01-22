@@ -17,6 +17,10 @@ use shop\services\Auth\AuthService;
 use shop\tests\fixtures\AuthFixture;
 use shop\tests\fixtures\UserFixture;
 
+/**
+ * Class RequestTest
+ * @package shop\tests\unit\services\Auth\AuthService
+ */
 class RequestTest extends Unit
 {
     /** @var \shop\tests\UnitTester */
@@ -25,11 +29,19 @@ class RequestTest extends Unit
     /** @var AuthService */
     public $service;
 
+    /**
+     * @throws \yii\base\InvalidConfigException
+     */
     public function _before()
     {
         $this->service = \Yii::createObject(AuthService::class);
     }
 
+    /**
+     * @param $index
+     * @return User
+     * @throws \shop\tests\_generated\ModuleException
+     */
     public function grabUser($index): User
     {
         $this->tester->haveFixtures([
@@ -47,14 +59,23 @@ class RequestTest extends Unit
 
     }
 
+
+    /**
+     * @throws \Exception
+     * @throws \yii\db\Exception
+     */
     public function testFirstAuthentication()
     {
-
         $user = $this->service->request($login = 'Login', $email = 'test@email.com', $source = 'source', $sourceId = 'sourceId');
         $this->tester->seeRecord(User::class, ['login' => $login, 'email' => $email]);
         $this->tester->seeRecord(Auth::class, ['user_id' => $user->id, 'source' => $source, 'source_id' => $sourceId]);
     }
 
+    /**
+     * @throws \Exception
+     * @throws \shop\tests\_generated\ModuleException
+     * @throws \yii\db\Exception
+     */
     public function testAuthentication()
     {
         $user = $this->grabUser(2);
@@ -64,6 +85,11 @@ class RequestTest extends Unit
         $this->assertEquals($user->id, $model->id);
     }
 
+    /**
+     * @throws \Exception
+     * @throws \shop\tests\_generated\ModuleException
+     * @throws \yii\db\Exception
+     */
     public function testEmail()
     {
         $user = $this->grabUser(4);
@@ -73,6 +99,11 @@ class RequestTest extends Unit
         $this->service->request('Login', $user->email, 'source', 'sourceId');
     }
 
+    /**
+     * @throws \Exception
+     * @throws \shop\tests\_generated\ModuleException
+     * @throws \yii\db\Exception
+     */
     public function testLogin()
     {
         $user = $this->grabUser(4);
@@ -83,6 +114,11 @@ class RequestTest extends Unit
     }
 
 
+    /**
+     * @throws \Exception
+     * @throws \shop\tests\_generated\ModuleException
+     * @throws \yii\db\Exception
+     */
     public function testStatus()
     {
         $user = $this->grabUser(3);

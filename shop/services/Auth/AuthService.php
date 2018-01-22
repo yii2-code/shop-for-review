@@ -90,7 +90,6 @@ class AuthService
                     $source,
                     $sourceId
                 );
-                codecept_debug($auth);
                 $this->baseService->save($auth);
 
             } else {
