@@ -1,4 +1,7 @@
 <?php
+
+use yii\filters\AccessControl;
+
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
@@ -11,6 +14,23 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log', \frontend\config\SetUp::class],
     'controllerNamespace' => 'frontend\controllers',
+    'as access' => [
+        'class' => AccessControl::class,
+        'rules' => [
+            [
+                'controllers' => ['auth/user', 'auth/password-reset', 'site'],
+                'actions' => ['signup', 'sign-in', 'reset', 'request', 'index', 'error'],
+                'allow' => true,
+                'roles' => ['?'],
+            ],
+            [
+                'controllers' => ['auth/user', 'site'],
+                'actions' => ['sign-out', 'index', 'error'],
+                'allow' => true,
+                'roles' => ['@'],
+            ],
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
