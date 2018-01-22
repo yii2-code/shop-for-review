@@ -91,7 +91,7 @@ class UserService
     public function signIn(SignInType $type): User
     {
         $user = $this->userRepository->findOneByLogin($type->login);
-        $this->baseService->domainException($user, 'The Login and Password is not valid');
+        $this->baseService->domainException($user, Yii::t('auth', 'Incorrectly login or password'));
 
 
         if (!$user->validatePassword($type->password)) {
@@ -104,12 +104,12 @@ class UserService
         }
 
         if ($user->isDelete()) {
-            throw new DomainException('You is blocked');
+            throw new DomainException(Yii::t('auth', 'Your account is blocked'));
         }
 
 
         if (!$user->isActive()) {
-            throw new DomainException('The Login and Password is not valid');
+            throw new DomainException(Yii::t('auth', 'Incorrectly login or password'));
         }
 
         return $user;
@@ -123,14 +123,14 @@ class UserService
     public function activeEmail(string $token): User
     {
         if (empty($token)) {
-            throw new NotFoundHttpException('The required page does not exist');
+            throw new NotFoundHttpException(Yii::t('shop', 'The required page does not exist'));
         }
 
         $user = $this->userRepository->findOneByEmailActive($token);
         $this->baseService->notFoundHttpException($user);
 
         if (!$user->isConfirmEmail() && !$user->isActive()) {
-            throw new NotFoundHttpException('The required page does not exist');
+            throw new NotFoundHttpException(Yii::t('shop', 'The required page does not exist'));
         }
 
         $user->setStatus($user::STATUS_ACTIVE);
@@ -152,7 +152,7 @@ class UserService
             ->send();
 
         if (!$sent) {
-            Yii::warning('Sending error', 'shop');
+            Yii::warning('Unable to send message', 'shop');
         }
     }
 }

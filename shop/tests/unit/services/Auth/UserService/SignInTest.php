@@ -49,7 +49,7 @@ class SignInTest extends Unit
 
 
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('The Login and Password is not valid');
+        $this->expectExceptionMessage('Incorrectly login or password');
         $this->service->signIn($type);
 
         $user = $this->grabUser(2);
@@ -94,7 +94,7 @@ class SignInTest extends Unit
         $type->password = 'password3';
 
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('You is blocked');
+        $this->expectExceptionMessage('Your account is blocked');
         $this->service->signIn($type);
     }
 }

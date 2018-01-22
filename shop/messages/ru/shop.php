@@ -8,5 +8,5 @@
 
 return [
     'Unable to save model' => 'Ошибка сохранение модели',
-    'The required page does not exist' => 'Страницы не существует'
+    'The required page does not exist' => 'Страница не существует'
 ];

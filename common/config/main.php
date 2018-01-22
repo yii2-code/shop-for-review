@@ -21,6 +21,11 @@ return [
                     'sourceLanguage' => 'en-US',
                     'basePath' => '@shop/messages',
                 ],
+                'auth' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'sourceLanguage' => 'en-US',
+                    'basePath' => '@shop/messages',
+                ],
             ],
         ],
         'db' => require __DIR__ . '/require/db.php'
