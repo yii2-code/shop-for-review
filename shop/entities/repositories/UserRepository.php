@@ -32,9 +32,9 @@ class UserRepository
      * @param string $token
      * @return null|User
      */
-    public function findOneByRequestEmailToken(string $token): ?User
+    public function findOneByEmailActive(string $token): ?User
     {
-        return User::find()->requestEmailToken($token)->limit(1)->one();
+        return User::find()->emailActive($token)->limit(1)->one();
     }
 
     /**

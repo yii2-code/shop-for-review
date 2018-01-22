@@ -36,9 +36,9 @@ class RequestSignupTest extends Unit
             $email = 'email@test.com'
         );
 
-        $this->assertNotEmpty($model->request_email_token, 'request_email_token is empty');
-        $this->assertTrue($model->validatePassword($password), 'password is not verify');
-        $this->assertTrue($model->save(), 'Model does not save');
+        $this->assertNotEmpty($model->email_active_token, 'email_active_token is empty');
+        $this->assertTrue($model->validatePassword($password), 'Unable to validate password');
+        $this->assertTrue($model->save(), 'Unable to save model');
 
         $this->tester->seeRecord(
             User::class,
@@ -56,12 +56,12 @@ class RequestSignupTest extends Unit
      * @throws \yii\base\Exception
      * @throws \shop\tests\_generated\ModuleException
      */
-    public function testFailedOnEmail()
+    public function testEmail()
     {
         $this->tester->haveFixtures([
             'user' => [
                 'class' => UserFixture::class,
-                'dataFile' => '@shop/tests/_data/user.php',
+                'dataFile' => codecept_data_dir() . '/user.php',
             ]
         ]);
 
@@ -81,12 +81,12 @@ class RequestSignupTest extends Unit
      * @throws \shop\tests\_generated\ModuleException
      * @throws \yii\base\Exception
      */
-    public function testFailedOnLogin()
+    public function testLogin()
     {
         $this->tester->haveFixtures([
             'user' => [
                 'class' => UserFixture::class,
-                'dataFile' => '@shop/tests/_data/user.php',
+                'dataFile' => codecept_data_dir() . '/user.php',
             ]
         ]);
 

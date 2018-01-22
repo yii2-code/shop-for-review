@@ -126,7 +126,7 @@ class UserService
             throw new NotFoundHttpException('The required page does not exist');
         }
 
-        $user = $this->userRepository->findOneByRequestEmailToken($token);
+        $user = $this->userRepository->findOneByEmailActive($token);
         $this->baseService->notFoundHttpException($user);
 
         if (!$user->isConfirmEmail() && !$user->isActive()) {

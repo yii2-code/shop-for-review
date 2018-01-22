@@ -26,7 +26,7 @@ use yii\web\IdentityInterface;
  * @property $login string
  * @property $password string
  * @property $email string
- * @property $request_email_token string
+ * @property $email_active_token string
  * @property $password_reset_token string
  * @property $created_at string
  * @property $updated_at string
@@ -81,7 +81,7 @@ class User extends ActiveRecord implements IdentityInterface
         $model->setLogin($login);
         $model->setEmail($email);
         $model->setStatus(static::STATUS_CONFIRM_EMAIL);
-        $model->generateRequestEmailToken();
+        $model->generateEmailActive();
         $model->setPassword($password);
         return $model;
     }
@@ -122,15 +122,15 @@ class User extends ActiveRecord implements IdentityInterface
      * @throws \yii\base\Exception
      * @return void
      */
-    public function generateRequestEmailToken(): void
+    public function generateEmailActive(): void
     {
-        $this->request_email_token = UserHelper::generateRequestEmail();
+        $this->email_active_token = UserHelper::generateEmailActive();
     }
 
     /**
      * @throws \yii\base\Exception
      */
-    public function generatePasswordResetToken(): void
+    public function generatePasswordReset(): void
     {
         $this->password_reset_token = UserHelper::generatePasswordReset();
     }

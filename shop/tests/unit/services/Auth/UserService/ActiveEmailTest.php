@@ -27,13 +27,13 @@ class ActiveEmailTest extends Unit
     {
         $user1 = $this->grabUser(1);
 
-        $model = $this->service->activeEmail($user1->request_email_token);
+        $model = $this->service->activeEmail($user1->email_active_token);
         $this->assertEquals(User::STATUS_ACTIVE, $model->status, 'Property status does not equal');
 
         /** @var User $user2 */
         $user2 = $this->grabUser(2);
 
-        $this->service->activeEmail($user2->request_email_token);
+        $this->service->activeEmail($user2->email_active_token);
     }
 
 
@@ -68,6 +68,6 @@ class ActiveEmailTest extends Unit
         $this->expectException(NotFoundHttpException::class);
         $this->expectExceptionMessage('The required page does not exist');
 
-        $this->service->activeEmail($user->request_email_token);
+        $this->service->activeEmail($user->email_active_token);
     }
 }

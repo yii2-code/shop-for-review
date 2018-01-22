@@ -25,7 +25,7 @@ class GeneratePasswordResetTokenTest extends Unit
     public function testSuccess()
     {
         $model = new User();
-        $model->generatePasswordResetToken();
+        $model->generatePasswordReset();
         $token = $model->password_reset_token;
         $timestamp = substr($token, strrpos($token, '_') + 1);
         $this->assertEquals(date('Y-m-d'), date('Y-m-d', $timestamp), 'Token is invalid');

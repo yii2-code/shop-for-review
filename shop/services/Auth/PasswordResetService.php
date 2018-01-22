@@ -59,7 +59,7 @@ class PasswordResetService
     {
         $user = $this->userRepository->findOneByEmail($type->email);
         $this->baseService->notFoundHttpException($user);
-        $user->generatePasswordResetToken();
+        $user->generatePasswordReset();
         $this->baseService->save($user);
         return $user;
     }

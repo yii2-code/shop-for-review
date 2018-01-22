@@ -24,7 +24,7 @@ class UserHelper
      * @return string
      * @throws \yii\base\Exception
      */
-    public static function generateRequestEmail(): string
+    public static function generateEmailActive(): string
     {
         return Yii::$app->security->generateRandomString(64);
     }

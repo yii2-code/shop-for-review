@@ -24,8 +24,10 @@ class SignupTest extends Unit
     protected $tester;
 
     /**
+     * @throws \Exception
      * @throws \shop\tests\_generated\ModuleException
-     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
      */
     public function testSuccessSendEmail()
     {
