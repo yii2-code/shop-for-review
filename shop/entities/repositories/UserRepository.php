@@ -59,7 +59,7 @@ class UserRepository
      * @param string $email
      * @return bool
      */
-    public function existsEmail(string $email): bool
+    public function existsByEmail(string $email): bool
     {
         return (bool)User::find()->email($email)->exists();
     }
@@ -68,8 +68,17 @@ class UserRepository
      * @param string $login
      * @return bool
      */
-    public function existsLogin(string $login): bool
+    public function existsByLogin(string $login): bool
     {
         return (bool)User::find()->login($login)->exists();
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function existsById($id): bool
+    {
+        return (bool)User::find()->id($id)->exists();
     }
 }

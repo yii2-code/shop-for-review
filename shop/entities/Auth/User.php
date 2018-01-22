@@ -92,7 +92,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function setEmail(string $email): void
     {
         $repository = new UserRepository();
-        if ($repository->existsEmail($email)) {
+        if ($repository->existsByEmail($email)) {
             throw new DomainException(sprintf('Email "%s" has already been token', $email));
         }
         $this->email = $email;
@@ -104,7 +104,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function setLogin(string $login)
     {
         $repository = new UserRepository();
-        if ($repository->existsLogin($login)) {
+        if ($repository->existsByLogin($login)) {
             throw new DomainException(sprintf('Login "%s" has already been token', $login));
         }
         $this->login = $login;
