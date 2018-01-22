@@ -11,6 +11,7 @@ namespace shop\services;
 
 use DomainException;
 use RuntimeException;
+use Yii;
 use yii\db\ActiveRecord;
 use yii\web\NotFoundHttpException;
 
@@ -38,7 +39,7 @@ class BaseService
     public function notFoundHttpException(ActiveRecord $model = null)
     {
         if (is_null($model)) {
-            throw new NotFoundHttpException('The required page does not exist');
+            throw new NotFoundHttpException(Yii::t('shop', 'The required page does not exist'));
         }
     }
 
@@ -48,7 +49,7 @@ class BaseService
     public function save(ActiveRecord $model)
     {
         if (!$model->save()) {
-            throw new RuntimeException('Unable to save model');
+            throw new RuntimeException(Yii::t('shop', 'Unable to save model'));
         }
     }
 }

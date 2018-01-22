@@ -16,6 +16,7 @@ $config = yii\helpers\ArrayHelper::merge(
     require __DIR__ . '/../../../common/config/test.php',
     require __DIR__ . '/../../../common/config/test-local.php',
     [
+        'language' => 'en-US',
         'components' => [
             'mailer' => [
                 'class' => 'yii\swiftmailer\Mailer',
