@@ -46,7 +46,7 @@ class RequestPasswordResetTypeTest extends Unit
         $type = new RequestPasswordResetType();
         $type->email = $user->email;
 
-        $this->assertTrue($type->validate(), 'The model is not validate');
+        $this->assertTrue($type->validate(), 'Unable to validate type');
     }
 
     /**

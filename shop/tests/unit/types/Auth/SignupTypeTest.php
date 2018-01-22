@@ -28,7 +28,7 @@ class SignupTypeTest extends Unit
         $type->email = 'test@email.com';
         $type->password = 'password';
         $type->repeatPassword = 'password';
-        $this->assertTrue($type->validate(), 'model does not validate');
+        $this->assertTrue($type->validate(), 'Unable to validate type');
     }
 
     public function testRequired()

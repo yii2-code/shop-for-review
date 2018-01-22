@@ -19,7 +19,7 @@ class SignInTypeTest extends Unit
         $type = new SignInType();
         $type->login = 'test';
         $type->password = 'password';
-        $this->assertTrue($type->validate(), 'The Model does not validate');
+        $this->assertTrue($type->validate(), 'Unable to validate type');
     }
 
     public function testRequired()

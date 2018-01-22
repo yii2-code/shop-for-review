@@ -19,7 +19,7 @@ class ResetPasswordTypeTest extends Unit
         $type = new ResetPasswordType();
         $type->password = 'password';
         $type->repeatPassword = 'password';
-        $this->assertTrue($type->validate(), 'The type is not validate');
+        $this->assertTrue($type->validate(), 'Unable to validate type');
     }
 
     public function testRequired()
