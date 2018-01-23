@@ -1,5 +1,5 @@
 <?php
 return [
-    'backendHostInfo' => 'cp.example.self',
-    'frontendHostInfo' => 'example.self',
+    'backendHostInfo' => 'http://cp.example.app',
+    'frontendHostInfo' => 'http://example.app',
 ];

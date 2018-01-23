@@ -15,6 +15,7 @@ return [
     'showScriptName' => false,
     'rules' => [
         'sign-in' => 'auth/user/sign-in',
+        'oauth' => 'auth/user/oauth',
         'signup' => 'auth/user/signup',
         'sign-out' => 'auth/user/sign-out',
         'active-email/<token>' => 'auth/user/active-email',

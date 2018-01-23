@@ -1,6 +1,7 @@
 <?php
 
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
@@ -19,7 +20,7 @@ return [
         'rules' => [
             [
                 'controllers' => ['auth/user', 'auth/password-reset', 'site'],
-                'actions' => ['signup', 'sign-in', 'reset', 'request', 'index', 'error'],
+                'actions' => ['signup', 'sign-in', 'reset', 'request', 'index', 'error', 'oauth'],
                 'allow' => true,
                 'roles' => ['?'],
             ],
@@ -32,6 +33,28 @@ return [
         ],
     ],
     'components' => [
+        'authClientCollection' => [
+            'class' => yii\authclient\Collection::class,
+            'clients' => [
+                'google' => [
+                    'class' => yii\authclient\clients\Google::class,
+                    'clientId' => '236416334497-sc3mcf83euovrouq348ncnvk0lrsjm4l.apps.googleusercontent.com',
+                    'clientSecret' => 'GoC-ixilX1Y7KzJsI-siaA44',
+                    'normalizeUserAttributeMap' => [
+                        'email' => function ($attribute) {
+                            return ArrayHelper::getValue($attribute, ['emails', '0', 'value']);
+                        },
+                        'login' => 'displayName',
+                    ],
+                ],
+                /*                'facebook' => [
+                                    'class' => 'yii\authclient\clients\Facebook',
+                                    'clientId' => 'facebook_client_id',
+                                    'clientSecret' => 'facebook_client_secret',
+                                ],*/
+                // etc.
+            ],
+        ],
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],

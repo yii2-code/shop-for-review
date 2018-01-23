@@ -11,6 +11,7 @@ namespace shop\services;
 
 use DomainException;
 use RuntimeException;
+use shop\entities\Auth\User;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\web\NotFoundHttpException;
@@ -40,6 +41,16 @@ class BaseService
     {
         if (is_null($model)) {
             throw new NotFoundHttpException(Yii::t('shop', 'The required page does not exist'));
+        }
+    }
+
+    /**
+     * @param User $model
+     */
+    public function login(User $model): void
+    {
+        if (!Yii::$app->user->login($model)) {
+            throw new RuntimeException('Login error');
         }
     }
 

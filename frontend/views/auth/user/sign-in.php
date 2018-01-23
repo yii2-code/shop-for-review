@@ -6,6 +6,7 @@
  * Time: 16:35
  */
 
+use yii\authclient\widgets\AuthChoice;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 
@@ -18,7 +19,7 @@ use yii\bootstrap\Html;
     <div class="col-lg-5">
         <?php $form = ActiveForm::begin(); ?>
 
-        <?= $form->field($type, 'login')->textInput(['autofocus' => true]) ?>
+        <?= $form->field($type, 'login')->textInput() ?>
 
         <?= $form->field($type, 'password')->passwordInput() ?>
 
@@ -31,5 +32,11 @@ use yii\bootstrap\Html;
         </div>
 
         <?php ActiveForm::end(); ?>
+
+        <?= AuthChoice::widget([
+            'baseAuthUrl' => ['/oauth'],
+            'popupMode' => false,
+        ]) ?>
+
     </div>
 </div>
