@@ -47,6 +47,11 @@ return [
                         'login' => 'displayName',
                     ],
                 ],
+                'github' => [
+                    'class' => yii\authclient\clients\GitHub::class,
+                    'clientId' => 'cc02942dc3008fcf6d0d',
+                    'clientSecret' => 'b52d6bdf6e338739405c6383ea4afb9b6a0d1ee9',
+                ],
                 /*                'facebook' => [
                                     'class' => 'yii\authclient\clients\Facebook',
                                     'clientId' => 'facebook_client_id',
