@@ -52,6 +52,17 @@ return [
                     'clientId' => 'cc02942dc3008fcf6d0d',
                     'clientSecret' => 'b52d6bdf6e338739405c6383ea4afb9b6a0d1ee9',
                 ],
+                'twitter' => [
+                    'class' => 'yii\authclient\clients\Twitter',
+                    'attributeParams' => [
+                        'include_email' => 'true'
+                    ],
+                    'consumerKey' => 'vbcpikdBbG0UzzwgkVsCcJMlc',
+                    'consumerSecret' => 'jNYj2HxumLXxRDtIPkAFlwl6YAKniFGvd0xO8jUztDpnN7zjlv',
+                    'normalizeUserAttributeMap' => [
+                        'login' => 'screen_name',
+                    ],
+                ],
                 /*                'facebook' => [
                                     'class' => 'yii\authclient\clients\Facebook',
                                     'clientId' => 'facebook_client_id',
