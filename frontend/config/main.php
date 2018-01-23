@@ -53,7 +53,7 @@ return [
                     'clientSecret' => 'b52d6bdf6e338739405c6383ea4afb9b6a0d1ee9',
                 ],
                 'twitter' => [
-                    'class' => 'yii\authclient\clients\Twitter',
+                    'class' => yii\authclient\clients\Twitter::class,
                     'attributeParams' => [
                         'include_email' => 'true'
                     ],
@@ -61,6 +61,15 @@ return [
                     'consumerSecret' => 'jNYj2HxumLXxRDtIPkAFlwl6YAKniFGvd0xO8jUztDpnN7zjlv',
                     'normalizeUserAttributeMap' => [
                         'login' => 'screen_name',
+                    ],
+                ],
+                'yandex' => [
+                    'class' => yii\authclient\clients\Yandex::class,
+                    'clientId' => 'e77b16276e33409ba104e91b49100002',
+                    'clientSecret' => '8a2086e3faac4f9cba1a67fea7bf82a5',
+                    'normalizeUserAttributeMap' => [
+                        'login' => 'display_name',
+                        'email' => ['emails', '0']
                     ],
                 ],
                 /*                'facebook' => [
