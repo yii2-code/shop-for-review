@@ -14,6 +14,10 @@ use shop\tests\fixtures\UserFixture;
 use shop\tests\UnitTester;
 use shop\types\Auth\SignupType;
 
+/**
+ * Class SignupTypeTest
+ * @package shop\tests\unit\types\Auth
+ */
 class SignupTypeTest extends Unit
 {
     /**
@@ -21,6 +25,9 @@ class SignupTypeTest extends Unit
      */
     protected $tester;
 
+    /**
+     * @group auth
+     */
     public function testSuccess()
     {
         $type = new SignupType();
@@ -31,6 +38,9 @@ class SignupTypeTest extends Unit
         $this->assertTrue($type->validate(), 'Unable to validate type');
     }
 
+    /**
+     * @group auth
+     */
     public function testRequired()
     {
         $type = new SignupType();
@@ -40,6 +50,9 @@ class SignupTypeTest extends Unit
         $this->assertArrayHasKey('password', $type->getErrors(), 'Property password has not error');
     }
 
+    /**
+     * @group auth
+     */
     public function testEmail()
     {
         $type = new SignupType();
@@ -48,6 +61,9 @@ class SignupTypeTest extends Unit
         $this->assertArrayHasKey('email', $type->getErrors(), 'Property email has not error');
     }
 
+    /**
+     * @group auth
+     */
     public function testLess()
     {
         $type = new SignupType();
@@ -58,6 +74,9 @@ class SignupTypeTest extends Unit
         $this->assertArrayHasKey('login', $type->getErrors(), 'Property login has not error');
     }
 
+    /**
+     * @group auth
+     */
     public function testGreat()
     {
         $type = new SignupType();
@@ -69,6 +88,7 @@ class SignupTypeTest extends Unit
     }
 
     /**
+     * @group auth
      * @throws \shop\tests\_generated\ModuleException
      */
     public function testUnique()

@@ -61,6 +61,7 @@ class RequestTest extends Unit
 
 
     /**
+     * @group auth
      * @throws \Exception
      * @throws \yii\db\Exception
      */
@@ -72,6 +73,7 @@ class RequestTest extends Unit
     }
 
     /**
+     * @group auth
      * @throws \Exception
      * @throws \shop\tests\_generated\ModuleException
      * @throws \yii\db\Exception
@@ -86,6 +88,7 @@ class RequestTest extends Unit
     }
 
     /**
+     * @group auth
      * @throws \Exception
      * @throws \shop\tests\_generated\ModuleException
      * @throws \yii\db\Exception
@@ -100,6 +103,7 @@ class RequestTest extends Unit
     }
 
     /**
+     * @group auth
      * @throws \Exception
      * @throws \shop\tests\_generated\ModuleException
      * @throws \yii\db\Exception
@@ -115,6 +119,7 @@ class RequestTest extends Unit
 
 
     /**
+     * @group auth
      * @throws \Exception
      * @throws \shop\tests\_generated\ModuleException
      * @throws \yii\db\Exception

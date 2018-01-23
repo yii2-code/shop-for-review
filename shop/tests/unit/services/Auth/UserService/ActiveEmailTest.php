@@ -20,6 +20,7 @@ class ActiveEmailTest extends Unit
 {
 
     /**
+     * @group auth
      * @throws NotFoundHttpException
      * @throws \shop\tests\_generated\ModuleException
      */
@@ -38,6 +39,7 @@ class ActiveEmailTest extends Unit
 
 
     /**
+     * @group auth
      * @throws \yii\base\Exception
      */
     public function testNotFound()
@@ -48,6 +50,7 @@ class ActiveEmailTest extends Unit
     }
 
     /**
+     * @group auth
      * @throws \yii\base\Exception
      */
     public function testEmpty()
@@ -58,6 +61,7 @@ class ActiveEmailTest extends Unit
     }
 
     /**
+     * @group auth
      * @throws NotFoundHttpException
      * @throws \shop\tests\_generated\ModuleException
      */

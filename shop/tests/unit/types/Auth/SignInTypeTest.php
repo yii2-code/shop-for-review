@@ -12,8 +12,15 @@ namespace shop\tests\unit\types\Auth;
 use Codeception\Test\Unit;
 use shop\types\Auth\SignInType;
 
+/**
+ * Class SignInTypeTest
+ * @package shop\tests\unit\types\Auth
+ */
 class SignInTypeTest extends Unit
 {
+    /**
+     * @group auth
+     */
     public function testSuccess()
     {
         $type = new SignInType();
@@ -22,6 +29,9 @@ class SignInTypeTest extends Unit
         $this->assertTrue($type->validate(), 'Unable to validate type');
     }
 
+    /**
+     * @group auth
+     */
     public function testRequired()
     {
         $type = new SignInType();

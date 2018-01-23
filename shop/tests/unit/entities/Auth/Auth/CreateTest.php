@@ -50,7 +50,7 @@ class CreateTest extends Unit
     }
 
     /**
-     *
+     * @group auth
      */
     public function testUser()
     {

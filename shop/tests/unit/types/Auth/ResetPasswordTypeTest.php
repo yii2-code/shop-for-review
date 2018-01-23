@@ -12,8 +12,15 @@ namespace shop\tests\unit\types\Auth;
 use Codeception\Test\Unit;
 use shop\types\Auth\ResetPasswordType;
 
+/**
+ * Class ResetPasswordTypeTest
+ * @package shop\tests\unit\types\Auth
+ */
 class ResetPasswordTypeTest extends Unit
 {
+    /**
+     * @group auth
+     */
     public function testSuccess()
     {
         $type = new ResetPasswordType();
@@ -22,6 +29,9 @@ class ResetPasswordTypeTest extends Unit
         $this->assertTrue($type->validate(), 'Unable to validate type');
     }
 
+    /**
+     * @group auth
+     */
     public function testRequired()
     {
         $type = new ResetPasswordType();
@@ -30,6 +40,9 @@ class ResetPasswordTypeTest extends Unit
         $this->assertArrayHasKey('repeatPassword', $type->getErrors(), 'Property repeatPassword has not error');
     }
 
+    /**
+     * @group auth
+     */
     public function testLess()
     {
         $type = new ResetPasswordType();
@@ -38,6 +51,9 @@ class ResetPasswordTypeTest extends Unit
         $this->assertArrayHasKey('password', $type->getErrors(), 'Property password has not error');
     }
 
+    /**
+     * @group auth
+     */
     public function testGreat()
     {
         $type = new ResetPasswordType();

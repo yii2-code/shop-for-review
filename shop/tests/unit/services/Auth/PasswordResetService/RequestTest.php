@@ -18,6 +18,7 @@ use yii\web\NotFoundHttpException;
 class RequestTest extends Unit
 {
     /**
+     * @group auth
      * @throws NotFoundHttpException
      * @throws \shop\tests\_generated\ModuleException
      * @throws \yii\base\Exception
@@ -34,6 +35,7 @@ class RequestTest extends Unit
     }
 
     /**
+     * @group auth
      * @throws NotFoundHttpException
      * @throws \yii\base\Exception
      */

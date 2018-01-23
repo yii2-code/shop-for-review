@@ -20,6 +20,7 @@ use shop\tests\fixtures\UserFixture;
 class RequestSignupTest extends Unit
 {
     /**
+     * @group auth
      * @var \shop\tests\UnitTester
      */
     protected $tester;
@@ -54,6 +55,7 @@ class RequestSignupTest extends Unit
 
 
     /**
+     * @group auth
      * @throws \yii\base\Exception
      * @throws \shop\tests\_generated\ModuleException
      */
@@ -79,6 +81,7 @@ class RequestSignupTest extends Unit
     }
 
     /**
+     * @group auth
      * @throws \shop\tests\_generated\ModuleException
      * @throws \yii\base\Exception
      */

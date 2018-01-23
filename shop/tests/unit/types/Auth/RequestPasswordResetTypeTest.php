@@ -28,6 +28,7 @@ class RequestPasswordResetTypeTest extends Unit
     protected $tester;
 
     /**
+     * @group auth
      * @throws \shop\tests\_generated\ModuleException
      */
     public function testSuccess()
@@ -50,7 +51,7 @@ class RequestPasswordResetTypeTest extends Unit
     }
 
     /**
-     *
+     * @group auth
      */
     public function testRequired()
     {
@@ -61,7 +62,7 @@ class RequestPasswordResetTypeTest extends Unit
     }
 
     /**
-     *
+     * @group auth
      */
     public function testExists()
     {
@@ -72,7 +73,7 @@ class RequestPasswordResetTypeTest extends Unit
     }
 
     /**
-     *
+     * @group auth
      */
     public function testEmail()
     {

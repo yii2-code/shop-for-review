@@ -17,6 +17,7 @@ use shop\helpers\UserHelper;
 class ValidatePasswordTest extends Unit
 {
     /**
+     * @group auth
      * @throws \yii\base\Exception
      */
     public function testSuccess()
@@ -25,7 +26,7 @@ class ValidatePasswordTest extends Unit
     }
 
     /**
-     *
+     * @group auth
      */
     public function testEmpty()
     {
@@ -33,6 +34,7 @@ class ValidatePasswordTest extends Unit
     }
 
     /**
+     * @group auth
      * @throws \yii\base\Exception
      */
     public function testExpire()
@@ -41,7 +43,7 @@ class ValidatePasswordTest extends Unit
     }
 
     /**
-     *
+     * @group auth
      */
     public function testNumeric()
     {

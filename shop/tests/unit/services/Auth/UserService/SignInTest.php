@@ -24,6 +24,7 @@ class SignInTest extends Unit
     protected $tester;
 
     /**
+     * @group auth
      * @throws \shop\tests\_generated\ModuleException
      */
     public function testSuccess()
@@ -39,6 +40,7 @@ class SignInTest extends Unit
     }
 
     /**
+     * @group auth
      * @throws \shop\tests\_generated\ModuleException
      */
     public function testNotLogin()
@@ -65,6 +67,7 @@ class SignInTest extends Unit
 
 
     /**
+     * @group auth
      * @throws \shop\tests\_generated\ModuleException
      */
     public function testConfirmEmail()
@@ -83,6 +86,7 @@ class SignInTest extends Unit
     }
 
     /**
+     * @group auth
      * @throws \shop\tests\_generated\ModuleException
      */
     public function testDelete()

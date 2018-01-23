@@ -20,6 +20,7 @@ use shop\types\Auth\ResetPasswordType;
 class ResetTest extends Unit
 {
     /**
+     * @group auth
      * @throws \shop\tests\_generated\ModuleException
      */
     public function testSuccess()
@@ -35,6 +36,7 @@ class ResetTest extends Unit
     }
 
     /**
+     * @group auth
      * @throws \yii\base\Exception
      */
     public function testNotFound()

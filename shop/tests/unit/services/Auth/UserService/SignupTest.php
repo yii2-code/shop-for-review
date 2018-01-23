@@ -24,6 +24,7 @@ class SignupTest extends Unit
     protected $tester;
 
     /**
+     * @group auth
      * @throws \Exception
      * @throws \shop\tests\_generated\ModuleException
      * @throws \yii\base\InvalidConfigException
