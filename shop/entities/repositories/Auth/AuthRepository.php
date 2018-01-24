@@ -6,7 +6,7 @@
  * Time: 19:39
  */
 
-namespace shop\entities\repositories;
+namespace shop\entities\repositories\Auth;
 
 
 use shop\entities\Auth\Auth;

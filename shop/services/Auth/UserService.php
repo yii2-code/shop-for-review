@@ -13,7 +13,7 @@ namespace shop\services\Auth;
 use DomainException;
 use Exception;
 use shop\entities\Auth\User;
-use shop\entities\repositories\UserRepository;
+use shop\entities\repositories\Auth\UserRepository;
 use shop\helpers\UserHelper;
 use shop\services\BaseService;
 use shop\types\Auth\SignInType;

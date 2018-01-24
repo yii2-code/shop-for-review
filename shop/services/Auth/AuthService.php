@@ -13,8 +13,8 @@ use DomainException;
 use Exception;
 use shop\entities\Auth\Auth;
 use shop\entities\Auth\User;
-use shop\entities\repositories\AuthRepository;
-use shop\entities\repositories\UserRepository;
+use shop\entities\repositories\Auth\AuthRepository;
+use shop\entities\repositories\Auth\UserRepository;
 use shop\services\BaseService;
 use Yii;
 

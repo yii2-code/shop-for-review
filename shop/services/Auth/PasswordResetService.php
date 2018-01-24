@@ -12,7 +12,7 @@ namespace shop\services\Auth;
 
 use DomainException;
 use shop\entities\Auth\User;
-use shop\entities\repositories\UserRepository;
+use shop\entities\repositories\Auth\UserRepository;
 use shop\helpers\UserHelper;
 use shop\services\BaseService;
 use shop\types\Auth\RequestPasswordResetType;
@@ -27,7 +27,7 @@ use yii\web\NotFoundHttpException;
 class PasswordResetService
 {
     /**
-     * @var UserRepository
+     * @var \shop\entities\repositories\Auth\UserRepository
      */
     public $userRepository;
     /**
@@ -38,7 +38,7 @@ class PasswordResetService
     /**
      * UserService constructor.
      * @param BaseService $baseService
-     * @param UserRepository $userRepository
+     * @param \shop\entities\repositories\Auth\UserRepository $userRepository
      */
     public function __construct(
         BaseService $baseService,

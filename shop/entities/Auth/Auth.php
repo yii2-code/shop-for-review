@@ -12,7 +12,7 @@ namespace shop\entities\Auth;
 
 use DomainException;
 use shop\entities\query\Auth\AuthQuery;
-use shop\entities\repositories\UserRepository;
+use shop\entities\repositories\Auth\UserRepository;
 use yii\db\ActiveRecord;
 
 
