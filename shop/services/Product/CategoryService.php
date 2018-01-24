@@ -69,7 +69,7 @@ class CategoryService
         $category->edit($type->title, $type->description, $type->status);
         $parent = $this->getParent($type->categoryId);
         if ($parent->isChildOf($category)) {
-            throw new DomainException('Error');
+            throw new DomainException(sprintf('The category "%s" is child of "%s"', $parent->title, $category->title));
         }
         $category->appendTo($parent);
         $this->baseService->save($category);
