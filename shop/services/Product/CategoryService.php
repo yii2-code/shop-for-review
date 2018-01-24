@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace shop\services\Product;
 
+use DomainException;
 use shop\entities\Product\Category;
 use shop\entities\repositories\Product\CategoryRepository;
 use shop\services\BaseService;
@@ -67,6 +68,9 @@ class CategoryService
         $category = $this->categoryRepository->findOne($id);
         $category->edit($type->title, $type->description, $type->status);
         $parent = $this->getParent($type->categoryId);
+        if ($parent->isChildOf($category)) {
+            throw new DomainException('Error');
+        }
         $category->appendTo($parent);
         $this->baseService->save($category);
         return $category;

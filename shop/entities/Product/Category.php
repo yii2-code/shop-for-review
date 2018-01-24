@@ -13,18 +13,22 @@ namespace shop\entities\Product;
 use app\behaviors\TimestampBehavior;
 use paulzi\nestedsets\NestedSetsBehavior;
 use shop\entities\query\Product\CategoryQuery;
+use shop\helpers\CategoryHelper;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * @method appendTo(ActiveRecord $node)
  * @method CategoryQuery getDescendants($depth = null, $andSelf = false, $backOrder = false)
  * @method CategoryQuery getParent()
  * @method bool isRoot()
+ * @method bool isChildOf(ActiveRecord $node)
  *
  * Class Category
  * @package shop\entities\Product
  * @property $id int
  * @property $status int
+ * @property $depth int
  * @property $title string
  * @property $description string
  * @property $created_at string
@@ -112,5 +116,13 @@ class Category extends ActiveRecord
         $this->title = $title;
         $this->description = $description;
         $this->status = $status;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return ArrayHelper::getValue(CategoryHelper::getDropDown(), $this->status);
     }
 }

@@ -12,17 +12,39 @@ namespace shop\types\Product;
 use shop\entities\Product\Category;
 use yii\base\Model;
 
+/**
+ * Class CategoryType
+ * @package shop\types\Product
+ */
 class CategoryType extends Model
 {
+    /**
+     * @var
+     */
     public $title;
+    /**
+     * @var
+     */
     public $description;
+    /**
+     * @var
+     */
     public $status;
+    /**
+     * @var mixed
+     */
     public $categoryId;
+
     /**
      * @var Category
      */
-    private $model;
+    public $model;
 
+    /**
+     * CategoryType constructor.
+     * @param Category $model
+     * @param array $config
+     */
     public function __construct(
         Category $model,
         array $config = []
@@ -42,6 +64,9 @@ class CategoryType extends Model
     }
 
 
+    /**
+     * @return array
+     */
     public function rules()
     {
         return [

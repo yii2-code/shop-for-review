@@ -6,8 +6,9 @@
  * Time: 17:33
  */
 
-namespace shop\helpers;
+declare(strict_types=1);
 
+namespace shop\helpers;
 
 use shop\entities\Product\Category;
 use shop\entities\repositories\Product\CategoryRepository;
@@ -22,7 +23,7 @@ class CategoryHelper
     /**
      * @return array
      */
-    public static function getDropDown()
+    public static function getDropDown(): array
     {
         return [
             Category::STATUS_ACTIVE => Yii::t('shop', 'Active'),
@@ -33,7 +34,7 @@ class CategoryHelper
     /**
      * @return array
      */
-    public static function getTree()
+    public static function getTree(): array
     {
         $root = (new CategoryRepository())->findOneRoot();
         $categories = $root->getDescendants()->indexBy('id')->all();

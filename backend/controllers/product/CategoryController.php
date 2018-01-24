@@ -16,6 +16,7 @@ use shop\entities\repositories\Product\CategoryRepository;
 use shop\services\BaseService;
 use shop\services\Product\CategoryService;
 use shop\types\Product\CategoryType;
+use Yii;
 use yii\base\Module;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -68,9 +69,15 @@ class CategoryController extends Controller
      */
     public function actionIndex()
     {
-        $query = Category::find();
+        $root = $this->categoryRepository->findOneRoot();
+
+        $models = $root->getDescendants();
+
         $dataProvider = new ActiveDataProvider([
-            'query' => $query,
+            'query' => $models,
+            'pagination' => [
+                'pageSize' => 0,
+            ]
         ]);
 
         return $this->render('index', ['dataProvider' => $dataProvider]);
@@ -82,15 +89,15 @@ class CategoryController extends Controller
     public function actionCreate()
     {
         $type = new CategoryType(new Category());
-        if ($type->load(\Yii::$app->request->post()) && $type->validate()) {
+        if ($type->load(Yii::$app->request->post()) && $type->validate()) {
             try {
                 $model = $this->categoryService->create($type);
                 return $this->redirect(['view', 'id' => $model->id]);
             } catch (DomainException $exception) {
-                \Yii::$app->session->addFlash('warning', $exception->getMessage());
+                Yii::$app->session->addFlash('warning', $exception->getMessage());
             } catch (RuntimeException $exception) {
-                \Yii::$app->errorHandler->logException($exception);
-                \Yii::$app->session->addFlash('warning', 'Runtime error');
+                Yii::$app->errorHandler->logException($exception);
+                Yii::$app->session->addFlash('warning', 'Runtime error');
             }
         }
 
@@ -121,15 +128,15 @@ class CategoryController extends Controller
 
         $type = new CategoryType($model);
 
-        if ($type->load(\Yii::$app->request->post()) && $type->validate()) {
+        if ($type->load(Yii::$app->request->post()) && $type->validate()) {
             try {
                 $model = $this->categoryService->edit((int)$id, $type);
                 return $this->redirect(['view', 'id' => $model->id]);
             } catch (DomainException $exception) {
-                \Yii::$app->session->addFlash('warning', $exception->getMessage());
+                Yii::$app->session->addFlash('warning', $exception->getMessage());
             } catch (RuntimeException $exception) {
-                \Yii::$app->errorHandler->logException($exception);
-                \Yii::$app->session->addFlash('warning', 'Runtime error');
+                Yii::$app->errorHandler->logException($exception);
+                Yii::$app->session->addFlash('warning', 'Runtime error');
             }
         }
         return $this->render('update', ['type' => $type]);

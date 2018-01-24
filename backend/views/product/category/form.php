@@ -8,6 +8,7 @@
 
 use shop\helpers\CategoryHelper;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
 
 /** @var $this \yii\web\View */
 /** @var $type \shop\types\Product\CategoryType */
@@ -20,6 +21,6 @@ use yii\bootstrap\ActiveForm;
 <?= $form->field($type, 'status')->dropDownList(CategoryHelper::getDropDown()) ?>
 <?= $form->field($type, 'categoryId')->dropDownList(['' => ''] + CategoryHelper::getTree()) ?>
 <div class="form-group">
-    <?= \yii\helpers\Html::submitButton('Create', ['class' => 'btn btn-success']) ?>
+    <?= Html::submitButton($type->model->isNewRecord ? 'Create' : 'Update', ['class' => 'btn btn-success']) ?>
 </div>
 <?php $form::end(); ?>

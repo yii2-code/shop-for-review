@@ -8,6 +8,16 @@
 
 /** @var $this \yii\web\View */
 /** @var $type \shop\types\Product\CategoryType */
+
+$this->title = 'Create';
+
+$this->params['breadcrumbs'][] = ['label' => 'Category', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $this->title];
 ?>
 
-<?= $this->render('form', ['type' => $type]) ?>
+<div>
+    <h1><?= $this->title ?></h1>
+
+    <?= $this->render('form', ['type' => $type]) ?>
+</div>
+
