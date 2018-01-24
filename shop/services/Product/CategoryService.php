@@ -64,7 +64,7 @@ class CategoryService
      */
     public function edit(int $id, CategoryType $type): Category
     {
-        $category = $this->categoryRepository->findOneById($id);
+        $category = $this->categoryRepository->findOne($id);
         $category->edit($type->title, $type->description, $type->status);
         $parent = $this->getParent($type->categoryId);
         $category->appendTo($parent);
@@ -79,7 +79,7 @@ class CategoryService
     public function getParent($id): Category
     {
         if (is_numeric($id)) {
-            $parent = $this->categoryRepository->findOneById((int)$id);
+            $parent = $this->categoryRepository->findOne((int)$id);
         } else {
             $parent = $this->categoryRepository->findOneRoot();
         }

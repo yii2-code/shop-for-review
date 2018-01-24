@@ -26,7 +26,7 @@ class CreateTest extends Unit
     {
         $root = $this->grabCategory(2);
 
-        $type = new CategoryType();
+        $type = new CategoryType(new Category());;
         $type->title = 'Title';
         $type->description = 'Description';
         $type->status = Category::STATUS_ACTIVE;

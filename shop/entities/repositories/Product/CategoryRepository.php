@@ -29,11 +29,11 @@ class CategoryRepository
     }
 
     /**
-     * @param int $categoryId
+     * @param int $id
      * @return null|Category
      */
-    public function findOneById(int $categoryId): ?Category
+    public function findOne(int $id): ?Category
     {
-        return Category::find()->id($categoryId)->limit(1)->one();
+        return Category::find()->id($id)->limit(1)->one();
     }
 }

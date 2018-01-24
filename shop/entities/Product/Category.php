@@ -17,6 +17,9 @@ use yii\db\ActiveRecord;
 
 /**
  * @method appendTo(ActiveRecord $node)
+ * @method CategoryQuery getDescendants($depth = null, $andSelf = false, $backOrder = false)
+ * @method CategoryQuery getParent()
+ * @method bool isRoot()
  *
  * Class Category
  * @package shop\entities\Product

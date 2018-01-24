@@ -25,7 +25,7 @@ class EditTest extends Unit
     public function testSuccess()
     {
         $category = $this->grabCategory(3);
-        $type = new CategoryType();
+        $type = new CategoryType(new Category());;
         $type->title = 'Edit title';
         $type->description = 'Edit description';
         $type->status = Category::STATUS_DELETE;

@@ -25,7 +25,7 @@ class CategoryTypeTest extends Unit
      */
     public function testSuccess()
     {
-        $type = new CategoryType();
+        $type = new CategoryType(new Category());;
         $type->title = 'Title';
         $type->description = 'description';
         $type->status = (string)Category::STATUS_ACTIVE;
@@ -37,7 +37,7 @@ class CategoryTypeTest extends Unit
      */
     public function testRequired()
     {
-        $type = new CategoryType();
+        $type = new CategoryType(new Category());;
         $this->assertFalse($type->validate(), 'Type is not validate');
         $this->assertArrayHasKey('title', $type->getErrors(), 'Property "title" has error');
         $this->assertArrayHasKey('description', $type->getErrors(), 'Property "description" has not error');
@@ -50,7 +50,7 @@ class CategoryTypeTest extends Unit
      */
     public function testExist()
     {
-        $type = new CategoryType();
+        $type = new CategoryType(new Category());;
         $type->categoryId = 2;
         $this->assertFalse($type->validate(), 'Type is not validate');
         $this->assertArrayHasKey('categoryId', $type->getErrors(), 'Property "categoryId" has not error');
