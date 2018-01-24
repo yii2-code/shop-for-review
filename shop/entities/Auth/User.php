@@ -13,7 +13,7 @@ namespace shop\entities\Auth;
 use app\behaviors\TimestampBehavior;
 use DomainException;
 use shop\entities\query\Auth\UserQuery;
-use shop\entities\repositories\UserRepository;
+use shop\entities\repositories\Auth\UserRepository;
 use shop\helpers\UserHelper;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
