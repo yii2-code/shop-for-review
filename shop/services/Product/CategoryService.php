@@ -31,6 +31,16 @@ class CategoryService
      */
     private $categoryRepository;
 
+
+    /**
+     * @param Category $model
+     * @return CategoryType
+     */
+    public function createType(Category $model = null): CategoryType
+    {
+        return new CategoryType($model);
+    }
+
     /**
      * CategoryService constructor.
      * @param BaseService $baseService

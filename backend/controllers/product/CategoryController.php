@@ -11,11 +11,9 @@ namespace backend\controllers\product;
 
 use DomainException;
 use RuntimeException;
-use shop\entities\Product\Category;
 use shop\entities\repositories\Product\CategoryRepository;
 use shop\services\BaseService;
 use shop\services\Product\CategoryService;
-use shop\types\Product\CategoryType;
 use Yii;
 use yii\base\Module;
 use yii\data\ActiveDataProvider;
@@ -88,7 +86,7 @@ class CategoryController extends Controller
      */
     public function actionCreate()
     {
-        $type = new CategoryType(new Category());
+        $type = $this->categoryService->createType();
         if ($type->load(Yii::$app->request->post()) && $type->validate()) {
             try {
                 $model = $this->categoryService->create($type);
@@ -125,9 +123,7 @@ class CategoryController extends Controller
     {
         $model = $this->categoryRepository->findOne($id);
         $this->baseService->notFoundHttpException($model);
-
-        $type = new CategoryType($model);
-
+        $type = $this->categoryService->createType($model);
         if ($type->load(Yii::$app->request->post()) && $type->validate()) {
             try {
                 $model = $this->categoryService->edit((int)$id, $type);

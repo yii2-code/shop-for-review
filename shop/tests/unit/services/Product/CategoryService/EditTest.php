@@ -10,7 +10,6 @@ namespace shop\tests\unit\services\Product\CategoryService;
 
 
 use shop\entities\Product\Category;
-use shop\types\Product\CategoryType;
 
 /**
  * Class EditTest
@@ -25,7 +24,7 @@ class EditTest extends Unit
     public function testSuccess()
     {
         $category = $this->grabCategory(3);
-        $type = new CategoryType(new Category());;
+        $type = $this->service->createType();
         $type->title = 'Edit title';
         $type->description = 'Edit description';
         $type->status = Category::STATUS_DELETE;

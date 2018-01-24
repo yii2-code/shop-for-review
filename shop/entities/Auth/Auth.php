@@ -72,7 +72,7 @@ class Auth extends ActiveRecord
     /**
      * @return AuthQuery|\yii\db\ActiveQuery
      */
-    public static function find()
+    public static function find(): AuthQuery
     {
         return new AuthQuery(static::class);
     }

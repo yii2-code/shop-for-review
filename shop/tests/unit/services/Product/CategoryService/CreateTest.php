@@ -10,7 +10,6 @@ namespace shop\tests\unit\services\Product\CategoryService;
 
 
 use shop\entities\Product\Category;
-use shop\types\Product\CategoryType;
 
 /**
  * Class CreateTest
@@ -26,7 +25,7 @@ class CreateTest extends Unit
     {
         $root = $this->grabCategory(2);
 
-        $type = new CategoryType(new Category());;
+        $type = $this->service->createType();
         $type->title = 'Title';
         $type->description = 'Description';
         $type->status = Category::STATUS_ACTIVE;

@@ -46,12 +46,12 @@ class CategoryType extends Model
      * @param array $config
      */
     public function __construct(
-        Category $model,
+        Category $model = null,
         array $config = []
     )
     {
         parent::__construct($config);
-        if (!$model->isNewRecord) {
+        if (!is_null($model) && !$model->isNewRecord) {
             $this->title = $model->title;
             $this->description = $model->description;
             $this->status = $model->status;
@@ -59,8 +59,10 @@ class CategoryType extends Model
             if (!$parent->isRoot()) {
                 $this->categoryId = $parent->id;
             }
+            $this->model = $model;
+        } else {
+            $this->model = new Category();
         }
-        $this->model = $model;
     }
 
 

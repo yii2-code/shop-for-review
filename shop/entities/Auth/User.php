@@ -60,11 +60,10 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @return UserQuery|\yii\db\ActiveQuery
      */
-    public static function find()
+    public static function find(): UserQuery
     {
         return new UserQuery(static::class);
     }
-
 
     /**
      * @param string $password
