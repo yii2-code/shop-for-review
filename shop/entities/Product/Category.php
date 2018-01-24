@@ -10,12 +10,10 @@ declare(strict_types=1);
 
 namespace shop\entities\Product;
 
-
 use app\behaviors\TimestampBehavior;
 use paulzi\nestedsets\NestedSetsBehavior;
 use shop\entities\query\Product\CategoryQuery;
 use yii\db\ActiveRecord;
-
 
 /**
  * @method appendTo(ActiveRecord $node)
@@ -63,11 +61,10 @@ class Category extends ActiveRecord
     /**
      * @return CategoryQuery|\yii\db\ActiveQuery
      */
-    public static function find()
+    public static function find(): CategoryQuery
     {
         return new CategoryQuery(static::class);
     }
-
 
     /**
      * @return array
@@ -96,5 +93,21 @@ class Category extends ActiveRecord
         $model->description = $description;
         $model->status = $status;
         return $model;
+    }
+
+    /**
+     * @param string $title
+     * @param string $description
+     * @param int $status
+     */
+    public function edit(
+        string $title,
+        string $description,
+        int $status
+    ): void
+    {
+        $this->title = $title;
+        $this->description = $description;
+        $this->status = $status;
     }
 }

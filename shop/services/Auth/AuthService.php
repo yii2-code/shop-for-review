@@ -66,12 +66,7 @@ class AuthService
      */
     public function request(string $login, string $email, string $source, string $sourceId): User
     {
-
-        if (YII_ENV_TEST) {
-            $transaction = Yii::$app->db->transaction;
-        } else {
-            $transaction = Yii::$app->db->beginTransaction();
-        }
+        $transaction = Yii::$app->db->beginTransaction();
 
         try {
             $auth = $this->authRepository->findOneBy($source, $sourceId);

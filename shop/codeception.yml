@@ -13,7 +13,7 @@ modules:
     config:
         Yii2:
             configFile: 'tests/config/main.php'
-            transaction: true
+            transaction: false
             cleanup: true
             part:
                 - fixtures
