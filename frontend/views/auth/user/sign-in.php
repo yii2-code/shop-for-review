@@ -15,28 +15,33 @@ use yii\bootstrap\Html;
 
 ?>
 
-<div class="row">
-    <div class="col-lg-5">
-        <?php $form = ActiveForm::begin(); ?>
+<?php $form = ActiveForm::begin(['options' => ['class' => 'form-signin'],]); ?>
+<h2 class="form-signin-heading">Please sign in</h2>
+<?= $form->field($type, 'login')
+    ->textInput(['placeholder' => "Login", 'required' => true, 'autofocus' > true])
+    ->label(false)
+?>
+<?= $form->field($type, 'password')
+    ->passwordInput(['placeholder' => "Password", 'required' => true])
+    ->label(false)
+?>
 
-        <?= $form->field($type, 'login')->textInput() ?>
+<div class="form-group checkbox">
+    <label>
+        <input type="checkbox" value="remember-me"> Remember me
+    </label>
+</div>
 
-        <?= $form->field($type, 'password')->passwordInput() ?>
+<div class="form-group" style="color:#999;margin:1em 0">
+    If you forgot your password you can <?= Html::a('reset it', ['/request']) ?>.
+</div>
 
-        <div style="color:#999;margin:1em 0">
-            If you forgot your password you can <?= Html::a('reset it', ['/request']) ?>.
-        </div>
-
-        <div class="form-group">
-            <?= Html::submitButton('Sign in', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-        </div>
-
-        <?php ActiveForm::end(); ?>
-
+<div class="form-group">
         <?= AuthChoice::widget([
             'baseAuthUrl' => ['/oauth'],
             'popupMode' => false,
         ]) ?>
-
     </div>
-</div>
+
+<?= Html::submitButton('Sign in', ['class' => 'btn btn-lg btn-primary btn-block']) ?>
+<?php ActiveForm::end(); ?>

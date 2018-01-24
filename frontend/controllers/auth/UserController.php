@@ -108,6 +108,8 @@ class UserController extends Controller
      */
     public function actionSignIn()
     {
+        $this->layout = 'sing-in';
+
         $type = new SignInType();
 
         if ($type->load(Yii::$app->request->post()) && $type->validate()) {
