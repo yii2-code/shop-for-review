@@ -12,7 +12,9 @@ namespace shop\entities\Product;
 
 use app\behaviors\TimestampBehavior;
 use shop\entities\query\Product\BrandQuery;
+use shop\helpers\BrandHelper;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class Brand
@@ -87,5 +89,13 @@ class Brand extends ActiveRecord
         $this->title = $title;
         $this->description = $description;
         $this->status = $status;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return ArrayHelper::getValue(BrandHelper::getStatusDropDown(), $this->status);
     }
 }

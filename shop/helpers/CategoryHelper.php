@@ -23,7 +23,7 @@ class CategoryHelper
     /**
      * @return array
      */
-    public static function getDropDown(): array
+    public static function getStatusDropDown(): array
     {
         return [
             Category::STATUS_ACTIVE => Yii::t('shop', 'Active'),

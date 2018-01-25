@@ -123,6 +123,6 @@ class Category extends ActiveRecord
      */
     public function getStatus(): string
     {
-        return ArrayHelper::getValue(CategoryHelper::getDropDown(), $this->status);
+        return ArrayHelper::getValue(CategoryHelper::getStatusDropDown(), $this->status);
     }
 }

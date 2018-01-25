@@ -18,7 +18,7 @@ use yii\helpers\Html;
 <?php $form = ActiveForm::begin() ?>
 <?= $form->field($type, 'title')->textInput() ?>
 <?= $form->field($type, 'description')->textarea() ?>
-<?= $form->field($type, 'status')->dropDownList(CategoryHelper::getDropDown()) ?>
+<?= $form->field($type, 'status')->dropDownList(CategoryHelper::getStatusDropDown()) ?>
 <?= $form->field($type, 'categoryId')->dropDownList(['' => ''] + CategoryHelper::getTree()) ?>
 <div class="form-group">
     <?= Html::submitButton($type->model->isNewRecord ? 'Create' : 'Update', ['class' => 'btn btn-success']) ?>
