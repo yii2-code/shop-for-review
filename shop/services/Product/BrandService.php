@@ -15,6 +15,10 @@ use shop\entities\repositories\Product\BrandRepository;
 use shop\services\BaseService;
 use shop\types\Product\BrandType;
 
+/**
+ * Class BrandService
+ * @package shop\services\Product
+ */
 class BrandService
 {
     /**
@@ -27,6 +31,11 @@ class BrandService
      */
     private $brandRepository;
 
+    /**
+     * BrandService constructor.
+     * @param BaseService $baseService
+     * @param BrandRepository $brandRepository
+     */
     public function __construct(
         BaseService $baseService,
         BrandRepository $brandRepository
@@ -37,19 +46,38 @@ class BrandService
         $this->brandRepository = $brandRepository;
     }
 
-
-    public function createType(Brand $model): BrandType
+    /**
+     * @param Brand|null $model
+     * @return BrandType
+     */
+    public function createType(Brand $model = null): BrandType
     {
-
+        return new BrandType($model);
     }
 
+    /**
+     * @param BrandType $type
+     * @return Brand
+     */
     public function create(BrandType $type): Brand
     {
-
+        $brand = Brand::create($type->title, $type->description, $type->status);
+        $this->baseService->save($brand);
+        return $brand;
     }
 
+    /**
+     * @param int $id
+     * @param BrandType $type
+     * @return Brand
+     * @throws \yii\web\NotFoundHttpException
+     */
     public function edit(int $id, BrandType $type): Brand
     {
-
+        $brand = $this->brandRepository->findOne($id);
+        $this->baseService->notFoundHttpException($brand);
+        $brand->edit($type->title, $type->description, $type->status);
+        $this->baseService->save($brand);
+        return $brand;
     }
 }

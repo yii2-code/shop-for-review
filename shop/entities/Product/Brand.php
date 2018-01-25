@@ -62,13 +62,30 @@ class Brand extends ActiveRecord
         return new BrandQuery(static::class);
     }
 
+    /**
+     * @param string $title
+     * @param string $description
+     * @param int $status
+     * @return Brand
+     */
     public static function create(string $title, string $description, int $status): self
     {
-
+        $model = new static();
+        $model->title = $title;
+        $model->description = $description;
+        $model->status = $status;
+        return $model;
     }
 
+    /**
+     * @param string $title
+     * @param string $description
+     * @param int $status
+     */
     public function edit(string $title, string $description, int $status): void
     {
-
+        $this->title = $title;
+        $this->description = $description;
+        $this->status = $status;
     }
 }
