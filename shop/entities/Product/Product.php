@@ -15,7 +15,9 @@ use DomainException;
 use shop\entities\query\Product\ProductQuery;
 use shop\entities\repositories\Product\BrandRepository;
 use shop\entities\repositories\Product\CategoryRepository;
+use shop\helpers\ProductHelper;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class Product
@@ -32,8 +34,8 @@ use yii\db\ActiveRecord;
  * @property $created_at string
  * @property $updated_at string
  *
- * @property $brand Brand
- * @property $categoryMain Category
+ * @property Brand $brand
+ * @property Category $categoryMain
  */
 class Product extends ActiveRecord
 {
@@ -137,7 +139,11 @@ class Product extends ActiveRecord
     public function editPrice(int $price, int $oldPrice = null)
     {
         $this->price = $price;
-        $this->old_price = $oldPrice;
+        if ($oldPrice == 0) {
+            $this->old_price = null;
+        } else {
+            $this->old_price = $oldPrice;
+        }
     }
 
     /**
@@ -178,5 +184,13 @@ class Product extends ActiveRecord
     public function getCategoryMain()
     {
         return $this->hasOne(Category::class, ['id' => 'category_main_id']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return ArrayHelper::getValue(ProductHelper::getStatusDropDown(), $this->status);
     }
 }

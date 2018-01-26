@@ -78,7 +78,7 @@ class ProductEditType extends Model
             ['status', 'integer'],
             ['brandId', 'exist', 'targetClass' => Brand::class, 'targetAttribute' => ['brandId' => 'id'], 'skipOnEmpty' => false],
             ['categoryMainId', 'exist', 'targetClass' => Category::class, 'targetAttribute' => ['categoryMainId' => 'id'], 'skipOnEmpty' => false],
-            [['brandId', 'categoryMainId'], 'filter', 'filter' => 'intval'],
+            [['brandId', 'categoryMainId', 'status'], 'filter', 'filter' => 'intval'],
         ];
     }
 }

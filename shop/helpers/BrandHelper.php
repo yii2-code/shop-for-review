@@ -14,6 +14,10 @@ namespace shop\helpers;
 use shop\entities\Product\Brand;
 use Yii;
 
+/**
+ * Class BrandHelper
+ * @package shop\helpers
+ */
 class BrandHelper
 {
     /**
@@ -27,4 +31,11 @@ class BrandHelper
         ];
     }
 
+    /**
+     * @return array
+     */
+    public static function getDropDown(): array
+    {
+        return Brand::find()->select(['title', 'id'])->indexBy('id')->column();
+    }
 }

@@ -24,7 +24,8 @@ class BrandSearch extends Brand
     public function rules()
     {
         return [
-            [['id', 'title', 'status', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'status'], 'integer'],
+            [['title', 'created_at', 'updated_at'], 'string'],
         ];
     }
 

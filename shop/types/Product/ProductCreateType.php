@@ -16,14 +16,10 @@ use shop\entities\Product\Category;
 /**
  * Class ProductType
  * @package shop\types\Product
+ * @property PriceType $price
  */
 class ProductCreateType extends CompositeType
 {
-    /**
-     * @var PriceType
-     */
-    public $price;
-
     /**
      * @var
      */
@@ -79,7 +75,7 @@ class ProductCreateType extends CompositeType
             ['status', 'integer'],
             ['brandId', 'exist', 'targetClass' => Brand::class, 'targetAttribute' => ['brandId' => 'id'], 'skipOnEmpty' => false],
             ['categoryMainId', 'exist', 'targetClass' => Category::class, 'targetAttribute' => ['categoryMainId' => 'id'], 'skipOnEmpty' => false],
-            [['brandId', 'categoryMainId'], 'filter', 'filter' => 'intval'],
+            [['brandId', 'categoryMainId', 'status'], 'filter', 'filter' => 'intval'],
         ];
     }
 }
