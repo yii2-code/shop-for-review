@@ -36,4 +36,13 @@ class CategoryRepository
     {
         return Category::find()->id($id)->limit(1)->one();
     }
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function existsById(int $id): bool
+    {
+        return (bool)Category::find()->id($id)->exists();
+    }
 }

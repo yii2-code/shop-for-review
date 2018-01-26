@@ -23,6 +23,14 @@ abstract class CompositeType extends Model
     private $forms = [];
 
     /**
+     * @param array $forms
+     */
+    public function setForms(array $forms)
+    {
+        $this->forms = $forms;
+    }
+
+    /**
      * @return array
      */
     abstract protected function internalForms(): array;

@@ -26,4 +26,13 @@ class BrandRepository
     {
         return Brand::find()->id($id)->limit(1)->one();
     }
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function existsById(int $id): bool
+    {
+        return (bool)Brand::find()->id($id)->exists();
+    }
 }
