@@ -6,6 +6,8 @@
  * Time: 14:26
  */
 
+use backend\modules\image\models\Image;
+use backend\modules\image\widgets\ImageWidget;
 use shop\helpers\BrandHelper;
 use shop\helpers\CategoryHelper;
 use shop\helpers\ProductHelper;
@@ -51,6 +53,8 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
     </div>
 
     <?php $form::end() ?>
+
+    <?= ImageWidget::widget(['model' => new Image()]) ?>
 </div>
 
 

@@ -12,6 +12,7 @@ namespace backend\modules\image\services;
 
 
 use backend\modules\image\models\ImageRepository;
+use backend\modules\image\TDO\Image;
 use RuntimeException;
 use Yii;
 
@@ -35,6 +36,10 @@ class ImageManager
     private $url;
 
     /**
+     * @var int
+     */
+    public $maxFiles;
+    /**
      * @var string
      */
     private $identitySession = '_image_token';
@@ -45,18 +50,21 @@ class ImageManager
      * @param string $path
      * @param string $url
      * @param string $identitySession
+     * @param int $maxFiles
      */
     public function __construct(
         ImageRepository $imageRepository,
         string $path,
         string $url,
-        string $identitySession
+        string $identitySession,
+        int $maxFiles = 1
     )
     {
         $this->imageRepository = $imageRepository;
         $this->path = rtrim($path, '/');
         $this->url = $url;
         $this->identitySession = $identitySession;
+        $this->maxFiles = $maxFiles;
     }
 
     /**
@@ -99,5 +107,19 @@ class ImageManager
     public function getPath(): string
     {
         return $this->path;
+    }
+
+
+    /**
+     * @param array|\backend\modules\image\models\Image[] $images
+     * @return array|Image[]
+     */
+    public function wrap(array $images): array
+    {
+        $wrap = [];
+        foreach ($images as $image) {
+            $wrap[] = new Image($image, $this->url);
+        }
+        return $wrap;
     }
 }

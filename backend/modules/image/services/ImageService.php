@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace backend\modules\image\services;
 
 use backend\modules\image\models\Image;
+use backend\modules\image\types\ImageType;
 use RuntimeException;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
@@ -39,6 +40,28 @@ class ImageService
         if (!FileHelper::createDirectory($this->imageManager->getPath())) {
             throw new RuntimeException('Unable to create directory');
         }
+    }
+
+    /**
+     * @return ImageType
+     */
+    public function createType(): ImageType
+    {
+        return new ImageType($this->imageManager->maxFiles);
+    }
+
+    /**
+     * @param ImageType $type
+     * @return bool
+     */
+    public function validate(ImageType $type): bool
+    {
+        if ($type->maxFiles == 1) {
+            $type->image = UploadedFile::getInstance($type, 'image');
+        } else {
+            $type->image = UploadedFile::getInstances($type, 'image');
+        }
+        return $type->validate();
     }
 
     /**

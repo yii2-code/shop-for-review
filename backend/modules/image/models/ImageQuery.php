@@ -45,4 +45,32 @@ class ImageQuery extends ActiveQuery
     {
         return $this->andWhere([Image::tableName() . '.[[id]]' => $id]);
     }
+
+
+    /**
+     * @param int $id
+     * @return ImageQuery
+     */
+    public function recordId(int $id): self
+    {
+        return $this->andWhere([Image::tableName() . '.[[record_id]]' => $id]);
+    }
+
+    /**
+     * @param string $class
+     * @return ImageQuery
+     */
+    public function class(string $class): self
+    {
+        return $this->andWhere([Image::tableName() . '.[[class]]' => $class]);
+    }
+
+    /**
+     * @param string $token
+     * @return ImageQuery
+     */
+    public function token(string $token): self
+    {
+        return $this->andWhere([Image::tableName() . '.[[token]]' => $token]);
+    }
 }

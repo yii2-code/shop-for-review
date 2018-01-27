@@ -25,7 +25,7 @@ class ImageType extends Model
     /**
      * @var int
      */
-    private $maxFiles;
+    public $maxFiles;
 
     /**
      * ImageType constructor.

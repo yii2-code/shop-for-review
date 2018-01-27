@@ -1,4 +1,7 @@
 <?php
+
+use backend\modules\image\Module;
+
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
@@ -10,8 +13,10 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log'],
-    'modules' => [],
+    'bootstrap' => ['log', \backend\config\SetUp::class],
+    'modules' => [
+        'image' => Module::class
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
