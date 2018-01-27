@@ -43,6 +43,7 @@ trait UnitTesterActions
         return $this->getScenario()->runStep(new \Codeception\Step\Action('assertEquals', func_get_args()));
     }
 
+
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *

@@ -16,6 +16,7 @@ return [
             'class' => \yii\console\controllers\MigrateController::class,
             'migrationNamespaces' => [
                 'shop\migrations',
+                'backend\modules\image\migrations'
             ],
             'migrationPath' => null,
         ],

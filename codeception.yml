@@ -1,6 +1,7 @@
 # global codeception file to run tests from all apps
 include:
     - shop
+    - backend/modules/image
 paths:
     log: common/runtime/logs
 settings:
