@@ -103,6 +103,21 @@ class ImageService
         return $images;
     }
 
+    /**
+     * @param int $recordId
+     * @param string $class
+     * @return array|Image[]
+     */
+    public function editAfterCreatedRecord(int $recordId, string $class)
+    {
+        $images = $this->imageManager->getImagesByToken($class);
+        foreach ($images as $image) {
+            $image->record_id = $recordId;
+            $image->removeToken();
+            $this->save($image);
+        }
+        return $images;
+    }
 
     /**
      * @param Image $model

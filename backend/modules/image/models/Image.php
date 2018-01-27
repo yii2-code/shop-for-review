@@ -85,4 +85,12 @@ class Image extends ActiveRecord
     {
         $this->token = $token;
     }
+
+    /**
+     *
+     */
+    public function removeToken()
+    {
+        $this->token = null;
+    }
 }

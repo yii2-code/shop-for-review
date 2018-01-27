@@ -10,6 +10,9 @@ namespace backend\modules\image\controllers;
 
 use backend\modules\image\models\ImageRepository;
 use backend\modules\image\services\ImageManager;
+use DomainException;
+use RuntimeException;
+use Yii;
 use yii\base\Module;
 use yii\web\Controller;
 
@@ -44,9 +47,11 @@ class ImageController extends Controller
     )
     {
         parent::__construct($id, $module, $config);
-        $this->imageManager = \Yii::createObject('image');
+
+        $this->imageManager = Yii::createObject(\backend\modules\image\Module::IMAGE);
         $this->imageRepository = $imageRepository;
     }
+
 
     /**
      * @param int $id
@@ -57,51 +62,52 @@ class ImageController extends Controller
     {
         $service = $this->imageManager->createService();
         $type = $service->createType();
-        if ($type->load(\Yii::$app->request->post()) && $service->validate($type)) {
+        $warning = null;
+        if ($type->load(Yii::$app->request->post()) && $service->validate($type)) {
             try {
                 $service->creates($type->image, $class, $id);
-            } catch (\DomainException $exception) {
-                \Yii::$app->session->addFlash('warning', $exception->getMessage());
-            } catch (\RuntimeException $exception) {
-                \Yii::$app->errorHandler->logException($exception);
-                \Yii::$app->session->addFlash('warning', 'Runtime error');
+            } catch (DomainException $exception) {
+                $warning = $exception->getMessage();
+            } catch (RuntimeException $exception) {
+                Yii::$app->errorHandler->logException($exception);
+                $warning = 'Runtime error';
             }
         }
 
-        $images = $this->imageManager->wrap($this->imageRepository->findByRecordIdClass($id, $class));
+        $images = $this->imageManager->getImageTdoById($id, $class);
 
         return $this->renderAjax(
             'gallery',
-            ['images' => array_chunk($images, 3)]
+            ['images' => array_chunk($images, 3), 'warning' => $warning]
         );
     }
 
     /**
      * @param string $class
      * @return string
-     * @throws \yii\base\Exception
      */
     public function actionCreateByToken(string $class)
     {
         $service = $this->imageManager->createService();
 
         $type = $service->createType();
-        if ($type->load(\Yii::$app->request->post()) && $service->validate($type)) {
+
+        $warning = null;
+        if ($type->load(Yii::$app->request->post()) && $service->validate($type)) {
             try {
                 $service->creates($type->image, $class);
-            } catch (\DomainException $exception) {
-                \Yii::$app->session->addFlash('warning', $exception->getMessage());
-            } catch (\RuntimeException $exception) {
-                \Yii::$app->errorHandler->logException($exception);
-                \Yii::$app->session->addFlash('warning', 'Runtime error');
+            } catch (DomainException $exception) {
+                $warning = $exception->getMessage();
+            } catch (RuntimeException $exception) {
+                Yii::$app->errorHandler->logException($exception);
+                $warning = 'Runtime error';
             }
         }
-        $token = $this->imageManager->createToken();
-        $images = $this->imageManager->wrap($this->imageRepository->findByTokenClass($token, $class));
+        $images = $this->imageManager->getImageTdoByToken($class);
 
         return $this->renderAjax(
             'gallery',
-            ['images' => array_chunk($images, 3)]
+            ['images' => array_chunk($images, 3), 'warning' => $warning]
         );
     }
 }

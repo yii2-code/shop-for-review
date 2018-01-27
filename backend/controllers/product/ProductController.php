@@ -77,6 +77,8 @@ class ProductController extends Controller
 
     /**
      * @return string|\yii\web\Response
+     * @throws \Exception
+     * @throws \yii\base\Exception
      */
     public function actionCreate()
     {
@@ -87,10 +89,10 @@ class ProductController extends Controller
                 $model = $this->productService->create($type, $type->price);
                 return $this->redirect(['view', 'id' => $model->id]);
             } catch (DomainException $exception) {
-                Yii::$app->session->addFlash('waring', $exception->getMessage());
+                Yii::$app->session->addFlash('warning', $exception->getMessage());
             } catch (RuntimeException $exception) {
                 Yii::$app->errorHandler->logException($exception);
-                Yii::$app->session->addFlash('waring', 'Runtime error');
+                Yii::$app->session->addFlash('warning', 'Runtime error');
             }
         }
 

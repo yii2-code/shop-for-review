@@ -82,7 +82,7 @@ class PasswordResetService
         $user = $this->userRepository->findOneByPasswordReset($token);
         $this->baseService->domainException($user, 'The required user does not exist');
         $user->setPassword($type->password);
-        $user->removePasswordResetToken();
+        $user->removePasswordReset();
         $this->baseService->save($user);
         return $user;
     }

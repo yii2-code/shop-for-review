@@ -6,6 +6,7 @@
  * Time: 15:34
  */
 
+use backend\modules\image\widgets\ImageWidget;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use yii\bootstrap\Modal;
@@ -70,5 +71,6 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
             'updated_at:datetime'
         ]
     ]) ?>
-</div>
 
+    <?= ImageWidget::widget(['model' => $model]) ?>
+</div>

@@ -13,9 +13,13 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log', \backend\config\SetUp::class],
+    'bootstrap' => ['log', 'image'],
     'modules' => [
-        'image' => Module::class
+        'image' => [
+            'class' => Module::class,
+            'path' => Yii::getAlias('@static/image'),
+            'url' => 'http://static.shop.app/image',
+        ],
     ],
     'components' => [
         'request' => [

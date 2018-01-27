@@ -9,7 +9,41 @@
 namespace backend\modules\image;
 
 
-class Module extends \yii\base\Module
-{
+use backend\modules\image\models\ImageRepository;
+use backend\modules\image\services\ImageManager;
+use Yii;
+use yii\base\BootstrapInterface;
 
+class Module extends \yii\base\Module implements BootstrapInterface
+{
+    public $path;
+
+    public $url;
+
+    /**
+     * @var int
+     */
+    public $maxFiles = 20;
+
+    /**
+     * @var string
+     */
+    private $identitySession = '_image_token';
+
+    const IMAGE = 'image';
+
+    public function bootstrap($app)
+    {
+        $container = Yii::$container;
+
+        $container->setSingleton(static::IMAGE, function () use ($container) {
+            return new ImageManager(
+                new ImageRepository(),
+                $this->path,
+                $this->url,
+                $this->identitySession,
+                $this->maxFiles
+            );
+        });
+    }
 }

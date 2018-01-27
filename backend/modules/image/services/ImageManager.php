@@ -11,8 +11,9 @@ declare(strict_types=1);
 namespace backend\modules\image\services;
 
 
+use backend\modules\image\models\Image;
 use backend\modules\image\models\ImageRepository;
-use backend\modules\image\TDO\Image;
+use backend\modules\image\TDO\ImageTdo;
 use RuntimeException;
 use Yii;
 
@@ -104,6 +105,22 @@ class ImageManager
     /**
      * @return string
      */
+    public function getIdentitySession(): string
+    {
+        return $this->identitySession;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    /**
+     * @return string
+     */
     public function getPath(): string
     {
         return $this->path;
@@ -111,14 +128,54 @@ class ImageManager
 
 
     /**
-     * @param array|\backend\modules\image\models\Image[] $images
+     * @param string $class
      * @return array|Image[]
+     */
+    public function getImagesByToken(string $class): array
+    {
+        $token = $this->getToken();
+        return $this->imageRepository->findByTokenClass($token, $class);
+    }
+
+
+    /**
+     * @param int $id
+     * @param string $class
+     * @return array|Image[]
+     */
+    public function getImageById(int $id, string $class): array
+    {
+        return $this->imageRepository->findByRecordIdClass($id, $class);
+    }
+
+    /**
+     * @param int $id
+     * @param string $class
+     * @return array|ImageTdo[]
+     */
+    public function getImageTdoById(int $id, string $class): array
+    {
+        return $this->wrap($this->getImageById($id, $class));
+    }
+
+    /**
+     * @param string $class
+     * @return array|ImageTdo[]
+     */
+    public function getImageTdoByToken(string $class): array
+    {
+        return $this->wrap($this->getImagesByToken($class));
+    }
+
+    /**
+     * @param array|Image[] $images
+     * @return array|ImageTdo[]
      */
     public function wrap(array $images): array
     {
         $wrap = [];
         foreach ($images as $image) {
-            $wrap[] = new Image($image, $this->url);
+            $wrap[] = new ImageTdo($image, $this);
         }
         return $wrap;
     }

@@ -10,6 +10,7 @@ namespace backend\modules\image\widgets;
 
 
 use backend\modules\image\models\ImageRepository;
+use backend\modules\image\Module;
 use backend\modules\image\services\ImageManager;
 use backend\modules\image\types\ImageType;
 use yii\base\InvalidConfigException;
@@ -64,7 +65,7 @@ class ImageWidget extends Widget
             throw new InvalidConfigException(static::class . '::model must be set ' . ActiveRecord::class);
         }
         /** @var ImageManager $imageManager */
-        $imageManager = \Yii::createObject('image');
+        $imageManager = \Yii::createObject(Module::IMAGE);
 
         if ($this->model->isNewRecord) {
             $this->action = ['/image/image/create-by-token', 'class' => $this->model::className()];

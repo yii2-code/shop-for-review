@@ -8,6 +8,9 @@
 
 namespace shop\services\Product;
 
+use backend\modules\image\Module;
+use backend\modules\image\services\ImageManager;
+use Exception;
 use shop\entities\Product\Product;
 use shop\entities\repositories\Product\ProductRepository;
 use shop\services\BaseService;
@@ -31,19 +34,23 @@ class ProductService
      */
     private $productRepository;
 
+    /** @var ImageManager */
+    private $imageManager;
+
     /**
      * ProductService constructor.
      * @param BaseService $baseService
      * @param ProductRepository $productRepository
+     * @throws \yii\base\InvalidConfigException
      */
     public function __construct(
         BaseService $baseService,
         ProductRepository $productRepository
     )
     {
-
         $this->baseService = $baseService;
         $this->productRepository = $productRepository;
+        $this->imageManager = \Yii::createObject(Module::IMAGE);
     }
 
     /**
@@ -64,21 +71,30 @@ class ProductService
      * @param ProductCreateType $productType
      * @param PriceType $priceType
      * @return Product
+     * @throws \yii\base\Exception
+     * @throws Exception
      */
     public function create(ProductCreateType $productType, PriceType $priceType): Product
     {
-        $product = Product::create(
-            $productType->title,
-            $productType->announce,
-            $productType->description,
-            $productType->status,
-            $priceType->price,
-            $productType->brandId,
-            $productType->categoryMainId,
-            $priceType->oldPrice
-        );
-
-        $this->baseService->save($product);
+        $transaction = \Yii::$app->db->beginTransaction();
+        try {
+            $product = Product::create(
+                $productType->title,
+                $productType->announce,
+                $productType->description,
+                $productType->status,
+                $priceType->price,
+                $productType->brandId,
+                $productType->categoryMainId,
+                $priceType->oldPrice
+            );
+            $this->baseService->save($product);
+            $this->imageManager->createService()->editAfterCreatedRecord($product->id, $product::className());
+            $transaction->commit();
+        } catch (Exception $exception) {
+            $transaction->rollBack();
+            throw $exception;
+        }
         return $product;
     }
 
