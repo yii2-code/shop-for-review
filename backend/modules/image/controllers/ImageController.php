@@ -138,7 +138,7 @@ class ImageController extends Controller
             }
         }
 
-        $images = $this->getImage($image->record_id, $image->class);
+        $images = $this->getImage($image->class, $image->record_id);
 
 
         return $this->renderAjax(
@@ -173,7 +173,7 @@ class ImageController extends Controller
             $message = 'Runtime error';
         }
 
-        $images = $this->getImage($recordId, $class);
+        $images = $this->getImage($class, $recordId);
 
         return $this->renderAjax(
             'gallery',
@@ -203,7 +203,7 @@ class ImageController extends Controller
             $message = 'Runtime error';
         }
 
-        $images = $this->getImage($image->record_id, $image->class);
+        $images = $this->getImage($image->class, $image->record_id);
 
         return $this->renderAjax(
             'gallery',
@@ -232,7 +232,7 @@ class ImageController extends Controller
             $message = 'Runtime error';
         }
 
-        $images = $this->getImage($image->record_id, $image->class);
+        $images = $this->getImage($image->class, $image->record_id);
 
         return $this->renderAjax(
             'gallery',
@@ -261,7 +261,7 @@ class ImageController extends Controller
             $message = 'Runtime error';
         }
 
-        $images = $this->getImage($image->record_id, $image->class);
+        $images = $this->getImage($image->class, $image->record_id);
 
         return $this->renderAjax(
             'gallery',
@@ -274,7 +274,7 @@ class ImageController extends Controller
      * @param string $class
      * @return array
      */
-    public function getImage(int $record_id, string $class): array
+    public function getImage(string $class, int $record_id = null): array
     {
         if (is_null($record_id)) {
             $images = $this->imageManager->getImageTdoByToken($class);
