@@ -148,12 +148,43 @@ class ImageService
     }
 
     /**
+     * @param int $id
+     * @throws NotFoundHttpException
+     * @throws \Exception
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function remove(int $id): void
+    {
+        $image = $this->imageManager->getRepository()->findOne($id);
+        $this->notFoundHttpException($image);
+        $file = $this->imageManager->getPath() . '/' . $image->src;
+        if (file_exists($file) && !unlink($file)) {
+            throw new RuntimeException('Unable to unlink file');
+        };
+        $this->delete($image);
+    }
+
+    /**
+     * @param Image $image
+     * @throws \Exception
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function delete(Image $image): void
+    {
+        if (!$image->delete()) {
+            throw new RuntimeException('Unable to delete model');
+        }
+    }
+
+    /**
      * @param Image $model
      */
     public function save(Image $model)
     {
         if (!$model->save()) {
-            throw new RuntimeException('Saving error');
+            throw new RuntimeException('Unable to save model');
         }
     }
 

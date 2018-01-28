@@ -63,6 +63,7 @@ class ImageController extends Controller
         $service = $this->imageManager->createService();
         $type = $service->createType();
         $warning = null;
+
         if ($type->load(Yii::$app->request->post()) && $service->validate($type)) {
             try {
                 $service->creates($type->image, $class, $id);
@@ -89,7 +90,6 @@ class ImageController extends Controller
     public function actionCreateByToken(string $class)
     {
         $service = $this->imageManager->createService();
-
         $type = $service->createType();
 
         $warning = null;
@@ -103,6 +103,7 @@ class ImageController extends Controller
                 $warning = 'Runtime error';
             }
         }
+
         $images = $this->imageManager->getImageTdoByToken($class);
 
         return $this->renderAjax(
@@ -120,24 +121,20 @@ class ImageController extends Controller
     {
 
         $service = $this->imageManager->createService();
-
         $image = $this->imageManager->getRepository()->findOne($id);
-
         $service->notFoundHttpException($image);
-
-
         $type = $service->createUpdateType();
-
-        $warning = null;
+        $message = null;
 
         if ($type->load(Yii::$app->request->post()) && $type->validate()) {
             try {
                 $service->edit($id, $type);
+                $message = 'Success';
             } catch (DomainException $exception) {
-                $warning = $exception->getMessage();
+                $message = $exception->getMessage();
             } catch (RuntimeException $exception) {
                 Yii::$app->errorHandler->logException($exception);
-                $warning = 'Runtime error';
+                $message = 'Runtime error';
             }
         }
 
@@ -150,7 +147,45 @@ class ImageController extends Controller
 
         return $this->renderAjax(
             'gallery',
-            ['images' => array_chunk($images, 3), 'id' => $id, 'imageWarning' => $warning]
+            ['images' => array_chunk($images, 3), 'id' => $id, 'message' => $message]
+        );
+    }
+
+    /**
+     * @param int $id
+     * @return string
+     * @throws \Exception
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function actionDelete(int $id)
+    {
+        $service = $this->imageManager->createService();
+        $image = $this->imageManager->getRepository()->findOne($id);
+        $service->notFoundHttpException($image);
+        $recordId = $image->record_id;
+        $class = $image->class;
+        $warning = null;
+
+        try {
+            $service->remove($id);
+        } catch (DomainException $exception) {
+            $warning = $exception->getMessage();
+        } catch (RuntimeException $exception) {
+            Yii::$app->errorHandler->logException($exception);
+            $warning = 'Runtime error';
+        }
+
+        if (is_null($recordId)) {
+            $images = $this->imageManager->getImageTdoByToken($class);
+        } else {
+            $images = $this->imageManager->getImageTdoByRecordId($recordId, $class);
+        }
+
+        return $this->renderAjax(
+            'gallery',
+            ['images' => array_chunk($images, 3), 'id' => $id, 'warning' => $warning]
         );
     }
 }

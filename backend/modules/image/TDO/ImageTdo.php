@@ -14,6 +14,7 @@ namespace backend\modules\image\TDO;
 use backend\modules\image\models\Image;
 use backend\modules\image\services\ImageManager;
 use backend\modules\image\types\UpdateType;
+use yii\helpers\Url;
 
 /**
  * Class Image
@@ -71,6 +72,39 @@ class ImageTdo
      */
     public function getActionForImage(): array
     {
-        return ['/image/image/update', 'id' => $this->image->id];
+        return ['/image/image/update', 'id' => $this->getId()];
+    }
+
+    /**
+     * @param $attribute
+     * @return string
+     */
+    public function getAttributeLabel($attribute): string
+    {
+        return $this->image->getAttributeLabel($attribute);
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrlDelete(): string
+    {
+        return Url::to(['/image/image/delete', 'id' => $this->getId()]);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt(): string
+    {
+        return $this->image->created_at;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdatedAt(): string
+    {
+        return $this->image->updated_at;
     }
 }
