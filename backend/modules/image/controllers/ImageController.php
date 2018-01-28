@@ -241,6 +241,35 @@ class ImageController extends Controller
     }
 
     /**
+     * @param int $id
+     * @return string
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function actionActiveMain(int $id)
+    {
+        $service = $this->imageManager->createService();
+        $image = $this->imageManager->getRepository()->findOne($id);
+        $service->notFoundHttpException($image);
+
+        try {
+            $service->updateMain($id);
+            $message = 'Success';
+        } catch (DomainException $exception) {
+            $message = $exception->getMessage();
+        } catch (RuntimeException $exception) {
+            Yii::$app->errorHandler->logException($exception);
+            $message = 'Runtime error';
+        }
+
+        $images = $this->getImage($image->record_id, $image->class);
+
+        return $this->renderAjax(
+            'gallery',
+            ['images' => array_chunk($images, 3), 'id' => $id, 'message' => $message]
+        );
+    }
+
+    /**
      * @param int $record_id
      * @param string $class
      * @return array

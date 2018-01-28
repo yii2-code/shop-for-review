@@ -40,6 +40,9 @@ use yii\widgets\ActiveForm;
                                         <?= Html::a(Html::tag('span', Html::icon('arrow-left')), $image->getUrlMoveUp(), ['class' => 'btn btn-info btn-xs']) ?>
                                         <?= Html::a(Html::tag('span', Html::icon('arrow-right')), $image->getUrlMoveDown(), ['class' => 'btn btn-info btn-xs']) ?>
                                         <?= Html::submitButton('Update', ['class' => 'btn btn-primary btn-xs']) ?>
+                                        <?php if (!$image->isMain()) : ?>
+                                            <?= Html::a('Main', $image->getUrlActiveMain(), ['class' => 'btn btn-warning btn-xs']) ?>
+                                        <?php endif; ?>
                                         <?= Html::a('Delete', $image->getUrlDelete(), ['class' => 'btn btn-danger btn-xs']) ?>
                                     </div>
                                     <div class="btn-group">

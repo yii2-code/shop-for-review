@@ -111,6 +111,14 @@ class ImageTdo
     /**
      * @return string
      */
+    public function getUrlActiveMain(): string
+    {
+        return Url::to(['/image/image/active-main', 'id' => $this->getId()]);
+    }
+
+    /**
+     * @return string
+     */
     public function getCreatedAt(): string
     {
         return $this->image->created_at;
@@ -122,5 +130,13 @@ class ImageTdo
     public function getUpdatedAt(): string
     {
         return $this->image->updated_at;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMain(): bool
+    {
+        return $this->image->isMain();
     }
 }

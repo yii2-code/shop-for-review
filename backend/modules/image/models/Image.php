@@ -30,6 +30,9 @@ use yii\db\ActiveRecord;
  */
 class Image extends ActiveRecord
 {
+    /**
+     *
+     */
     const MAIN = 1;
 
     /**
@@ -113,8 +116,33 @@ class Image extends ActiveRecord
     /**
      *
      */
-    public function removeToken()
+    public function removeToken(): void
     {
         $this->token = null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMain(): bool
+    {
+        return $this->main == static::MAIN;
+    }
+
+
+    /**
+     *
+     */
+    public function activeMain(): void
+    {
+        $this->main = static::MAIN;
+    }
+
+    /**
+     *
+     */
+    public function removeMain(): void
+    {
+        $this->main = null;
     }
 }

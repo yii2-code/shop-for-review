@@ -146,6 +146,60 @@ class ImageService
     }
 
     /**
+     * @param int $recordId
+     * @param string $class
+     * @return array|Image[]
+     */
+    public function editAfterCreatedRecord(int $recordId, string $class)
+    {
+        $images = $this->imageManager->getImagesByToken($class);
+        foreach ($images as $image) {
+            $image->record_id = $recordId;
+            $image->removeToken();
+            $this->save($image);
+        }
+        return $images;
+    }
+
+    /**
+     * @param int $id
+     * @param UpdateType $type
+     * @return Image
+     * @throws NotFoundHttpException
+     */
+    public function edit(int $id, UpdateType $type): Image
+    {
+        $image = $this->imageManager->getRepository()->findOne($id);
+        $this->notFoundHttpException($image);
+        $image->edit($type->name);
+        $this->save($image);
+        return $image;
+    }
+
+    /**
+     * @param int $id
+     * @return array
+     * @throws NotFoundHttpException
+     */
+    public function updateMain(int $id): array
+    {
+        $image = $this->imageManager->getRepository()->findOne($id);
+        $this->notFoundHttpException($image);
+        $images = $this->imageManager->getImages($image->class, $image->record_id);
+        foreach ($images as $photo) {
+            if ($photo->id == $id) {
+                $photo->activeMain();
+            } else {
+                $photo->removeMain();
+            }
+        }
+        foreach ($images as $index => $photo) {
+            $this->save($photo);
+        }
+        return $images;
+    }
+
+    /**
      * @param int $id
      * @param callable $callable
      * @return array
@@ -187,37 +241,6 @@ class ImageService
             $max = $this->imageManager->getRepository()->maxPositionByToken($token, $class);
         }
         return $max;
-    }
-
-    /**
-     * @param int $recordId
-     * @param string $class
-     * @return array|Image[]
-     */
-    public function editAfterCreatedRecord(int $recordId, string $class)
-    {
-        $images = $this->imageManager->getImagesByToken($class);
-        foreach ($images as $image) {
-            $image->record_id = $recordId;
-            $image->removeToken();
-            $this->save($image);
-        }
-        return $images;
-    }
-
-    /**
-     * @param int $id
-     * @param UpdateType $type
-     * @return Image
-     * @throws NotFoundHttpException
-     */
-    public function edit(int $id, UpdateType $type): Image
-    {
-        $image = $this->imageManager->getRepository()->findOne($id);
-        $this->notFoundHttpException($image);
-        $image->edit($type->name);
-        $this->save($image);
-        return $image;
     }
 
     /**
