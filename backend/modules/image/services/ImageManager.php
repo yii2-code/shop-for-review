@@ -137,23 +137,39 @@ class ImageManager
 
     /**
      * @param string $class
+     * @param int|null $recordId
+     * @param int $sort
      * @return array|Image[]
      */
-    public function getImagesByToken(string $class): array
+    public function getImages(string $class, int $recordId = null, $sort = SORT_DESC): array
+    {
+        if (is_null($recordId)) {
+            return $this->getImagesByToken($class, $sort);
+        } else {
+            return $this->getImageByRecordId($recordId, $class, $sort);
+        }
+    }
+
+    /**
+     * @param string $class
+     * @return array|Image[]
+     */
+    public function getImagesByToken(string $class, $sort = SORT_DESC): array
     {
         $token = $this->getToken();
-        return $this->imageRepository->findByTokenClass($token, $class);
+        return $this->imageRepository->findByTokenClass($token, $class, $sort);
     }
 
 
     /**
      * @param int $id
      * @param string $class
+     * @param int $sort
      * @return array|Image[]
      */
-    public function getImageByRecordId(int $id, string $class): array
+    public function getImageByRecordId(int $id, string $class, $sort = SORT_DESC): array
     {
-        return $this->imageRepository->findByRecordIdClass($id, $class);
+        return $this->imageRepository->findByRecordIdClass($id, $class, $sort);
     }
 
     /**

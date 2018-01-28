@@ -138,11 +138,7 @@ class ImageController extends Controller
             }
         }
 
-        if (is_null($image->record_id)) {
-            $images = $this->imageManager->getImageTdoByToken($image->class);
-        } else {
-            $images = $this->imageManager->getImageTdoByRecordId($image->record_id, $image->class);
-        }
+        $images = $this->getImage($image->record_id, $image->class);
 
 
         return $this->renderAjax(
@@ -177,15 +173,85 @@ class ImageController extends Controller
             $warning = 'Runtime error';
         }
 
-        if (is_null($recordId)) {
-            $images = $this->imageManager->getImageTdoByToken($class);
-        } else {
-            $images = $this->imageManager->getImageTdoByRecordId($recordId, $class);
-        }
+        $images = $this->getImage($recordId, $class);
 
         return $this->renderAjax(
             'gallery',
             ['images' => array_chunk($images, 3), 'id' => $id, 'warning' => $warning]
         );
+    }
+
+
+    /**
+     * @param int $id
+     * @return string
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function actionMoveUp(int $id)
+    {
+        $service = $this->imageManager->createService();
+        $image = $this->imageManager->getRepository()->findOne($id);
+        $service->notFoundHttpException($image);
+
+        try {
+            $service->moveUp($id);
+            $message = 'Success';
+        } catch (DomainException $exception) {
+            $message = $exception->getMessage();
+        } catch (RuntimeException $exception) {
+            Yii::$app->errorHandler->logException($exception);
+            $message = 'Runtime error';
+        }
+
+        $images = $this->getImage($image->record_id, $image->class);
+
+        return $this->renderAjax(
+            'gallery',
+            ['images' => array_chunk($images, 3), 'id' => $id, 'message' => $message]
+        );
+    }
+
+    /**
+     * @param int $id
+     * @return string
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function actionMoveDown(int $id)
+    {
+        $service = $this->imageManager->createService();
+        $image = $this->imageManager->getRepository()->findOne($id);
+        $service->notFoundHttpException($image);
+
+        try {
+            $service->moveDown($id);
+            $message = 'Success';
+        } catch (DomainException $exception) {
+            $message = $exception->getMessage();
+        } catch (RuntimeException $exception) {
+            Yii::$app->errorHandler->logException($exception);
+            $message = 'Runtime error';
+        }
+
+        $images = $this->getImage($image->record_id, $image->class);
+
+        return $this->renderAjax(
+            'gallery',
+            ['images' => array_chunk($images, 3), 'id' => $id, 'message' => $message]
+        );
+    }
+
+    /**
+     * @param int $record_id
+     * @param string $class
+     * @return array
+     */
+    public function getImage(int $record_id, string $class): array
+    {
+        if (is_null($record_id)) {
+            $images = $this->imageManager->getImageTdoByToken($class);
+        } else {
+            $images = $this->imageManager->getImageTdoByRecordId($record_id, $class);
+        }
+        return $images;
     }
 }

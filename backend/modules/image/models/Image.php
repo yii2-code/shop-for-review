@@ -103,6 +103,14 @@ class Image extends ActiveRecord
     }
 
     /**
+     * @param int $position
+     */
+    public function setPosition(int $position): void
+    {
+        $this->position = $position;
+    }
+
+    /**
      *
      */
     public function removeToken()

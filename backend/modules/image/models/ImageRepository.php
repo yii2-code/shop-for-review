@@ -34,21 +34,23 @@ class ImageRepository
     /**
      * @param int $id
      * @param string $class
+     * @param int $sort
      * @return array|Image[]
      */
-    public function findByRecordIdClass(int $id, string $class): array
+    public function findByRecordIdClass(int $id, string $class, $sort = SORT_DESC): array
     {
-        return Image::find()->recordId($id)->class($class)->all();
+        return Image::find()->recordId($id)->class($class)->orderBy(['position' => $sort])->all();
     }
 
     /**
      * @param string $token
      * @param string $class
+     * @param int $sort
      * @return array|Image[]
      */
-    public function findByTokenClass(string $token, string $class): array
+    public function findByTokenClass(string $token, string $class, $sort = SORT_DESC): array
     {
-        return Image::find()->token($token)->class($class)->all();
+        return Image::find()->token($token)->class($class)->orderBy(['position' => $sort])->all();
     }
 
 

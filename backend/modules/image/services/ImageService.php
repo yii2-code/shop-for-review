@@ -122,6 +122,58 @@ class ImageService
     }
 
     /**
+     * @param int $id
+     * @return array
+     * @throws NotFoundHttpException
+     */
+    public function moveUp(int $id): array
+    {
+        return $this->move($id, function ($index) {
+            return $index + 1;
+        });
+    }
+
+    /**
+     * @param int $id
+     * @return array|Image[]
+     * @throws NotFoundHttpException
+     */
+    public function moveDown(int $id): array
+    {
+        return $this->move($id, function ($index) {
+            return $index - 1;
+        });
+    }
+
+    /**
+     * @param int $id
+     * @param callable $callable
+     * @return array
+     * @throws NotFoundHttpException
+     */
+    public function move(int $id, callable $callable): array
+    {
+        $image = $this->imageManager->getRepository()->findOne($id);
+        $this->notFoundHttpException($image);
+        $images = $this->imageManager->getImages($image->class, $image->record_id, SORT_ASC);
+        $sort = false;
+        foreach ($images as $index => $photo) {
+            if ($photo->id == $id && isset($images[$callable($index)]) && $near = $images[$callable($index)]) {
+                $images[$callable($index)] = $photo;
+                $images[$index] = $near;
+                $sort = true;
+            }
+        }
+        if ($sort) {
+            foreach ($images as $index => $photo) {
+                $photo->setPosition($index + 1);
+                $this->save($photo);
+            }
+        }
+        return $images;
+    }
+
+    /**
      * @param string $class
      * @param int|null $recordId
      * @return int

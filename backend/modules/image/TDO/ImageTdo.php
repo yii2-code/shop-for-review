@@ -95,6 +95,22 @@ class ImageTdo
     /**
      * @return string
      */
+    public function getUrlMoveUp(): string
+    {
+        return Url::to(['/image/image/move-up', 'id' => $this->getId()]);
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrlMoveDown(): string
+    {
+        return Url::to(['/image/image/move-down', 'id' => $this->getId()]);
+    }
+
+    /**
+     * @return string
+     */
     public function getCreatedAt(): string
     {
         return $this->image->created_at;
