@@ -162,22 +162,22 @@ class ImageController extends Controller
         $service->notFoundHttpException($image);
         $recordId = $image->record_id;
         $class = $image->class;
-        $warning = null;
+        $message = null;
 
         try {
             $service->remove($id);
         } catch (DomainException $exception) {
-            $warning = $exception->getMessage();
+            $message = $exception->getMessage();
         } catch (RuntimeException $exception) {
             Yii::$app->errorHandler->logException($exception);
-            $warning = 'Runtime error';
+            $message = 'Runtime error';
         }
 
         $images = $this->getImage($recordId, $class);
 
         return $this->renderAjax(
             'gallery',
-            ['images' => array_chunk($images, 3), 'id' => $id, 'warning' => $warning]
+            ['images' => array_chunk($images, 3), 'id' => $id, 'message' => $message]
         );
     }
 

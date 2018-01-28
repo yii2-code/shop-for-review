@@ -13,6 +13,7 @@ namespace backend\modules\image\services;
 use backend\modules\image\models\Image;
 use backend\modules\image\types\ImageType;
 use backend\modules\image\types\UpdateType;
+use DomainException;
 use RuntimeException;
 use Yii;
 use yii\helpers\FileHelper;
@@ -254,6 +255,9 @@ class ImageService
     {
         $image = $this->imageManager->getRepository()->findOne($id);
         $this->notFoundHttpException($image);
+        if ($image->isMain()) {
+            throw new DomainException('Unable to delete model is main');
+        }
         $file = $this->imageManager->getPath() . '/' . $image->src;
         if (file_exists($file) && !unlink($file)) {
             throw new RuntimeException('Unable to unlink file');

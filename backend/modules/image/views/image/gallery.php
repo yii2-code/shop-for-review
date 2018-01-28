@@ -39,11 +39,6 @@ use yii\widgets\ActiveForm;
                                     <div class="btn-group">
                                         <?= Html::a(Html::tag('span', Html::icon('arrow-left')), $image->getUrlMoveUp(), ['class' => 'btn btn-info btn-xs']) ?>
                                         <?= Html::a(Html::tag('span', Html::icon('arrow-right')), $image->getUrlMoveDown(), ['class' => 'btn btn-info btn-xs']) ?>
-                                        <?= Html::submitButton('Update', ['class' => 'btn btn-primary btn-xs']) ?>
-                                        <?php if (!$image->isMain()) : ?>
-                                            <?= Html::a('Main', $image->getUrlActiveMain(), ['class' => 'btn btn-warning btn-xs']) ?>
-                                        <?php endif; ?>
-                                        <?= Html::a('Delete', $image->getUrlDelete(), ['class' => 'btn btn-danger btn-xs']) ?>
                                     </div>
                                     <div class="btn-group">
                                         <?php if (isset($id) && $image->getId() == $id && isset($message)): ?>
@@ -51,7 +46,13 @@ use yii\widgets\ActiveForm;
                                         <?php endif; ?>
                                     </div>
                                 </div>
-
+                                <div class="form-group btn-group">
+                                    <?= Html::submitButton('Update', ['class' => 'btn btn-primary btn-xs']) ?>
+                                    <?php if (!$image->isMain()) : ?>
+                                        <?= Html::a('Main', $image->getUrlActiveMain(), ['class' => 'btn btn-warning btn-xs']) ?>
+                                    <?php endif; ?>
+                                    <?= Html::a('Delete', $image->getUrlDelete(), ['class' => 'btn btn-danger btn-xs']) ?>
+                                </div>
                                 <?php $form::end() ?>
                                 <p>
                                     <span class="label label-info">Created At: <?= Yii::$app->formatter->asDatetime($image->getCreatedAt()); ?></span>
