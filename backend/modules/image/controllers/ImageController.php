@@ -74,7 +74,7 @@ class ImageController extends Controller
             }
         }
 
-        $images = $this->imageManager->getImageTdoById($id, $class);
+        $images = $this->imageManager->getImageTdoByRecordId($id, $class);
 
         return $this->renderAjax(
             'gallery',
@@ -108,6 +108,49 @@ class ImageController extends Controller
         return $this->renderAjax(
             'gallery',
             ['images' => array_chunk($images, 3), 'warning' => $warning]
+        );
+    }
+
+    /**
+     * @param int $id
+     * @return string
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function actionUpdate(int $id)
+    {
+
+        $service = $this->imageManager->createService();
+
+        $image = $this->imageManager->getRepository()->findOne($id);
+
+        $service->notFoundHttpException($image);
+
+
+        $type = $service->createUpdateType();
+
+        $warning = null;
+
+        if ($type->load(Yii::$app->request->post()) && $type->validate()) {
+            try {
+                $service->edit($id, $type);
+            } catch (DomainException $exception) {
+                $warning = $exception->getMessage();
+            } catch (RuntimeException $exception) {
+                Yii::$app->errorHandler->logException($exception);
+                $warning = 'Runtime error';
+            }
+        }
+
+        if (is_null($image->record_id)) {
+            $images = $this->imageManager->getImageTdoByToken($image->class);
+        } else {
+            $images = $this->imageManager->getImageTdoByRecordId($image->record_id, $image->class);
+        }
+
+
+        return $this->renderAjax(
+            'gallery',
+            ['images' => array_chunk($images, 3), 'id' => $id, 'imageWarning' => $warning]
         );
     }
 }

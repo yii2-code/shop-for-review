@@ -71,6 +71,14 @@ class Image extends ActiveRecord
     }
 
     /**
+     * @param string $name
+     */
+    public function edit(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
      * @param int $recordId
      */
     public function setRecordId(int $recordId): void

@@ -68,11 +68,11 @@ class ImageWidget extends Widget
         $imageManager = \Yii::createObject(Module::IMAGE);
 
         if ($this->model->isNewRecord) {
-            $this->action = ['/image/image/create-by-token', 'class' => $this->model::className()];
+            $this->action = $imageManager->getActionForToken($this->model::className());
             $token = $imageManager->createToken();
             $this->images = $imageManager->wrap($this->imageRepository->findByTokenClass($token, $this->model::className()));
         } else {
-            $this->action = ['/image/image/create-by-id', 'id' => $this->model->id, 'class' => $this->model::className()];
+            $this->action = $imageManager->getActionForId($this->model->id, $this->model::className());
             $this->images = $imageManager->wrap($this->imageRepository->findByRecordIdClass($this->model->id, $this->model::className()));
         }
     }

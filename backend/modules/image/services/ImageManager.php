@@ -111,6 +111,14 @@ class ImageManager
     }
 
     /**
+     * @return ImageRepository
+     */
+    public function getRepository(): ImageRepository
+    {
+        return $this->imageRepository;
+    }
+
+    /**
      * @return string
      */
     public function getUrl(): string
@@ -143,7 +151,7 @@ class ImageManager
      * @param string $class
      * @return array|Image[]
      */
-    public function getImageById(int $id, string $class): array
+    public function getImageByRecordId(int $id, string $class): array
     {
         return $this->imageRepository->findByRecordIdClass($id, $class);
     }
@@ -153,9 +161,9 @@ class ImageManager
      * @param string $class
      * @return array|ImageTdo[]
      */
-    public function getImageTdoById(int $id, string $class): array
+    public function getImageTdoByRecordId(int $id, string $class): array
     {
-        return $this->wrap($this->getImageById($id, $class));
+        return $this->wrap($this->getImageByRecordId($id, $class));
     }
 
     /**
@@ -165,6 +173,26 @@ class ImageManager
     public function getImageTdoByToken(string $class): array
     {
         return $this->wrap($this->getImagesByToken($class));
+    }
+
+
+    /**
+     * @param string $class
+     * @return array
+     */
+    public function getActionForToken(string $class): array
+    {
+        return ['/image/image/create-by-token', 'class' => $class];
+    }
+
+    /**
+     * @param int $id
+     * @param string $class
+     * @return array
+     */
+    public function getActionForId(int $id, string $class): array
+    {
+        return ['/image/image/create-by-id', 'id' => $id, 'class' => $class];
     }
 
     /**

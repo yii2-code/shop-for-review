@@ -25,20 +25,19 @@ use yii\widgets\Pjax;
                 'enableClientScript' => false,
                 'options' => [
                     'enctype' => 'multipart/form-data',
-                    'data-pjax' => true,
-                    'id' => 'uploaded-image',
+                    'class' => 'uploaded-image',
                 ],
             ]
         ); ?>
         <?= $form->field($type, 'image[]')->fileInput(['multiple' => true]); ?>
         <?= Html::submitButton('Upload', ['class' => 'btn btn-success']); ?>
-        <?php ActiveForm::end(); ?>
+        <?php $form::end(); ?>
     </div>
 </div>
 
 <?php Pjax::begin([
     'enablePushState' => false,
-    'formSelector' => '#uploaded-image'
+    'formSelector' => '.uploaded-image'
 ]) ?>
 <?= $this->render('@backend/modules/image/views/image/gallery.php', ['images' => $images]) ?>
 <?php Pjax::end() ?>

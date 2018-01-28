@@ -11,7 +11,9 @@ declare(strict_types=1);
 namespace backend\modules\image\TDO;
 
 
+use backend\modules\image\models\Image;
 use backend\modules\image\services\ImageManager;
+use backend\modules\image\types\UpdateType;
 
 /**
  * Class Image
@@ -20,7 +22,7 @@ use backend\modules\image\services\ImageManager;
 class ImageTdo
 {
     /**
-     * @var \backend\modules\image\models\Image
+     * @var Image
      */
     private $image;
 
@@ -31,13 +33,21 @@ class ImageTdo
 
     /**
      * Image constructor.
-     * @param \backend\modules\image\models\Image $image
+     * @param Image $image
      * @param ImageManager $imageManager
      */
-    public function __construct(\backend\modules\image\models\Image $image, ImageManager $imageManager)
+    public function __construct(Image $image, ImageManager $imageManager)
     {
         $this->image = $image;
         $this->imageManager = $imageManager;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->image->id;
     }
 
     /**
@@ -46,5 +56,21 @@ class ImageTdo
     public function getUrlSrc(): string
     {
         return $this->imageManager->getUrl() . '/' . $this->image->src;
+    }
+
+    /**
+     * @return UpdateType
+     */
+    public function createUpdateType(): UpdateType
+    {
+        return $this->imageManager->createService()->createUpdateType($this->image);
+    }
+
+    /**
+     * @return array
+     */
+    public function getActionForImage(): array
+    {
+        return ['/image/image/update', 'id' => $this->image->id];
     }
 }

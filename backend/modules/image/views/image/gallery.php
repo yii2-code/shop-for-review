@@ -6,9 +6,12 @@
  * Time: 18:34
  */
 
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+
 /** @var $this \yii\web\View */
 /** @var $images array */
-/** @var $warning string */
+/** @var $imageWarning string */
 
 ?>
 <div class="panel panel-default">
@@ -20,12 +23,20 @@
             <div class="row">
                 <?php foreach ($row as $image): ?>
                     <?php /**@var $image \backend\modules\image\TDO\ImageTdo */ ?>
+                    <?php if (isset($id) && $image->getId() == $id && isset($imageWarning)): ?>
+                        <div class="alert alert-warning"><?= $imageWarning ?></div>
+                    <?php endif; ?>
                     <div class="col-md-4">
                         <div class="thumbnail">
                             <img src="<?= $image->getUrlSrc() ?>" alt="">
 
                             <div class="caption">
-
+                                <?php $form = ActiveForm::begin(['action' => $image->getActionForImage(), 'enableClientScript' => false, 'options' => ['class' => 'uploaded-image']]) ?>
+                                <?= $form->field($image->createUpdateType(), 'name')->textInput() ?>
+                                <div class="form-group">
+                                    <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
+                                </div>
+                                <?php $form::end() ?>
                             </div>
                         </div>
                     </div>
