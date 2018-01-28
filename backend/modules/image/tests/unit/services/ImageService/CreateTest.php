@@ -30,7 +30,7 @@ class CreateTest extends Unit
             filesize($path),
             UPLOAD_ERR_OK
         );
-        $image = $this->service->create($file, $class = static::class, $recordId = 1);
+        $image = $this->service->create($file, $class = static::class, $position = 2, $recordId = 1, $main = Image::MAIN);
         $this->assertFileExists($this->manager->getPath() . '/' . $image->src, 'Unable to save image');
 
         $this->tester->seeRecord(
@@ -41,6 +41,8 @@ class CreateTest extends Unit
                 'class' => $class,
                 'record_id' => $recordId,
                 'src' => $image->src,
+                'position' => $position,
+                'main' => $main
             ]
         );
     }

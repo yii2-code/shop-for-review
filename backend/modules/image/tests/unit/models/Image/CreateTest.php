@@ -23,10 +23,12 @@ class CreateTest extends Unit
      */
     public function testSuccess()
     {
-        $model = Image::create($name = 'name', $src = 'src', $class = static::class);
+        $model = Image::create($name = 'name', $src = 'src', $class = static::class, $position = 2);
 
         $this->assertEquals($name, $model->name);
         $this->assertEquals($src, $model->src);
         $this->assertEquals($class, $model->class);
+        $this->assertEquals($position, $model->position);
+        $this->assertNull($model->main);
     }
 }

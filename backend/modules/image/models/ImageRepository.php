@@ -15,6 +15,10 @@ namespace backend\modules\image\models;
  * Class ImageRepository
  * @package backend\modules\image\models
  */
+/**
+ * Class ImageRepository
+ * @package backend\modules\image\models
+ */
 class ImageRepository
 {
     /**
@@ -45,5 +49,26 @@ class ImageRepository
     public function findByTokenClass(string $token, string $class): array
     {
         return Image::find()->token($token)->class($class)->all();
+    }
+
+
+    /**
+     * @param string $token
+     * @param string $class
+     * @return int
+     */
+    public function maxPositionByToken(string $token, string $class): int
+    {
+        return (int)Image::find()->token($token)->class($class)->max('position');
+    }
+
+    /**
+     * @param int $id
+     * @param string $class
+     * @return int
+     */
+    public function maxPositionByRecordIdClass(int $id, string $class): int
+    {
+        return (int)Image::find()->recordId($id)->class($class)->max('position');
     }
 }

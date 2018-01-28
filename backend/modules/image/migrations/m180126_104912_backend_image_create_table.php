@@ -26,6 +26,8 @@ class m180126_104912_backend_image_create_table extends Migration
                 'class' => $this->string(100)->notNull(),
                 'record_id' => $this->integer(),
                 'token' => $this->string(100),
+                'position' => $this->integer()->notNull(),
+                'main' => $this->integer(),
                 'created_at' => $this->dateTime()->notNull(),
                 'updated_at' => $this->dateTime()->notNull(),
             ],

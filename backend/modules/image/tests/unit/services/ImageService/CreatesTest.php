@@ -9,6 +9,7 @@
 namespace backend\modules\image\tests\unit\services\ImageService;
 
 use backend\modules\image\models\Image;
+use backend\modules\image\tests\fixtures\ImageFixture;
 use yii\helpers\FileHelper;
 
 /**
@@ -20,13 +21,27 @@ class CreatesTest extends Unit
 
     /**
      * @group image
+     * @throws \backend\modules\image\tests\_generated\ModuleException
      * @throws \yii\base\InvalidConfigException
      */
     public function testSuccessByRecordId()
     {
-        $images = $this->service->creates($this->generateImages(), $class = static::class, $recordId = 2);
+        $this->tester->haveFixtures(
+            [
+                'image' => [
+                    'class' => ImageFixture::class,
+                    'dataFile' => codecept_data_dir() . '/image.php'
+                ]
+            ]
+        );
 
-        foreach ($images as $image) {
+        /** @var Image $image */
+        $image = $this->tester->grabFixture('image', 3);
+
+
+        $images = $this->service->creates($this->generateImages(), $class = $image->class, $recordId = $image->record_id);
+
+        foreach ($images as $index => $image) {
             $this->assertFileExists($this->manager->getPath() . '/' . $image->src, 'Unable to save image');
 
             $this->tester->seeRecord(
@@ -37,6 +52,8 @@ class CreatesTest extends Unit
                     'record_id' => $recordId,
                     'token' => null,
                     'src' => $image->src,
+                    'position' => $index + 3,
+                    'main' => null,
                 ]
             );
         }
@@ -54,7 +71,7 @@ class CreatesTest extends Unit
 
         $images = $this->service->creates($this->generateImages(), $class = static::class);
 
-        foreach ($images as $image) {
+        foreach ($images as $index => $image) {
             $this->assertFileExists($this->manager->getPath() . '/' . $image->src, 'Unable to save image');
 
             $this->tester->seeRecord(
@@ -65,11 +82,17 @@ class CreatesTest extends Unit
                     'record_id' => null,
                     'token' => $token,
                     'src' => $image->src,
+                    'position' => ++$index,
+                    'main' => $index == 1 ? Image::MAIN : null,
                 ]
             );
         }
     }
 
+    public function testPosition()
+    {
+
+    }
 
     /**
      * @return array
@@ -80,6 +103,13 @@ class CreatesTest extends Unit
         $path = codecept_data_dir() . '/650x650.png';
 
         return [
+            $this->createUploadFile(
+                pathinfo($path, PATHINFO_BASENAME),
+                $path,
+                FileHelper::getMimeType($path),
+                filesize($path),
+                UPLOAD_ERR_OK
+            ),
             $this->createUploadFile(
                 pathinfo($path, PATHINFO_BASENAME),
                 $path,

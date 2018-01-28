@@ -19,6 +19,8 @@ use yii\db\ActiveRecord;
  * @package backend\modules\image\models
  * @property $id int
  * @property $record_id int
+ * @property $position int
+ * @property $main int
  * @property $name string
  * @property $src string
  * @property $class string
@@ -28,6 +30,8 @@ use yii\db\ActiveRecord;
  */
 class Image extends ActiveRecord
 {
+    const MAIN = 1;
+
     /**
      * @return string
      */
@@ -59,14 +63,18 @@ class Image extends ActiveRecord
      * @param string $name
      * @param string $src
      * @param string $class
+     * @param int $position
+     * @param int|null $main
      * @return Image
      */
-    public static function create(string $name, string $src, string $class): self
+    public static function create(string $name, string $src, string $class, int $position, int $main = null): self
     {
         $model = new static();
         $model->src = $src;
         $model->name = $name;
         $model->class = $class;
+        $model->main = $main;
+        $model->position = $position;
         return $model;
     }
 

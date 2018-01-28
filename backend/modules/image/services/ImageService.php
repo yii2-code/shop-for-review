@@ -81,16 +81,18 @@ class ImageService
      * @param UploadedFile $file
      * @param string $class
      * @param int|null $recordId
+     * @param int $position
+     * @param int|null $main
      * @return Image
      */
-    public function create(UploadedFile $file, string $class, int $recordId = null): Image
+    public function create(UploadedFile $file, string $class, int $position, int $recordId = null, int $main = null): Image
     {
         $tmpName = md5(uniqid($file->baseName)) . '.' . $file->getExtension();
         $path = sprintf('%s/%s', $this->imageManager->getPath(), $tmpName);
         if (!$file->saveAs($path)) {
             throw new RuntimeException('Unable to save image');
         }
-        $image = Image::create($file->name, $tmpName, $class);
+        $image = Image::create($file->name, $tmpName, $class, $position, $main);
         if (!is_null($recordId)) {
             $image->setRecordId($recordId);
         } else {
@@ -109,11 +111,30 @@ class ImageService
      */
     public function creates(array $files, string $class, int $recordId = null): array
     {
+        $max = $this->maxPosition($class, $recordId);
+
         $images = [];
         foreach ($files as $file) {
-            $images[] = $this->create($file, $class, $recordId);
+            $max++;
+            $images[] = $this->create($file, $class, $max, $recordId, $max == 1 ? Image::MAIN : null);
         }
         return $images;
+    }
+
+    /**
+     * @param string $class
+     * @param int|null $recordId
+     * @return int
+     */
+    public function maxPosition(string $class, int $recordId = null): int
+    {
+        if ($recordId) {
+            $max = $this->imageManager->getRepository()->maxPositionByRecordIdClass($recordId, $class);
+        } else {
+            $token = $this->imageManager->getToken();
+            $max = $this->imageManager->getRepository()->maxPositionByToken($token, $class);
+        }
+        return $max;
     }
 
     /**
