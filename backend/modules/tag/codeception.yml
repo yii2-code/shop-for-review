@@ -1,4 +1,4 @@
-namespace: backend\modules\image\tests
+namespace: backend\modules\tag\tests
 actor: Tester
 paths:
     tests: tests

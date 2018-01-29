@@ -1,5 +1,7 @@
 <?php
 
+namespace backend\modules\tag\migrations;
+
 use yii\db\Migration;
 
 /**
@@ -16,7 +18,7 @@ class m180129_072041_create_tag_table extends Migration
 
         $this->createTable('{{%tag}}', [
             'id' => $this->primaryKey(),
-            'name' => $this->string()->unique()->notNull(),
+            'name' => $this->string(100)->unique()->notNull(),
         ], $options);
     }
 

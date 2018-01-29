@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\image\tests;
+namespace backend\modules\tag\tests;
 
 /**
  * Inherited Methods
