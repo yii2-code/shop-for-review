@@ -25,7 +25,7 @@ use yii\widgets\ActiveForm;
                     <?php /**@var $image \backend\modules\image\TDO\ImageTdo */ ?>
                     <div class="col-md-4">
                         <div class="thumbnail">
-                            <img src="<?= $image->getUrlSrc() ?>" alt="">
+                            <img src="<?= $image->getUrlThumb('600x400') ?>" alt="">
                             <div class="caption">
                                 <?php $form = ActiveForm::begin(['action' => $image->getActionForImage(), 'enableClientScript' => false, 'options' => ['class' => 'uploaded-image']]) ?>
                                 <?= $form->field(

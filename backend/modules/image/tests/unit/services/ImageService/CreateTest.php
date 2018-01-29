@@ -32,7 +32,7 @@ class CreateTest extends Unit
         );
         $image = $this->service->create($file, $class = static::class, $position = 2, $recordId = 1, $main = Image::MAIN);
         $this->assertFileExists($this->manager->getPath() . '/' . $image->src, 'Unable to save image');
-
+        $this->assertFileExists($this->manager->getThumbPath() . '/' . $this->manager->getThumbName('600x400', $image->src), 'Unable to save image');
         $this->tester->seeRecord(
             Image::class,
             [

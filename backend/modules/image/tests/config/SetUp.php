@@ -23,8 +23,10 @@ class SetUp implements BootstrapInterface
         $container->set('image', function () use ($container) {
             return new ImageManager(
                 new ImageRepository(),
-                codecept_output_dir() . '/image',
+                codecept_output_dir() . 'image',
                 '/image',
+                codecept_output_dir() . 'image/thumb',
+                '/image/thumb',
                 '_identity-image'
             );
         });

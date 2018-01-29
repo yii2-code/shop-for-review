@@ -60,6 +60,15 @@ class ImageTdo
     }
 
     /**
+     * @param $thumb
+     * @return string
+     */
+    public function getUrlThumb(string $thumb): string
+    {
+        return $this->imageManager->getThumbUrl() . '/' . $this->imageManager->getThumbName($thumb, $this->image->src);
+    }
+
+    /**
      * @return UpdateType
      */
     public function createUpdateType(): UpdateType

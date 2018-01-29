@@ -39,17 +39,43 @@ class ImageManager
     /**
      * @var int
      */
-    public $maxFiles;
+
+    private $maxFiles;
     /**
      * @var string
      */
     private $identitySession = '_image_token';
+
+
+    /**
+     * @var string
+     */
+    private $thumbPath;
+
+    /**
+     * @var string
+     */
+    private $thumbUrl;
+
+    /**
+     * @var array
+     */
+    private $thumbs = [
+        '600x400' => [
+            'weight' => 600,
+            'height' => 400,
+            'quality' => 100,
+        ],
+    ];
 
     /**
      * ImageManager constructor.
      * @param ImageRepository $imageRepository
      * @param string $path
      * @param string $url
+     * @param string $thumbPath
+     * @param string $thumbUrl
+     * @param array $thumbs
      * @param string $identitySession
      * @param int $maxFiles
      */
@@ -57,15 +83,21 @@ class ImageManager
         ImageRepository $imageRepository,
         string $path,
         string $url,
+        string $thumbPath,
+        string $thumbUrl,
         string $identitySession,
-        int $maxFiles = 1
+        int $maxFiles = 1,
+        array $thumbs = []
     )
     {
         $this->imageRepository = $imageRepository;
         $this->path = rtrim($path, '/');
-        $this->url = $url;
+        $this->url = rtrim($url, '/');
         $this->identitySession = $identitySession;
         $this->maxFiles = $maxFiles;
+        $this->thumbUrl = rtrim($thumbUrl, '/');
+        $this->thumbPath = rtrim($thumbPath, '/');
+        $this->thumbs = array_merge($this->thumbs, $thumbs);
     }
 
     /**
@@ -134,6 +166,48 @@ class ImageManager
         return $this->path;
     }
 
+    /**
+     * @return string
+     */
+    public function getThumbPath(): string
+    {
+        return $this->thumbPath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getThumbUrl(): string
+    {
+        return $this->thumbUrl;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getThumbs(): array
+    {
+        return $this->thumbs;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxFiles(): int
+    {
+        return $this->maxFiles;
+    }
+
+    /**
+     * @param string $name
+     * @param string $src
+     * @return string
+     */
+    public function getThumbName(string $name, string $src): string
+    {
+        return "$name-$src";
+    }
 
     /**
      * @param string $class

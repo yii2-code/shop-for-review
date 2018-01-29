@@ -16,6 +16,7 @@ use backend\modules\image\types\UpdateType;
 use DomainException;
 use RuntimeException;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
@@ -44,6 +45,9 @@ class ImageService
         if (!FileHelper::createDirectory($this->imageManager->getPath())) {
             throw new RuntimeException('Unable to create directory');
         }
+        if (!FileHelper::createDirectory($this->imageManager->getThumbPath())) {
+            throw new RuntimeException('Unable to create directory thumb');
+        }
     }
 
     /**
@@ -51,9 +55,8 @@ class ImageService
      */
     public function createType(): ImageType
     {
-        return new ImageType($this->imageManager->maxFiles);
+        return new ImageType($this->imageManager->getMaxFiles());
     }
-
 
     /**
      * @param Image|null $model
@@ -101,7 +104,24 @@ class ImageService
             $image->setToken($token);
         }
         $this->save($image);
+        foreach ($this->imageManager->getThumbs() as $name => $config) {
+            $this->createThumb($this->imageManager->getThumbName($name, $image->src), $config, $path);
+        }
         return $image;
+    }
+
+    /**
+     * @param string $name
+     * @param array $config
+     * @param string $fullPath
+     */
+    public function createThumb(string $name, array $config, string $fullPath): void
+    {
+        $width = ArrayHelper::getValue($config, 'width');
+        $height = ArrayHelper::getValue($config, 'height');
+        $quality = ArrayHelper::getValue($config, 'quality', 100);
+        $path = $this->imageManager->getThumbPath() . '/' . $name;
+        \yii\imagine\Image::thumbnail($fullPath, $width, $height)->save($path, ['quality' => $quality]);
     }
 
     /**

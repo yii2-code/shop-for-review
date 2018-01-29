@@ -20,6 +20,10 @@ class Module extends \yii\base\Module implements BootstrapInterface
 
     public $url;
 
+    public $thumbPath;
+    public $thumbUrl;
+    public $thumbs = [];
+
     /**
      * @var int
      */
@@ -41,8 +45,11 @@ class Module extends \yii\base\Module implements BootstrapInterface
                 new ImageRepository(),
                 $this->path,
                 $this->url,
+                $this->thumbPath,
+                $this->thumbUrl,
                 $this->identitySession,
-                $this->maxFiles
+                $this->maxFiles,
+                $this->thumbs
             );
         });
     }

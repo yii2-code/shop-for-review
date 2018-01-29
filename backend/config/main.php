@@ -19,6 +19,8 @@ return [
             'class' => Module::class,
             'path' => Yii::getAlias('@static/image'),
             'url' => 'http://static.shop.app/image',
+            'thumbPath' => Yii::getAlias('@static/image/thumb'),
+            'thumbUrl' => 'http://static.shop.app/image/thumb',
         ],
     ],
     'components' => [
