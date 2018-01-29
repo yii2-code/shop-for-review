@@ -2,6 +2,7 @@
 include:
     - shop
     - backend/modules/image
+    - backend/modules/tag
 paths:
     log: common/runtime/logs
 settings:
