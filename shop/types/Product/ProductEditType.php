@@ -13,6 +13,7 @@ use shop\entities\Product\Brand;
 use shop\entities\Product\Category;
 use shop\entities\Product\Product;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class ProductEditType
@@ -49,7 +50,7 @@ class ProductEditType extends Model
      */
     public $model;
 
-
+    public $tags;
     /**
      * ProductEditType constructor.
      * @param Product $model
@@ -65,6 +66,7 @@ class ProductEditType extends Model
         $this->status = $model->status;
         $this->brandId = $model->brand_id;
         $this->categoryMainId = $model->category_main_id;
+        $this->tags = implode(',', ArrayHelper::getColumn($model->tags, 'name'));
     }
 
     /**
@@ -76,6 +78,7 @@ class ProductEditType extends Model
             [['title', 'announce', 'description'], 'trim'],
             [['title', 'announce', 'description', 'status'], 'required'],
             ['status', 'integer'],
+            [['announce', 'description', 'tags'], 'string'],
             ['brandId', 'exist', 'targetClass' => Brand::class, 'targetAttribute' => ['brandId' => 'id'], 'skipOnEmpty' => false],
             ['categoryMainId', 'exist', 'targetClass' => Category::class, 'targetAttribute' => ['categoryMainId' => 'id'], 'skipOnEmpty' => false],
             [['brandId', 'categoryMainId', 'status'], 'filter', 'filter' => 'intval'],

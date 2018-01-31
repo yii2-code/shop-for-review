@@ -7,6 +7,7 @@
  */
 
 use backend\modules\image\widgets\ImageWidget;
+use backend\modules\tag\widgets\TagWidget;
 use shop\entities\Product\Product;
 use shop\helpers\BrandHelper;
 use shop\helpers\CategoryHelper;
@@ -37,6 +38,8 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
     <?= $form->field($type, 'brandId')->dropDownList(BrandHelper::getDropDown()); ?>
 
     <?= $form->field($type, 'categoryMainId')->dropDownList(CategoryHelper::getTree()); ?>
+
+    <?= $form->field($type, 'tags')->widget(TagWidget::class) ?>
 
     <?= $form->field($type, 'status')->dropDownList(ProductHelper::getStatusDropDown()); ?>
 

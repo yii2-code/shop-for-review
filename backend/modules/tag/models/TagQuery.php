@@ -54,4 +54,13 @@ class TagQuery extends ActiveQuery
     {
         return $this->andWhere([Tag::tableName() . '.[[id]]' => $id]);
     }
+
+    /**
+     * @param array $names
+     * @return TagQuery
+     */
+    public function names(array $names): self
+    {
+        return $this->andWhere(['IN', Tag::tableName() . '.[[name]]', $names]);
+    }
 }

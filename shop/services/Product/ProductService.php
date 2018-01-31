@@ -10,6 +10,7 @@ namespace shop\services\Product;
 
 use backend\modules\image\Module;
 use backend\modules\image\services\ImageManager;
+use backend\modules\tag\services\TagAssignService;
 use Exception;
 use shop\entities\Product\Product;
 use shop\entities\repositories\Product\ProductRepository;
@@ -38,19 +39,27 @@ class ProductService
     private $imageManager;
 
     /**
+     * @var TagAssignService
+     */
+    private $tagAssignService;
+
+    /**
      * ProductService constructor.
      * @param BaseService $baseService
      * @param ProductRepository $productRepository
+     * @param TagAssignService $tagAssignService
      * @throws \yii\base\InvalidConfigException
      */
     public function __construct(
         BaseService $baseService,
-        ProductRepository $productRepository
+        ProductRepository $productRepository,
+        TagAssignService $tagAssignService
     )
     {
         $this->baseService = $baseService;
         $this->productRepository = $productRepository;
         $this->imageManager = \Yii::createObject(Module::IMAGE);
+        $this->tagAssignService = $tagAssignService;
     }
 
     /**
@@ -90,6 +99,7 @@ class ProductService
             );
             $this->baseService->save($product);
             $this->imageManager->createService()->editAfterCreatedRecord($product->id, $product::className());
+            $this->tagAssignService->assign(Product::class, $product->id, explode(',', $productType->tags));
             $transaction->commit();
         } catch (Exception $exception) {
             $transaction->rollBack();
@@ -118,7 +128,7 @@ class ProductService
         );
 
         $this->baseService->save($product);
-
+        $this->tagAssignService->assign(Product::class, $product->id, explode(',', $type->tags));
         return $product;
     }
 

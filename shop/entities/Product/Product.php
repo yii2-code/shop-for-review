@@ -11,11 +11,14 @@ declare(strict_types=1);
 namespace shop\entities\Product;
 
 use app\behaviors\TimestampBehavior;
+use backend\modules\tag\models\Tag;
+use backend\modules\tag\models\TagAssign;
 use DomainException;
 use shop\entities\query\Product\ProductQuery;
 use shop\entities\repositories\Product\BrandRepository;
 use shop\entities\repositories\Product\CategoryRepository;
 use shop\helpers\ProductHelper;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
@@ -36,6 +39,7 @@ use yii\helpers\ArrayHelper;
  *
  * @property Brand $brand
  * @property Category $categoryMain
+ * @property Tag[] $tags
  */
 class Product extends ActiveRecord
 {
@@ -184,6 +188,25 @@ class Product extends ActiveRecord
     public function getCategoryMain()
     {
         return $this->hasOne(Category::class, ['id' => 'category_main_id']);
+    }
+
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getTags()
+    {
+        return $this->hasMany(Tag::class, ['id' => 'tag_id'])
+            ->via('tagAssigns');
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getTagAssigns()
+    {
+        return $this->hasMany(TagAssign::class, ['record_id' => 'id'])
+            ->andWhere(['class' => static::class]);
     }
 
     /**

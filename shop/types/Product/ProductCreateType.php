@@ -45,6 +45,8 @@ class ProductCreateType extends CompositeType
      */
     public $categoryMainId;
 
+    public $tags;
+
     /**
      * ProductType constructor.
      * @param array $config
@@ -73,6 +75,7 @@ class ProductCreateType extends CompositeType
             [['title', 'announce', 'description'], 'trim'],
             [['title', 'announce', 'description', 'status'], 'required'],
             ['status', 'integer'],
+            [['tags', 'announce', 'description'], 'string'],
             ['brandId', 'exist', 'targetClass' => Brand::class, 'targetAttribute' => ['brandId' => 'id'], 'skipOnEmpty' => false],
             ['categoryMainId', 'exist', 'targetClass' => Category::class, 'targetAttribute' => ['categoryMainId' => 'id'], 'skipOnEmpty' => false],
             [['brandId', 'categoryMainId', 'status'], 'filter', 'filter' => 'intval'],

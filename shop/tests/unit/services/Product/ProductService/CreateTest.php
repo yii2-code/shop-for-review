@@ -51,6 +51,7 @@ class CreateTest extends Unit
         $type->categoryMainId = $category->id;
         $type->price->price = '1000';
         $type->price->oldPrice = '900';
+        \Yii::$app->session->set('_image_token', \Yii::$app->security->generateRandomString());
         $model = $this->service->create($type, $type->price);
 
         $this->tester->seeRecord(

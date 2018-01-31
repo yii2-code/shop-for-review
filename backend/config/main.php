@@ -22,6 +22,19 @@ return [
             'thumbPath' => Yii::getAlias('@static/image/thumb'),
             'thumbUrl' => 'http://static.shop.app/image/thumb',
         ],
+        'tag' => [
+            'class' => \backend\modules\tag\Module::class,
+            'controllerNamespace' => 'backend\modules\tag\controllers\api',
+        ]
+    ],
+    'container' => [
+        'definitions' => [
+            \backend\modules\tag\widgets\TagWidget::class => [
+                'clientOptions' => [
+                    'url' => 'http://cp.shop.app/tag/tag/create',
+                ],
+            ],
+        ],
     ],
     'components' => [
         'request' => [

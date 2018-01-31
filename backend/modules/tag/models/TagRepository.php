@@ -34,4 +34,22 @@ class TagRepository
     {
         return Tag::find()->id($id)->exists();
     }
+
+    /**
+     * @param string $name
+     * @return Tag|null
+     */
+    public function findOneByName(string $name): ?Tag
+    {
+        return Tag::find()->name($name)->limit(1)->one();
+    }
+
+    /**
+     * @param array $names
+     * @return array|Tag[]
+     */
+    public function findByNames(array $names): array
+    {
+        return Tag::find()->names($names)->all();
+    }
 }
