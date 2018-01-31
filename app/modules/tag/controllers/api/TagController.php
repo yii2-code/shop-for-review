@@ -9,6 +9,7 @@
 namespace app\modules\tag\controllers\api;
 
 
+use app\modules\tag\models\Tag;
 use app\modules\tag\models\TagRepository;
 use app\modules\tag\services\TagService;
 use DomainException;
@@ -80,5 +81,20 @@ class TagController extends Controller
         }
 
         return $response;
+    }
+
+    /**
+     * @return array
+     */
+    public function actionView()
+    {
+        $models = Tag::find()->all();
+
+        return array_map(function (Tag $model) {
+            return [
+                'id' => $model->id,
+                'name' => $model->name,
+            ];
+        }, $models);
     }
 }

@@ -978,7 +978,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeHttpHeader', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -1014,7 +1013,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeHttpHeader', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -1056,7 +1054,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeHttpHeaderOnce', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -1410,7 +1407,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeResponseIsJson', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -1441,7 +1437,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeResponseContains', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -1473,7 +1468,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeResponseContains', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -1522,7 +1516,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeResponseContainsJson', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -1664,7 +1657,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeResponseJsonMatchesXpath', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -1729,7 +1721,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeResponseJsonMatchesXpath', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -1798,7 +1789,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeResponseJsonMatchesJsonPath', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -1867,7 +1857,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeResponseJsonMatchesJsonPath', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -1897,7 +1886,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeResponseContainsJson', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -2001,7 +1989,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeResponseMatchesJsonType', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -2108,7 +2095,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeResponseMatchesJsonType', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -2142,7 +2128,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeResponseEquals', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -2182,7 +2167,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeResponseCodeIs', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -2230,7 +2214,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeResponseCodeIs', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -2269,7 +2252,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeResponseIsXml', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -2303,7 +2285,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeXmlResponseMatchesXpath', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -2341,7 +2322,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeXmlResponseMatchesXpath', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -2413,7 +2393,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeXmlResponseEquals', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -2449,7 +2428,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeXmlResponseEquals', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -2492,7 +2470,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeXmlResponseIncludes', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -2534,7 +2511,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeXmlResponseIncludes', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -2595,7 +2571,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeBinaryResponseEquals', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
@@ -2663,7 +2638,6 @@ trait ApiTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeBinaryResponseEquals', func_get_args()));
     }
-
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
