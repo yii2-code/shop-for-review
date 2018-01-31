@@ -1,5 +1,3 @@
-/require/db.php
-/require/db.test.php
 main-local.php
 params-local.php
 test-local.php

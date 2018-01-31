@@ -18,7 +18,7 @@ return [
         'image' => [
             'class' => Module::class,
             'path' => Yii::getAlias('@static/image'),
-            'url' => 'http://static.shop.app/image',
+            'url' => getenv('STATIC_HOST_INFO') . '/image',
             'thumbPath' => Yii::getAlias('@static/image/thumb'),
             'thumbUrl' => 'http://static.shop.app/image/thumb',
         ],
@@ -31,9 +31,10 @@ return [
         'definitions' => [
             \backend\modules\tag\widgets\TagWidget::class => [
                 'clientOptions' => [
-                    'url' => 'http://cp.shop.app/tag/tag/create',
+                    'url' => getenv('BACKEND_HOST_INFO') . '/tag/tag/create',
                 ],
             ],
+
         ],
     ],
     'components' => [

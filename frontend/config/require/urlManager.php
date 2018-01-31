@@ -10,7 +10,7 @@
 
 return [
     'class' => \yii\web\UrlManager::class,
-    'hostInfo' => $params['frontendHostInfo'],
+    'hostInfo' => getenv('FRONTEND_HOST_INFO'),
     'enablePrettyUrl' => true,
     'showScriptName' => false,
     'rules' => [

@@ -8,9 +8,9 @@
 
 return [
     'class' => yii\db\Connection::class,
-    'dsn' => 'mysql:host=172.73.251.5;dbname=shop_test',
-    'username' => 'shop_test',
-    'password' => 'shop_test',
+    'dsn' => sprintf('mysql:host=%s;dbname=%s', getenv('MYSQL_HOST_TEST'), getenv('MYSQL_DATABASE_TEST')),
+    'username' => getenv('MYSQL_USERNAME_TEST'),
+    'password' => getenv('MYSQL_PASSWORD_TEST'),
     'charset' => 'utf8',
     'tablePrefix' => 'test_',
     'enableQueryCache' => true,

@@ -6,11 +6,12 @@
  * Time: 18:53
  */
 
+
 return [
     'class' => yii\db\Connection::class,
-    'dsn' => 'mysql:host=mysql;dbname=example',
-    'username' => 'example',
-    'password' => 'example',
+    'dsn' => sprintf('mysql:host=%s;dbname=%s', getenv('MYSQL_HOST'), getenv('MYSQL_DATABASE')),
+    'username' => getenv('MYSQL_USERNAME'),
+    'password' => getenv('MYSQL_PASSWORD'),
     'charset' => 'utf8',
     'tablePrefix' => 'shop_',
     'enableQueryCache' => true,
