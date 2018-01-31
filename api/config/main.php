@@ -1,7 +1,5 @@
 <?php
 
-use app\modules\image\Module;
-
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
@@ -10,45 +8,27 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-backend',
+    'id' => 'app-api',
     'basePath' => dirname(__DIR__),
-    'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log', 'image'],
+    'controllerNamespace' => 'api\controllers',
+    'bootstrap' => ['log'],
     'modules' => [
-        'image' => [
-            'class' => Module::class,
-            'path' => Yii::getAlias('@static/image'),
-            'url' => getenv('STATIC_HOST_INFO') . '/image',
-            'thumbPath' => Yii::getAlias('@static/image/thumb'),
-            'thumbUrl' => getenv('STATIC_HOST_INFO') . '/image/thumb',
-        ],
         'tag' => [
             'class' => \app\modules\tag\Module::class,
             'controllerNamespace' => 'app\modules\tag\controllers\api',
         ]
     ],
-    'container' => [
-        'definitions' => [
-            \app\modules\tag\widgets\TagWidget::class => [
-                'clientOptions' => [
-                    'url' => getenv('API_HOST_INFO') . '/tag/tag/create',
-                ],
-            ],
-
-        ],
-    ],
     'components' => [
         'request' => [
-            'csrfParam' => '_csrf-backend',
+            'cookieValidationKey' => 'aH_eY_CX4tB809ookNkvOO9QJwZQ-X_o',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
         ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
-        ],
-        'session' => [
-            // this is the name of the session cookie used for login on the backend
-            'name' => 'advanced-backend',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -62,11 +42,16 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        'backendHostInfo' => require __DIR__ . '/require/urlManager.php',
+        'backendHostInfo' => require __DIR__ . '/../../backend/config/require/urlManager.php',
         'frontendHostInfo' => require __DIR__ . '/../../frontend/config/require/urlManager.php',
-        'urlManager' => function () {
-            return Yii::$app->get('backendHostInfo');
-        },
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'enableStrictParsing' => false,
+            'showScriptName' => false,
+            'rules' => [
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'user'],
+            ],
+        ]
     ],
     'params' => $params,
 ];

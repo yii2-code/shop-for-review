@@ -16,7 +16,6 @@ use Imagine\Exception\RuntimeException;
 use Yii;
 use yii\base\Module;
 use yii\rest\Controller;
-use yii\web\Response;
 
 /**
  * Class TagController
@@ -60,7 +59,6 @@ class TagController extends Controller
      */
     public function actionCreate()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
         $response = ['status' => 'error', 'message' => 'Creating error'];
         $type = $this->tagService->createType();
 
