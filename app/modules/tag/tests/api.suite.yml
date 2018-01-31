@@ -4,6 +4,7 @@ modules:
     enabled:
         - Asserts
         - Yii2
+        - REST
     config:
         Yii2:
             configFile: 'tests/config/api.php'
@@ -13,3 +14,6 @@ modules:
                 - fixtures
                 - orm
                 - email
+        REST:
+            depends: PhpBrowser
+            url: 'http://api.shop.app/index-test.php'
