@@ -10,7 +10,7 @@ namespace shop\services\Product;
 
 use app\modules\image\services\ImageManager;
 use app\modules\image\services\ImageManagerInterface;
-use backend\modules\tag\services\TagAssignService;
+use app\modules\tag\services\TagAssignService;
 use Exception;
 use shop\entities\Product\Product;
 use shop\entities\repositories\Product\ProductRepository;

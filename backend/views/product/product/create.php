@@ -7,7 +7,7 @@
  */
 
 use app\modules\image\widgets\ImageWidget;
-use backend\modules\tag\widgets\TagWidget;
+use app\modules\tag\widgets\TagWidget;
 use shop\entities\Product\Product;
 use shop\helpers\BrandHelper;
 use shop\helpers\CategoryHelper;

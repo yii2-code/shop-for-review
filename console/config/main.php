@@ -17,7 +17,7 @@ return [
             'migrationNamespaces' => [
                 'shop\migrations',
                 'app\modules\image\migrations',
-                'backend\modules\tag\migrations',
+                'app\modules\tag\migrations',
             ],
             'migrationPath' => null,
         ],

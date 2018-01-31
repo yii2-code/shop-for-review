@@ -23,13 +23,13 @@ return [
             'thumbUrl' => getenv('STATIC_HOST_INFO') . '/image/thumb',
         ],
         'tag' => [
-            'class' => \backend\modules\tag\Module::class,
-            'controllerNamespace' => 'backend\modules\tag\controllers\api',
+            'class' => \app\modules\tag\Module::class,
+            'controllerNamespace' => 'app\modules\tag\controllers\api',
         ]
     ],
     'container' => [
         'definitions' => [
-            \backend\modules\tag\widgets\TagWidget::class => [
+            \app\modules\tag\widgets\TagWidget::class => [
                 'clientOptions' => [
                     'url' => getenv('BACKEND_HOST_INFO') . '/tag/tag/create',
                 ],

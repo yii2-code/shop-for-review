@@ -11,8 +11,8 @@ declare(strict_types=1);
 namespace shop\entities\Product;
 
 use app\behaviors\TimestampBehavior;
-use backend\modules\tag\models\Tag;
-use backend\modules\tag\models\TagAssign;
+use app\modules\tag\models\Tag;
+use app\modules\tag\models\TagAssign;
 use DomainException;
 use shop\entities\query\Product\ProductQuery;
 use shop\entities\repositories\Product\BrandRepository;

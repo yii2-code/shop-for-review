@@ -6,7 +6,7 @@
  * Time: 16:59
  */
 
-use backend\modules\tag\widgets\TagWidget;
+use app\modules\tag\widgets\TagWidget;
 use shop\helpers\BrandHelper;
 use shop\helpers\CategoryHelper;
 use shop\helpers\ProductHelper;

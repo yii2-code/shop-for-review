@@ -2,7 +2,7 @@
 include:
     - shop
     - app/modules/image
-    - backend/modules/tag
+    - app/modules/tag
 paths:
     log: common/runtime/logs
 settings:
