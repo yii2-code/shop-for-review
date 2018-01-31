@@ -2,11 +2,13 @@
 return [
     'id' => 'app-api-tests',
     'components' => [
-        'assetManager' => [
-            'basePath' => __DIR__ . '/../web/assets',
-        ],
         'urlManager' => [
+            'enablePrettyUrl' => true,
+            'enableStrictParsing' => false,
             'showScriptName' => true,
+            'rules' => [
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'user'],
+            ],
         ],
     ],
 ];

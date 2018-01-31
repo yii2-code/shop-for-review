@@ -3,4 +3,5 @@ bootstrap: false
 modules:
     enabled:
         - Asserts
-        - Yii2
+        - Yii2:
+            configFile: 'tests/config/main.php'

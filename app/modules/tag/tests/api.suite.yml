@@ -1,4 +1,4 @@
-class_name: UnitTester
+class_name: ApiTester
 bootstrap: false
 modules:
     enabled:
@@ -6,7 +6,7 @@ modules:
         - Yii2
     config:
         Yii2:
-            configFile: 'tests/config/unit.php'
+            configFile: 'tests/config/api.php'
             transaction: false
             cleanup: true
             part:
