@@ -9,7 +9,7 @@
 namespace shop\tests\config;
 
 
-use backend\modules\image\services\ImageManagerInterface;
+use app\modules\image\services\ImageManagerInterface;
 use shop\tests\stubs\services\ImageManager;
 use Yii;
 use yii\base\BootstrapInterface;

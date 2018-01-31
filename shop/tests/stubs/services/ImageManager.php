@@ -9,7 +9,7 @@
 namespace shop\tests\stubs\services;
 
 
-use backend\modules\image\services\ImageManagerInterface;
+use app\modules\image\services\ImageManagerInterface;
 
 class ImageManager implements ImageManagerInterface
 {

@@ -6,7 +6,7 @@
  * Time: 15:34
  */
 
-use backend\modules\image\widgets\ImageWidget;
+use app\modules\image\widgets\ImageWidget;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use yii\bootstrap\Modal;

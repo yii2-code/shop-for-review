@@ -1,6 +1,6 @@
 <?php
 
-use backend\modules\image\Module;
+use app\modules\image\Module;
 
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
@@ -20,7 +20,7 @@ return [
             'path' => Yii::getAlias('@static/image'),
             'url' => getenv('STATIC_HOST_INFO') . '/image',
             'thumbPath' => Yii::getAlias('@static/image/thumb'),
-            'thumbUrl' => 'http://static.shop.app/image/thumb',
+            'thumbUrl' => getenv('STATIC_HOST_INFO') . '/image/thumb',
         ],
         'tag' => [
             'class' => \backend\modules\tag\Module::class,

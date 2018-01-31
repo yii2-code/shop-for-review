@@ -6,7 +6,7 @@
  * Time: 14:26
  */
 
-use backend\modules\image\widgets\ImageWidget;
+use app\modules\image\widgets\ImageWidget;
 use backend\modules\tag\widgets\TagWidget;
 use shop\entities\Product\Product;
 use shop\helpers\BrandHelper;

@@ -8,8 +8,8 @@
 
 namespace shop\services\Product;
 
-use backend\modules\image\services\ImageManager;
-use backend\modules\image\services\ImageManagerInterface;
+use app\modules\image\services\ImageManager;
+use app\modules\image\services\ImageManagerInterface;
 use backend\modules\tag\services\TagAssignService;
 use Exception;
 use shop\entities\Product\Product;
