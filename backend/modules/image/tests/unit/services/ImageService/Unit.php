@@ -10,6 +10,7 @@ namespace backend\modules\image\tests\unit\services\ImageService;
 
 
 use backend\modules\image\services\ImageManager;
+use backend\modules\image\services\ImageManagerInterface;
 use backend\modules\image\services\ImageService;
 use backend\modules\image\tests\stubs\UploadedFile;
 use backend\modules\image\tests\UnitTester;
@@ -36,7 +37,7 @@ class Unit extends \Codeception\Test\Unit
     public function _before()
     {
         /** @var ImageManager $manager */
-        $this->manager = \Yii::createObject('image');
+        $this->manager = \Yii::createObject(ImageManagerInterface::class);
         $this->service = $this->manager->createService();
     }
 

@@ -10,6 +10,7 @@ namespace backend\modules\image\controllers;
 
 use backend\modules\image\models\ImageRepository;
 use backend\modules\image\services\ImageManager;
+use backend\modules\image\services\ImageManagerInterface;
 use DomainException;
 use RuntimeException;
 use Yii;
@@ -48,7 +49,7 @@ class ImageController extends Controller
     {
         parent::__construct($id, $module, $config);
 
-        $this->imageManager = Yii::createObject(\backend\modules\image\Module::IMAGE);
+        $this->imageManager = Yii::createObject(ImageManagerInterface::class);
         $this->imageRepository = $imageRepository;
     }
 

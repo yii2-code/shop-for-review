@@ -34,11 +34,11 @@ class ImageService
 
     /**
      * ImageService constructor.
-     * @param ImageManager $imageManager
+     * @param ImageManagerInterface $imageManager
      * @throws \yii\base\Exception
      */
     public function __construct(
-        ImageManager $imageManager
+        ImageManagerInterface $imageManager
     )
     {
         $this->imageManager = $imageManager;

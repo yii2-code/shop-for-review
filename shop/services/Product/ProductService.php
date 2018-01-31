@@ -8,8 +8,8 @@
 
 namespace shop\services\Product;
 
-use backend\modules\image\Module;
 use backend\modules\image\services\ImageManager;
+use backend\modules\image\services\ImageManagerInterface;
 use backend\modules\tag\services\TagAssignService;
 use Exception;
 use shop\entities\Product\Product;
@@ -58,7 +58,7 @@ class ProductService
     {
         $this->baseService = $baseService;
         $this->productRepository = $productRepository;
-        $this->imageManager = \Yii::createObject(Module::IMAGE);
+        $this->imageManager = \Yii::createObject(ImageManagerInterface::class);
         $this->tagAssignService = $tagAssignService;
     }
 

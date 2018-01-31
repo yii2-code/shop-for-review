@@ -21,7 +21,7 @@ use Yii;
  * Class ImageManager
  * @package backend\modules\image\services
  */
-class ImageManager
+class ImageManager implements ImageManagerInterface
 {
     /**
      * @var ImageRepository

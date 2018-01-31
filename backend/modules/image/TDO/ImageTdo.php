@@ -13,6 +13,7 @@ namespace backend\modules\image\TDO;
 
 use backend\modules\image\models\Image;
 use backend\modules\image\services\ImageManager;
+use backend\modules\image\services\ImageManagerInterface;
 use backend\modules\image\types\UpdateType;
 use yii\helpers\Url;
 
@@ -35,9 +36,9 @@ class ImageTdo
     /**
      * Image constructor.
      * @param Image $image
-     * @param ImageManager $imageManager
+     * @param ImageManagerInterface $imageManager
      */
-    public function __construct(Image $image, ImageManager $imageManager)
+    public function __construct(Image $image, ImageManagerInterface $imageManager)
     {
         $this->image = $image;
         $this->imageManager = $imageManager;

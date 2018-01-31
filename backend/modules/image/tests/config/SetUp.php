@@ -11,6 +11,7 @@ namespace backend\modules\image\tests\config;
 
 use backend\modules\image\models\ImageRepository;
 use backend\modules\image\services\ImageManager;
+use backend\modules\image\services\ImageManagerInterface;
 use Yii;
 use yii\base\BootstrapInterface;
 
@@ -20,7 +21,7 @@ class SetUp implements BootstrapInterface
     {
         $container = Yii::$container;
 
-        $container->set('image', function () use ($container) {
+        $container->set(ImageManagerInterface::class, function () use ($container) {
             return new ImageManager(
                 new ImageRepository(),
                 codecept_output_dir() . 'image',
