@@ -25,4 +25,13 @@ class CharacteristicRepository
     {
         return (int)Characteristic::find()->max('position');
     }
+
+    /**
+     * @param $id
+     * @return null|Characteristic
+     */
+    public function findOne($id): ?Characteristic
+    {
+        return Characteristic::find()->id($id)->limit(1)->one();
+    }
 }
