@@ -44,6 +44,7 @@ AppAsset::register($this);
                 ['label' => 'Brand', 'url' => ['/product/brand/index']],
                 ['label' => 'Category', 'url' => ['/product/category/index']],
                 ['label' => 'Product', 'url' => ['/product/product/index']],
+                ['label' => 'Characteristic', 'url' => ['/product/characteristic/index']],
             ]
         ],
     ];

@@ -66,8 +66,8 @@ class CharacteristicService
             $type->title,
             $type->type,
             $type->required,
-            $type->default,
-            is_array($type->variants) ?: null
+            empty($type->default) ? null : $type->default,
+            $this->filterVariants($type->variants)
         );
 
         $this->baseService->save($characteristic);
@@ -85,8 +85,26 @@ class CharacteristicService
     {
         $characteristic = $this->characteristicRepository->findOne($id);
         $this->baseService->notFoundHttpException($characteristic);
-        $characteristic->edit($type->title, $type->type, $type->required, $type->default, is_array($type->variants) ?: null);
+        $characteristic->edit(
+            $type->title,
+            $type->type,
+            $type->required,
+            empty($type->default) ? null : $type->default,
+            $this->filterVariants($type->variants)
+        );
         $this->baseService->save($characteristic);
         return $characteristic;
+    }
+
+    /**
+     * @param $variants
+     * @return array
+     */
+    public function filterVariants($variants): array
+    {
+        if (empty($variants) || !is_array($variants)) {
+            return [];
+        }
+        return array_filter($variants);
     }
 }

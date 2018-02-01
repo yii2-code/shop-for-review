@@ -15,7 +15,9 @@ use app\behaviors\JsonBehavior;
 use app\behaviors\TimestampBehavior;
 use shop\entities\query\Product\CharacteristicQuery;
 use shop\entities\repositories\Product\CharacteristicRepository;
+use shop\helpers\CharacteristicHelper;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class Characteristic
@@ -139,5 +141,21 @@ class Characteristic extends ActiveRecord
             $position = $repository->maxPosition();
         }
         $this->position = $position;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return ArrayHelper::getValue(CharacteristicHelper::getTypeDropDown(), $this->type);
+    }
+
+    /**
+     * @return string
+     */
+    public function getRequired(): string
+    {
+        return ArrayHelper::getValue(CharacteristicHelper::getRequiredDropDown(), $this->required);
     }
 }

@@ -6,7 +6,7 @@
  * Time: 13:51
  */
 
-namespace app\modules\tag\tests\unit\services\TagAssign;
+namespace app\modules\tag\tests\unit\services\TagAssignService;
 
 
 use app\modules\tag\models\Tag;
@@ -16,7 +16,7 @@ use app\modules\tag\tests\fixtures\TagFixture;
 
 /**
  * Class AssignTest
- * @package app\modules\tag\tests\unit\services\TagAssign
+ * @package app\modules\tag\tests\unit\services\TagAssignService
  */
 class AssignTest extends Unit
 {

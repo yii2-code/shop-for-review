@@ -20,7 +20,7 @@ class FilterTest extends Unit
      */
     public function testNull()
     {
-        $array = [null, 'test', null];
+        $array = [null, 'test', null, ''];
         $this->assertEquals(['test'], $this->service->filter($array));
     }
 

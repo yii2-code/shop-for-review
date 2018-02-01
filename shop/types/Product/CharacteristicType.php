@@ -41,7 +41,7 @@ class CharacteristicType extends Model
     /**
      * @var
      */
-    public $variants;
+    public $variants = [];
 
     /**
      * @var Characteristic
@@ -84,7 +84,7 @@ class CharacteristicType extends Model
             [['title'], 'string', 'max' => 100],
             [['type', 'required'], 'integer'],
             ['variants', 'safe'],
-            ['type', 'required', 'filter', 'filter' => 'intval'],
+            [['type', 'required'], 'filter', 'filter' => 'intval'],
         ];
     }
 }
