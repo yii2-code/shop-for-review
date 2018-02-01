@@ -22,10 +22,6 @@ return [
             'thumbPath' => Yii::getAlias('@static/image/thumb'),
             'thumbUrl' => getenv('STATIC_HOST_INFO') . '/image/thumb',
         ],
-        'tag' => [
-            'class' => \app\modules\tag\Module::class,
-            'controllerNamespace' => 'app\modules\tag\controllers\api',
-        ]
     ],
     'container' => [
         'definitions' => [
