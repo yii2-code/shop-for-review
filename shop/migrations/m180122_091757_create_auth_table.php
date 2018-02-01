@@ -8,7 +8,7 @@ use yii\db\Migration;
 /**
  * Class m180122_091757_shop_auth_create_tabel
  */
-class m180122_091757_shop_auth_create_table extends Migration
+class m180122_091757_create_auth_table extends Migration
 {
     /**
      * @inheritdoc

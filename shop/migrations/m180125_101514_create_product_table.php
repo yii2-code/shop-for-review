@@ -2,13 +2,12 @@
 
 namespace shop\migrations;
 
-use shop\entities\Product\Category;
 use yii\db\Migration;
 
 /**
- * Class m180123_143533_shop_category_create_table
+ * Class m180125_101514_create_product_table
  */
-class m180123_143533_shop_category_create_table extends Migration
+class m180125_101514_create_product_table extends Migration
 {
     /**
      * @inheritdoc
@@ -18,14 +17,16 @@ class m180123_143533_shop_category_create_table extends Migration
         $options = $this->db->getDriverName() == 'mysql' ? 'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci' : null;
 
         $this->createTable(
-            '{{%category}}',
+            '{{%product}}',
             [
                 'id' => $this->primaryKey(),
                 'title' => $this->string(512)->notNull(),
+                'announce' => $this->text(),
                 'description' => $this->text(),
-                'lft' => $this->integer()->notNull(),
-                'rgt' => $this->integer()->notNull(),
-                'depth' => $this->integer()->notNull(), // not unsigned!
+                'price' => $this->integer()->notNull(),
+                'old_price' => $this->integer(),
+                'category_main_id' => $this->integer()->notNull(),
+                'brand_id' => $this->integer()->notNull(),
                 'status' => $this->integer()->notNull()->defaultValue(0),
                 'created_at' => $this->dateTime()->notNull(),
                 'updated_at' => $this->dateTime()->notNull(),
@@ -33,21 +34,24 @@ class m180123_143533_shop_category_create_table extends Migration
             $options
         );
 
-        $this->createIndex('lft', '{{%category}}', ['lft', 'rgt']);
-        $this->createIndex('rgt', '{{%category}}', ['rgt']);
+        $this->addForeignKey(
+            'fk-product-brand',
+            '{{%product}}',
+            'brand_id',
+            '{{%brand}}',
+            'id',
+            'RESTRICT',
+            'RESTRICT'
+        );
 
-        $this->insert(
+        $this->addForeignKey(
+            'fk-product-category',
+            '{{%product}}',
+            'category_main_id',
             '{{%category}}',
-            [
-                'title' => '',
-                'description' => '',
-                'lft' => 1,
-                'rgt' => 2,
-                'depth' => 0,
-                'status' => Category::STATUS_ACTIVE,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-            ]
+            'id',
+            'RESTRICT',
+            'RESTRICT'
         );
     }
 
@@ -56,7 +60,7 @@ class m180123_143533_shop_category_create_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%category}}');
+        $this->dropTable('{{%product}}');
     }
 
     /*
@@ -68,7 +72,7 @@ class m180123_143533_shop_category_create_table extends Migration
 
     public function down()
     {
-        echo "m180123_143533_shop_category_create_table cannot be reverted.\n";
+        echo "m180125_101514_create_product_table cannot be reverted.\n";
 
         return false;
     }

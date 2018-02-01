@@ -5,9 +5,9 @@ namespace app\modules\image\migrations;
 use yii\db\Migration;
 
 /**
- * Class m180126_104912_backend_image_create_table
+ * Class m180126_104912_create_image_table
  */
-class m180126_104912_backend_image_create_table extends Migration
+class m180126_104912_create_image_table extends Migration
 {
     /**
      * @inheritdoc
@@ -52,7 +52,7 @@ class m180126_104912_backend_image_create_table extends Migration
 
     public function down()
     {
-        echo "m180126_104912_backend_image_create_table cannot be reverted.\n";
+        echo "m180126_104912_create_image_table cannot be reverted.\n";
 
         return false;
     }

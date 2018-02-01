@@ -5,9 +5,9 @@ namespace shop\migrations;
 use yii\db\Migration;
 
 /**
- * Class m180124_144312_shop_brand_create_table
+ * Class m180117_111530_create_user_table
  */
-class m180124_144312_shop_brand_create_table extends Migration
+class m180117_111530_create_user_table extends Migration
 {
     /**
      * @inheritdoc
@@ -17,11 +17,14 @@ class m180124_144312_shop_brand_create_table extends Migration
         $options = $this->db->getDriverName() == 'mysql' ? 'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci' : null;
 
         $this->createTable(
-            '{{%brand}}',
+            '{{%user}}',
             [
                 'id' => $this->primaryKey(),
-                'title' => $this->string(512)->notNull(),
-                'description' => $this->text(),
+                'login' => $this->string(100)->notNull()->unique(),
+                'password' => $this->string(100)->notNull(),
+                'email' => $this->string(100)->notNull()->unique(),
+                'email_active_token' => $this->string(100)->unique(),
+                'password_reset_token' => $this->string(100)->unique(),
                 'status' => $this->integer()->notNull()->defaultValue(0),
                 'created_at' => $this->dateTime()->notNull(),
                 'updated_at' => $this->dateTime()->notNull(),
@@ -35,7 +38,7 @@ class m180124_144312_shop_brand_create_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%brand}}');
+        $this->dropTable('{{%user}}');
     }
 
     /*
@@ -47,7 +50,7 @@ class m180124_144312_shop_brand_create_table extends Migration
 
     public function down()
     {
-        echo "m180124_144312_shop_brand_create_table cannot be reverted.\n";
+        echo "m180117_111530_create_user_table cannot be reverted.\n";
 
         return false;
     }
