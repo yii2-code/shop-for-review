@@ -11,9 +11,10 @@ modules:
             transaction: false
             cleanup: true
             part:
+                - init
                 - fixtures
                 - orm
                 - email
         REST:
             depends: PhpBrowser
-            url: 'http://api.shop.app/index-test.php'
+            url: 'http://api.shop.app'
