@@ -16,6 +16,7 @@ use DomainException;
 use Imagine\Exception\RuntimeException;
 use Yii;
 use yii\base\Module;
+use yii\filters\Cors;
 use yii\rest\Controller;
 
 /**
@@ -54,6 +55,19 @@ class TagController extends Controller
         $this->tagService = $tagService;
         $this->tagRepository = $tagRepository;
     }
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'Cors' => [
+                'class' => Cors::class
+            ]
+        ];
+    }
+
 
     /**
      * @return array

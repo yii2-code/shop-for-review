@@ -55,7 +55,6 @@ class TagWidget extends InputWidget
             $this->attribute,
             [
                 'id' => $this->options['id'],
-                'class' => 'form-control',
                 'data-role' => 'tagsinput',
             ]
         );

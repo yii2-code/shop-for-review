@@ -29,7 +29,6 @@ class TagsInputAsset extends AssetBundle
      */
     public $css = [
         'bootstrap-tagsinput.css',
-        'bootstrap-tagsinput-typeahead.css',
     ];
 
     /**
@@ -45,6 +44,5 @@ class TagsInputAsset extends AssetBundle
     public $depends = [
         JqueryAsset::class,
         BootstrapAsset::class,
-        TypeaheadAsset::class,
     ];
 }
