@@ -36,4 +36,12 @@ class ProductRepository
     {
         return Product::find()->id($id)->exists();
     }
+
+    /**
+     * @return array|Product[]|\yii\db\ActiveRecord[]
+     */
+    public function findAll()
+    {
+        return Product::find()->all();
+    }
 }

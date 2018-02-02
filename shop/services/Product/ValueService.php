@@ -88,6 +88,18 @@ class ValueService
 
     /**
      * @param int $productId
+     * @param int $characteristicId
+     * @return Value
+     */
+    public function blank(int $productId, int $characteristicId): Value
+    {
+        $value = Value::blank($productId, $characteristicId);
+        $this->baseService->save($value);
+        return $value;
+    }
+
+    /**
+     * @param int $productId
      * @param array $types
      * @throws \Exception
      * @throws \yii\db\Exception

@@ -68,7 +68,7 @@ class ValueType extends Model
      */
     public function attributeLabels()
     {
-        return ['value' => $this->characteristic->title];
+        return ['value' => $this->characteristic->title . ' (' . $this->characteristic->getVariant()->name . ')'];
     }
 
     /**

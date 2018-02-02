@@ -88,6 +88,16 @@ class Value extends ActiveRecord
     }
 
     /**
+     * @param $productId
+     * @param $characteristicId
+     * @return Value
+     */
+    public static function blank($productId, $characteristicId): Value
+    {
+        return static::create($productId, $characteristicId);
+    }
+
+    /**
      * @param string|null $value
      */
     public function edit(string $value = null): void

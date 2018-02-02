@@ -12,11 +12,14 @@ namespace shop\services\Product;
 
 
 use DomainException;
+use Exception;
 use shop\entities\Product\Characteristic;
 use shop\entities\Product\Variant;
 use shop\entities\repositories\Product\CharacteristicRepository;
+use shop\entities\repositories\Product\ProductRepository;
 use shop\services\BaseService;
 use shop\types\Product\CharacteristicType;
+use Yii;
 
 /**
  * Class CharacteristicService
@@ -32,21 +35,35 @@ class CharacteristicService
      * @var CharacteristicRepository
      */
     private $characteristicRepository;
+    /**
+     * @var ProductRepository
+     */
+    private $productRepository;
+    /**
+     * @var ValueService
+     */
+    private $valueService;
 
 
     /**
      * CharacteristicService constructor.
      * @param BaseService $baseService
      * @param CharacteristicRepository $characteristicRepository
+     * @param ProductRepository $productRepository
+     * @param ValueService $valueService
      */
     public function __construct(
         BaseService $baseService,
-        CharacteristicRepository $characteristicRepository
+        CharacteristicRepository $characteristicRepository,
+        ProductRepository $productRepository,
+        ValueService $valueService
     )
     {
 
         $this->baseService = $baseService;
         $this->characteristicRepository = $characteristicRepository;
+        $this->productRepository = $productRepository;
+        $this->valueService = $valueService;
     }
 
     /**
@@ -61,21 +78,32 @@ class CharacteristicService
     /**
      * @param CharacteristicType $type
      * @return Characteristic
+     * @throws \yii\db\Exception
+     * @throws Exception
      */
     public function create(CharacteristicType $type): Characteristic
     {
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            $variant = Variant::findOne($type->type);
+            $characteristic = Characteristic::create(
+                $type->title,
+                $type->type,
+                $type->required,
+                $this->handleDefault($variant, $type->default),
+                $this->handelVariants($variant, $type->variants)
+            );
+            $this->baseService->save($characteristic);
 
-        $variant = Variant::findOne($type->type);
-        $characteristic = Characteristic::create(
-            $type->title,
-            $type->type,
-            $type->required,
-            $this->handleDefault($variant, $type->default),
-            $this->handelVariants($variant, $type->variants)
-        );
-
-        $this->baseService->save($characteristic);
-
+            $products = $this->productRepository->findAll();
+            foreach ($products as $product) {
+                $this->valueService->blank($product->id, $characteristic->id);
+            };
+            $transaction->commit();
+        } catch (Exception $exception) {
+            $transaction->rollBack();
+            throw $exception;
+        }
         return $characteristic;
     }
 
