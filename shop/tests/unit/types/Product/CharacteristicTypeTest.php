@@ -11,6 +11,7 @@ namespace shop\tests\unit\types\Product;
 
 use Codeception\Test\Unit;
 use shop\entities\Product\Characteristic;
+use shop\entities\Product\Variant;
 use shop\types\Product\CharacteristicType;
 
 /**
@@ -26,7 +27,7 @@ class CharacteristicTypeTest extends Unit
     {
         $type = new CharacteristicType();
         $type->title = 'title';
-        $type->type = Characteristic::TYPE_STRING;
+        $type->type = Variant::TYPE_STRING;
         $type->required = Characteristic::REQUIRED_YES;
         $type->default = '200';
         $type->variants = [300, 400];

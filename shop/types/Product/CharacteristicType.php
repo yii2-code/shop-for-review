@@ -85,6 +85,7 @@ class CharacteristicType extends Model
             [['type', 'required'], 'integer'],
             ['variants', 'safe'],
             [['type', 'required'], 'filter', 'filter' => 'intval'],
+            ['variants', 'default', 'value' => []],
         ];
     }
 }

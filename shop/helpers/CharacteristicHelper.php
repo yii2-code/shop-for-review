@@ -20,18 +20,6 @@ class CharacteristicHelper
     /**
      * @return array
      */
-    public static function getTypeDropDown()
-    {
-        return [
-            Characteristic::TYPE_STRING => 'String',
-            Characteristic::TYPE_INTEGER => 'Integer',
-            Characteristic::TYPE_FLOAT => 'Float',
-        ];
-    }
-
-    /**
-     * @return array
-     */
     public static function getRequiredDropDown()
     {
         return [

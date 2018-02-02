@@ -44,19 +44,6 @@ class Characteristic extends ActiveRecord
     const REQUIRED_YES = 1;
 
     /**
-     *
-     */
-    const TYPE_STRING = 1;
-    /**
-     *
-     */
-    const TYPE_INTEGER = 2;
-    /**
-     *
-     */
-    const TYPE_FLOAT = 3;
-
-    /**
      * @return string
      */
     public static function tableName()
@@ -148,7 +135,7 @@ class Characteristic extends ActiveRecord
      */
     public function getType(): string
     {
-        return ArrayHelper::getValue(CharacteristicHelper::getTypeDropDown(), $this->type);
+        return ArrayHelper::getValue(Variant::getDropDown(), $this->type);
     }
 
     /**
@@ -157,5 +144,13 @@ class Characteristic extends ActiveRecord
     public function getRequired(): string
     {
         return ArrayHelper::getValue(CharacteristicHelper::getRequiredDropDown(), $this->required);
+    }
+
+    /**
+     * @return Variant
+     */
+    public function getVariant(): Variant
+    {
+        return Variant::findOne($this->type);
     }
 }

@@ -86,10 +86,10 @@ class CharacteristicController extends Controller
                 $model = $this->characteristicService->create($type);
                 return $this->redirect(['view', 'id' => $model->id]);
             } catch (DomainException $exception) {
-                Yii::$app->session->addFlash('waring', $exception->getMessage());
+                Yii::$app->session->addFlash('warning', $exception->getMessage());
             } catch (RuntimeException $exception) {
                 Yii::$app->errorHandler->logException($exception);
-                Yii::$app->session->addFlash('waring', 'Runtime exception');
+                Yii::$app->session->addFlash('warning', 'Runtime exception');
             }
         }
         return $this->render('create', ['type' => $type]);
@@ -123,10 +123,10 @@ class CharacteristicController extends Controller
                 $model = $this->characteristicService->edit($id, $type);
                 return $this->redirect(['view', 'id' => $model->id]);
             } catch (DomainException $exception) {
-                Yii::$app->session->addFlash('waring', $exception->getMessage());
+                Yii::$app->session->addFlash('warning', $exception->getMessage());
             } catch (RuntimeException $exception) {
                 Yii::$app->errorHandler->logException($exception);
-                Yii::$app->session->addFlash('waring', 'Runtime exception');
+                Yii::$app->session->addFlash('warning', 'Runtime exception');
             }
         }
         return $this->render('create', ['type' => $type]);

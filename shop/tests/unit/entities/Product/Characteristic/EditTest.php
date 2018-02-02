@@ -11,6 +11,7 @@ namespace shop\tests\unit\entities\Product\Characteristic;
 
 use Codeception\Test\Unit;
 use shop\entities\Product\Characteristic;
+use shop\entities\Product\Variant;
 use shop\tests\fixtures\CharacteristicFixture;
 use shop\tests\UnitTester;
 
@@ -38,7 +39,7 @@ class EditTest extends Unit
 
         $characteristic->edit(
             $title = 'Title',
-            $type = Characteristic::TYPE_INTEGER,
+            $type = Variant::TYPE_INTEGER,
             $required = Characteristic::REQUIRED_YES,
             $default = 2,
             $variants = [3, 4]

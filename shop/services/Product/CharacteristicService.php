@@ -11,7 +11,9 @@ declare(strict_types=1);
 namespace shop\services\Product;
 
 
+use DomainException;
 use shop\entities\Product\Characteristic;
+use shop\entities\Product\Variant;
 use shop\entities\repositories\Product\CharacteristicRepository;
 use shop\services\BaseService;
 use shop\types\Product\CharacteristicType;
@@ -62,12 +64,14 @@ class CharacteristicService
      */
     public function create(CharacteristicType $type): Characteristic
     {
+
+        $variant = Variant::findOne($type->type);
         $characteristic = Characteristic::create(
             $type->title,
             $type->type,
             $type->required,
-            empty($type->default) ? null : $type->default,
-            $this->filterVariants($type->variants)
+            $this->handleDefault($variant, $type->default),
+            $this->handelVariants($variant, $type->variants)
         );
 
         $this->baseService->save($characteristic);
@@ -85,26 +89,53 @@ class CharacteristicService
     {
         $characteristic = $this->characteristicRepository->findOne($id);
         $this->baseService->notFoundHttpException($characteristic);
+
+        $variant = $characteristic->getVariant();
+
         $characteristic->edit(
             $type->title,
             $type->type,
             $type->required,
-            empty($type->default) ? null : $type->default,
-            $this->filterVariants($type->variants)
+            $this->handleDefault($variant, $type->default),
+            $this->handelVariants($variant, $type->variants)
         );
         $this->baseService->save($characteristic);
         return $characteristic;
     }
 
     /**
+     * @param Variant $variant
+     * @param string $default
+     * @return mixed
+     */
+    public function handleDefault(Variant $variant, string $default)
+    {
+        if (empty($default)) {
+            return null;
+        }
+        if (!$variant->validate($default)) {
+            throw new DomainException('default must be set as ' . $variant->name);
+        }
+        return $variant->cast($default);
+    }
+
+    /**
+     * @param Variant $type
      * @param $variants
      * @return array
      */
-    public function filterVariants($variants): array
+    public function handelVariants(Variant $type, $variants): array
     {
         if (empty($variants) || !is_array($variants)) {
             return [];
         }
-        return array_filter($variants);
+        $variants = array_filter($variants);
+        foreach ($variants as &$variant) {
+            if (!$type->validate($variant)) {
+                throw new DomainException(sprintf('variant "%s" must be set as %s', $variant, $type->name));
+            }
+            $variant = $type->cast($variant);
+        }
+        return $variants;
     }
 }

@@ -6,6 +6,7 @@
  * Time: 20:11
  */
 
+use shop\entities\Product\Variant;
 use shop\helpers\CharacteristicHelper;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
@@ -34,7 +35,7 @@ $this->registerJs($js);
 
 <?= $form->field($type, 'title')->textInput() ?>
 
-<?= $form->field($type, 'type')->dropDownList(CharacteristicHelper::getTypeDropDown()) ?>
+<?= $form->field($type, 'type')->dropDownList(Variant::getDropDown()) ?>
 
 <?= $form->field($type, 'required')->dropDownList(CharacteristicHelper::getRequiredDropDown()) ?>
 

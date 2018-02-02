@@ -12,7 +12,7 @@ return [
         'id' => 1,
         'title' => 'test1',
         'required' => \shop\entities\Product\Characteristic::REQUIRED_NO,
-        'type' => \shop\entities\Product\Characteristic::TYPE_STRING,
+        'type' => \shop\entities\Product\Variant::TYPE_STRING,
         'default' => 'default1',
         'variants' => \yii\helpers\Json::encode(['variants1', 'variants2']),
         'position' => 0,
