@@ -30,8 +30,17 @@ class CharacteristicRepository
      * @param $id
      * @return null|Characteristic
      */
-    public function findOne($id): ?Characteristic
+    public function findOne(int $id): ?Characteristic
     {
         return Characteristic::find()->id($id)->limit(1)->one();
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function existsById(int $id)
+    {
+        return Characteristic::find()->id($id)->exists();
     }
 }

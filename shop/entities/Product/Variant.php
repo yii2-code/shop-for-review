@@ -38,6 +38,11 @@ class Variant extends Object
     public $validator;
 
     /**
+     * @var
+     */
+    public $rule;
+
+    /**
      *
      */
     const TYPE_STRING = 1;
@@ -61,18 +66,21 @@ class Variant extends Object
             'name' => 'String',
             'cast' => 'strval',
             'validator' => 'is_string',
+            'rule' => 'string',
         ],
         '2' => [
             'id' => 2,
             'name' => 'Number',
             'cast' => 'intval',
             'validator' => 'is_numeric',
+            'rule' => 'integer',
         ],
         '3' => [
             'id' => 3,
             'name' => 'Float',
             'cast' => 'floatval',
             'validator' => 'is_numeric',
+            'rule' => 'number',
         ],
     ];
 

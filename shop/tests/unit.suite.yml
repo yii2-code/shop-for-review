@@ -3,5 +3,13 @@ bootstrap: false
 modules:
     enabled:
         - Asserts
-        - Yii2:
+        - Yii2
+    config:
+        Yii2:
             configFile: 'tests/config/main.php'
+            transaction: false
+            cleanup: true
+            part:
+                - fixtures
+                - orm
+                - email

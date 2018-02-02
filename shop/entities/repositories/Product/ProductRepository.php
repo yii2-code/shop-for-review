@@ -27,4 +27,13 @@ class ProductRepository
     {
         return Product::find()->id($id)->limit(1)->one();
     }
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function existsById(int $id): bool
+    {
+        return Product::find()->id($id)->exists();
+    }
 }

@@ -126,6 +126,7 @@ class Characteristic extends ActiveRecord
 
         if (is_null($position)) {
             $position = $repository->maxPosition();
+            $position++;
         }
         $this->position = $position;
     }
@@ -152,5 +153,13 @@ class Characteristic extends ActiveRecord
     public function getVariant(): Variant
     {
         return Variant::findOne($this->type);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRequired(): bool
+    {
+        return $this->required == static::REQUIRED_YES;
     }
 }

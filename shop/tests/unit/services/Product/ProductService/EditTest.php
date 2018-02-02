@@ -31,10 +31,7 @@ class EditTest extends Unit
     public function testSuccess()
     {
         $this->tester->haveFixtures([
-            'product' => [
-                'class' => ProductFixture::class,
-                'dataFile' => codecept_data_dir() . '/product.php'
-            ],
+            'product' => ProductFixture::class,
             'brand' => [
                 'class' => BrandFixture::class,
                 'dataFile' => codecept_data_dir() . '/brand.php'

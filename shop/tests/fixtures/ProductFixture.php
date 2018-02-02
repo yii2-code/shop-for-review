@@ -9,6 +9,7 @@
 namespace shop\tests\fixtures;
 
 
+use shop\entities\Product\Product;
 use yii\test\ActiveFixture;
 
 /**
@@ -21,4 +22,11 @@ class ProductFixture extends ActiveFixture
      * @var string
      */
     public $modelClass = 'shop\entities\Product\Product';
+
+    public function __construct(array $config = [])
+    {
+        $this->modelClass = Product::class;
+        $this->dataFile = codecept_data_dir('product.php');
+        parent::__construct($config);
+    }
 }
