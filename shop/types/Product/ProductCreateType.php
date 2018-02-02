@@ -12,11 +12,14 @@ namespace shop\types\Product;
 use app\type\CompositeType;
 use shop\entities\Product\Brand;
 use shop\entities\Product\Category;
+use shop\entities\repositories\Product\CharacteristicRepository;
+use shop\services\Product\ValueService;
 
 /**
  * Class ProductType
  * @package shop\types\Product
  * @property PriceType $price
+ * @property ValueType[] $values
  */
 class ProductCreateType extends CompositeType
 {
@@ -45,16 +48,31 @@ class ProductCreateType extends CompositeType
      */
     public $categoryMainId;
 
+    /**
+     * @var
+     */
     public $tags;
 
     /**
      * ProductType constructor.
+     * @param ValueService $valueService
+     * @param CharacteristicRepository $valueRepository
      * @param array $config
      */
-    public function __construct(array $config = [])
+    public function __construct(
+        ValueService $valueService,
+        CharacteristicRepository $valueRepository,
+        array $config = []
+    )
     {
         parent::__construct($config);
         $this->price = new PriceType();
+        $characteristics = $valueRepository->findAll();
+        $values = [];
+        foreach ($characteristics as $characteristic) {
+            $values[] = $valueService->createType($characteristic);
+        }
+        $this->values = $values;
     }
 
     /**
@@ -62,9 +80,8 @@ class ProductCreateType extends CompositeType
      */
     protected function internalForms(): array
     {
-        return ['price'];
+        return ['price', 'values'];
     }
-
 
     /**
      * @return array

@@ -12,6 +12,7 @@ namespace shop\services\Product;
 
 
 use shop\entities\Product\Characteristic;
+use shop\entities\Product\Product;
 use shop\entities\Product\Value;
 use shop\entities\repositories\Product\ValueRepository;
 use shop\services\BaseService;
@@ -52,36 +53,73 @@ class ValueService
      * @param Value|null $model
      * @return ValueType
      */
-    public function createType(Characteristic $characteristic, Value $model = null)
+    public function createType(Characteristic $characteristic, Value $model = null): ValueType
     {
         return new ValueType($characteristic, $model);
+    }
+
+
+    /**
+     * @param Product $product
+     * @return array|ValueType[]
+     */
+    public function createTypes(Product $product): array
+    {
+        $updateValues = [];
+
+        foreach ($product->values as $value) {
+            $updateValues[] = $this->createType($value->characteristic, $value);
+        }
+        return $updateValues;
+    }
+
+    /**
+     * @param int $productId
+     * @param ValueType $type
+     * @return Value
+     */
+    public function create(int $productId, ValueType $type): Value
+    {
+        $value = Value::create($productId, $type->characteristic->id, empty($type->value) ? null : $type->value);
+        $this->baseService->save($value);
+        return $value;
+    }
+
+
+    /**
+     * @param int $productId
+     * @param array $types
+     * @throws \Exception
+     * @throws \yii\db\Exception
+     */
+    public function edits(int $productId, array $types)
+    {
+
+        $transaction = \Yii::$app->db->beginTransaction();
+        try {
+            foreach ($types as $type) {
+                $this->edit($productId, $type->characteristic->id, empty($type->value) ? null : $type->value);
+            }
+            $transaction->commit();
+        } catch (\Exception $exception) {
+            $transaction->rollBack();
+            throw $exception;
+        }
     }
 
     /**
      * @param int $productId
      * @param $characteristicId
-     * @param ValueType $type
-     * @return Value
-     */
-    public function create(int $productId, $characteristicId, ValueType $type): Value
-    {
-        $value = Value::create($productId, $characteristicId, empty($type->value) ? null : $type->value);
-        $this->baseService->save($value);
-        return $value;
-    }
-
-    /**
-     * @param int $id
-     * @param ValueType $type
+     * @param string|null $value
      * @return Value
      * @throws \yii\web\NotFoundHttpException
      */
-    public function edit(int $id, ValueType $type): Value
+    public function edit(int $productId, $characteristicId, string $value = null): Value
     {
-        $value = $this->valueRepository->findOne($id);
-        $this->baseService->notFoundHttpException($value);
-        $value->edit(empty($type->value) ? null : $type->value);
-        $this->baseService->save($value);
-        return $value;
+        $valueModel = $this->valueRepository->findOneByProductCharacteristic($productId, $characteristicId);
+        $this->baseService->notFoundHttpException($valueModel);
+        $valueModel->edit($value);
+        $this->baseService->save($valueModel);
+        return $valueModel;
     }
 }

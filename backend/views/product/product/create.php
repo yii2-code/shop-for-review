@@ -51,6 +51,19 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         </div>
     </div>
 
+    <div class="panel panel-default">
+        <div class="panel-heading">Characteristics</div>
+        <div class="panel-body">
+            <?php foreach ($type->values as $index => $value): ?>
+                <?php if ($value->characteristic->isDropDownList()): ?>
+                    <?= $form->field($value, '[]value', ['enableClientValidation' => false])->dropDownList($value->getDropDownList()) ?>
+                <?php else: ?>
+                    <?= $form->field($value, '[]value', ['enableClientValidation' => false])->textInput(['value' => $value->characteristic->default]) ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
+    </div>
+
     <div class="form-group">
         <?= Html::submitButton('Create', ['class' => 'btn btn-primary']) ?>
     </div>

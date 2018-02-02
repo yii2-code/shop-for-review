@@ -162,4 +162,12 @@ class Characteristic extends ActiveRecord
     {
         return $this->required == static::REQUIRED_YES;
     }
+
+    /**
+     * @return bool
+     */
+    public function isDropDownList(): bool
+    {
+        return !empty($this->variants);
+    }
 }

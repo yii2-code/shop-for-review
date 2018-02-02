@@ -45,4 +45,22 @@ class ValueQuery extends ActiveQuery
     {
         return $this->andWhere([Value::tableName() . '.[[id]]' => $id]);
     }
+
+    /**
+     * @param int $id
+     * @return self
+     */
+    public function product(int $id): self
+    {
+        return $this->andWhere([Value::tableName() . '.[[product_id]]' => $id]);
+    }
+
+    /**
+     * @param int $id
+     * @return self
+     */
+    public function characteristic(int $id): self
+    {
+        return $this->andWhere([Value::tableName() . '.[[characteristic_id]]' => $id]);
+    }
 }

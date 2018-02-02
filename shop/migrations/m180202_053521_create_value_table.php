@@ -43,7 +43,7 @@ class m180202_053521_create_value_table extends Migration
         $this->addForeignKey(
             'fk-value-characteristic',
             '{{%value}}',
-            'product_id',
+            'characteristic_id',
             '{{%characteristic}}',
             'id',
             'RESTRICT',

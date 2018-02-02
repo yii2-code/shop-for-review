@@ -26,4 +26,14 @@ class ValueRepository
     {
         return Value::find()->id($id)->limit(1)->one();
     }
+
+    /**
+     * @param int $productId
+     * @param int $characteristicId
+     * @return null|Value
+     */
+    public function findOneByProductCharacteristic(int $productId, int $characteristicId): ?Value
+    {
+        return Value::find()->product($productId)->characteristic($characteristicId)->limit(1)->one();
+    }
 }

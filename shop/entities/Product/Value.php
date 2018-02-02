@@ -28,6 +28,8 @@ use yii\db\ActiveRecord;
  * @property $value string
  * @property $created_at string
  * @property $updated_at string
+ *
+ * @property Characteristic $characteristic
  */
 class Value extends ActiveRecord
 {
@@ -50,9 +52,9 @@ class Value extends ActiveRecord
     }
 
     /**
-     * @return ValueQuery|\yii\db\ActiveQuery
+     * @return ValueQuery
      */
-    public static function find()
+    public static function find(): ValueQuery
     {
         return new ValueQuery(static::class);
     }
@@ -91,5 +93,13 @@ class Value extends ActiveRecord
     public function edit(string $value = null): void
     {
         $this->value = $value;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCharacteristic()
+    {
+        return $this->hasOne(Characteristic::class, ['id' => 'characteristic_id']);
     }
 }

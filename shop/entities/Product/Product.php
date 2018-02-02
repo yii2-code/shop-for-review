@@ -40,6 +40,7 @@ use yii\helpers\ArrayHelper;
  * @property Brand $brand
  * @property Category $categoryMain
  * @property Tag[] $tags
+ * @property Value[] $values
  */
 class Product extends ActiveRecord
 {
@@ -207,6 +208,14 @@ class Product extends ActiveRecord
     {
         return $this->hasMany(TagAssign::class, ['record_id' => 'id'])
             ->andWhere(['class' => static::class]);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getValues()
+    {
+        return $this->hasMany(Value::class, ['product_id' => 'id'])->orderBy(['id' => SORT_ASC]);
     }
 
     /**

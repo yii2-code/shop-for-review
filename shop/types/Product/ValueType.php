@@ -47,6 +47,7 @@ class ValueType extends Model
             $this->model = new Value();
         } else {
             $this->model = $model;
+            $this->value = $model->value;
         }
     }
 
@@ -70,5 +71,15 @@ class ValueType extends Model
         return ['value' => $this->characteristic->title];
     }
 
-
+    /**
+     * @return array
+     */
+    public function getDropDownList(): array
+    {
+        $list = array_combine($this->characteristic->variants, $this->characteristic->variants);
+        if (!empty($this->characteristic->default)) {
+            $list = [$this->characteristic->default => $this->characteristic->default] + $list;
+        }
+        return $list;
+    }
 }

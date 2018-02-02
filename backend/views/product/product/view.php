@@ -16,6 +16,7 @@ use yii\widgets\DetailView;
 /** @var $this \yii\web\View */
 /** @var $model \shop\entities\Product\Product */
 /** @var $type \shop\types\Product\PriceType */
+/** @var $updateValues \shop\types\Product\ValueType[] */
 
 $this->title = $model->title;
 
@@ -27,7 +28,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
 <div>
     <h1><?= $this->title ?></h1>
 
-    <p class="btn-group" role="group">
+    <div class="btn-group" role="group" style="margin-bottom: 15px">
         <a href="<?= Url::to(['update', 'id' => $model->id]) ?>" class="btn btn-primary">Update</a>
         <?php Modal::begin([
             'toggleButton' => ['label' => 'Update price', 'class' => 'btn btn-primary btn-right'],
@@ -38,13 +39,32 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
 
         <?= $form->field($type, 'oldPrice')->input('number') ?>
 
-    <div class="form-group">
-        <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
-    </div>
+        <div class="form-group">
+            <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
+        </div>
 
-    <?php $form::end() ?>
-    <?php Modal::end() ?>
-    </p>
+        <?php $form::end() ?>
+        <?php Modal::end() ?>
+        <?php Modal::begin([
+            'toggleButton' => ['label' => 'Update Characteristics', 'class' => 'btn btn-primary btn-right'],
+        ]) ?>
+        <?php $form = ActiveForm::begin(['action' => ['edit-value', 'id' => $model->id]]) ?>
+
+        <?php foreach ($updateValues as $value): ?>
+
+            <?php if ($value->characteristic->isDropDownList()): ?>
+                <?= $form->field($value, '[]value', ['enableClientValidation' => false])->dropDownList($value->getDropDownList()) ?>
+            <?php else: ?>
+                <?= $form->field($value, '[]value', ['enableClientValidation' => false])->textInput() ?>
+            <?php endif; ?>
+
+        <?php endforeach; ?>
+        <div class="form-group">
+            <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
+        </div>
+        <?php $form::end() ?>
+        <?php Modal::end() ?>
+    </div>
 
     <?= DetailView::widget([
         'model' => $model,

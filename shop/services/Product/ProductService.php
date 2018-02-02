@@ -42,48 +42,56 @@ class ProductService
      * @var TagAssignService
      */
     private $tagAssignService;
+    /**
+     * @var ValueService
+     */
+    private $valueService;
 
     /**
      * ProductService constructor.
      * @param BaseService $baseService
      * @param ProductRepository $productRepository
      * @param TagAssignService $tagAssignService
+     * @param ValueService $valueService
      * @throws \yii\base\InvalidConfigException
      */
     public function __construct(
         BaseService $baseService,
         ProductRepository $productRepository,
-        TagAssignService $tagAssignService
+        TagAssignService $tagAssignService,
+        ValueService $valueService
     )
     {
         $this->baseService = $baseService;
         $this->productRepository = $productRepository;
         $this->imageManager = \Yii::createObject(ImageManagerInterface::class);
         $this->tagAssignService = $tagAssignService;
+        $this->valueService = $valueService;
     }
 
     /**
      * @param Product|null $model
      * @return ProductCreateType|ProductEditType
+     * @throws \yii\base\InvalidConfigException
      */
     public function createType(Product $model = null)
     {
         if (is_null($model)) {
-            return new ProductCreateType();
+            return \Yii::createObject(ProductCreateType::class);
         } else {
             return new ProductEditType($model);
         }
-
     }
 
     /**
      * @param ProductCreateType $productType
      * @param PriceType $priceType
+     * @param array $values
      * @return Product
-     * @throws \yii\base\Exception
      * @throws Exception
+     * @throws \yii\db\Exception
      */
-    public function create(ProductCreateType $productType, PriceType $priceType): Product
+    public function create(ProductCreateType $productType, PriceType $priceType, array $values = []): Product
     {
         $transaction = \Yii::$app->db->beginTransaction();
         try {
@@ -100,6 +108,9 @@ class ProductService
             $this->baseService->save($product);
             $this->imageManager->createService()->editAfterCreatedRecord($product->id, $product::className());
             $this->tagAssignService->assign(Product::class, $product->id, explode(',', $productType->tags));
+            foreach ($values as $value) {
+                $this->valueService->create($product->id, $value);
+            }
             $transaction->commit();
         } catch (Exception $exception) {
             $transaction->rollBack();

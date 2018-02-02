@@ -43,4 +43,13 @@ class CharacteristicRepository
     {
         return Characteristic::find()->id($id)->exists();
     }
+
+    /**
+     * @param int $sort
+     * @return array|Characteristic[]|\yii\db\ActiveRecord[]
+     */
+    public function findAll(int $sort = SORT_DESC)
+    {
+        return Characteristic::find()->orderBy(['position' => $sort])->all();
+    }
 }

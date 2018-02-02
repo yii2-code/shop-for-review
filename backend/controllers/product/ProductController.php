@@ -12,11 +12,14 @@ namespace backend\controllers\product;
 use DomainException;
 use RuntimeException;
 use shop\entities\repositories\Product\ProductRepository;
+use shop\entities\repositories\Product\ValueRepository;
 use shop\search\ProductSearch;
 use shop\services\BaseService;
 use shop\services\Product\ProductService;
+use shop\services\Product\ValueService;
 use shop\types\Product\PriceType;
 use Yii;
+use yii\base\Model;
 use yii\base\Module;
 use yii\web\Controller;
 
@@ -38,6 +41,14 @@ class ProductController extends Controller
      * @var ProductService
      */
     private $productService;
+    /**
+     * @var ValueService
+     */
+    private $valueService;
+    /**
+     * @var ValueRepository
+     */
+    private $valueRepository;
 
     /**
      * ProductController constructor.
@@ -46,6 +57,8 @@ class ProductController extends Controller
      * @param BaseService $baseService
      * @param ProductRepository $productRepository
      * @param ProductService $productService
+     * @param ValueRepository $valueRepository
+     * @param ValueService $valueService
      * @param array $config
      */
     public function __construct(
@@ -54,6 +67,8 @@ class ProductController extends Controller
         BaseService $baseService,
         ProductRepository $productRepository,
         ProductService $productService,
+        ValueRepository $valueRepository,
+        ValueService $valueService,
         array $config = []
     )
     {
@@ -61,6 +76,8 @@ class ProductController extends Controller
         $this->baseService = $baseService;
         $this->productRepository = $productRepository;
         $this->productService = $productService;
+        $this->valueRepository = $valueRepository;
+        $this->valueService = $valueService;
     }
 
     /**
@@ -86,7 +103,7 @@ class ProductController extends Controller
 
         if ($type->load(Yii::$app->request->post()) && $type->validate()) {
             try {
-                $model = $this->productService->create($type, $type->price);
+                $model = $this->productService->create($type, $type->price, $type->values);
                 return $this->redirect(['view', 'id' => $model->id]);
             } catch (DomainException $exception) {
                 Yii::$app->session->addFlash('warning', $exception->getMessage());
@@ -106,10 +123,16 @@ class ProductController extends Controller
      */
     public function actionView(int $id)
     {
-        $model = $this->productRepository->findOne($id);
-        $this->baseService->notFoundHttpException($model);
-        $type = new PriceType($model);
-        return $this->render('view', ['model' => $model, 'type' => $type]);
+        $update = $this->productRepository->findOne($id);
+        $this->baseService->notFoundHttpException($update);
+
+        $type = new PriceType($update);
+
+        $updateValues = $this->valueService->createTypes($update);
+
+        return $this->render('view',
+            ['model' => $update, 'type' => $type, 'updateValues' => $updateValues]
+        );
     }
 
     /**
@@ -136,8 +159,41 @@ class ProductController extends Controller
 
     /**
      * @param int $id
+     * @return \yii\web\Response
+     * @throws \Exception
+     * @throws \yii\db\Exception
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function actionEditValue(int $id)
+    {
+        $update = $this->productRepository->findOne($id);
+        $this->baseService->notFoundHttpException($update);
+        $valueTypes = $this->valueService->createTypes($update);
+        if (Model::loadMultiple($valueTypes, Yii::$app->request->post()) && Model::validateMultiple($valueTypes)) {
+            try {
+                $this->valueService->edits($id, $valueTypes);
+                Yii::$app->session->addFlash('info', 'The value is characteristics');
+            } catch (DomainException $exception) {
+                Yii::$app->session->addFlash('waring', $exception->getMessage());
+            } catch (RuntimeException $exception) {
+                Yii::$app->errorHandler->logException($exception);
+                Yii::$app->session->addFlash('waring', 'Runtime error');
+            }
+        } else {
+            foreach ($valueTypes as $valueType) {
+                if ($valueType->hasErrors('value')) {
+                    Yii::$app->session->addFlash('info', $valueType->getFirstError('value'));
+                }
+            }
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * @param int $id
      * @return string
      * @throws \yii\web\NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionUpdate(int $id)
     {

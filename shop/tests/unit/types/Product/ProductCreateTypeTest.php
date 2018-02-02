@@ -31,6 +31,7 @@ class ProductCreateTypeTest extends Unit
      *
      * @group product
      * @throws \shop\tests\_generated\ModuleException
+     * @throws \yii\base\InvalidConfigException
      */
     public function testSuccess()
     {
@@ -50,7 +51,7 @@ class ProductCreateTypeTest extends Unit
         /** @var Category $category */
         $category = $this->tester->grabFixture('category', 2);
 
-        $type = new ProductCreateType();
+        $type = $this->createType();
         $type->title = 'Title';
         $type->announce = 'Announce';
         $type->description = 'Description';
@@ -63,10 +64,11 @@ class ProductCreateTypeTest extends Unit
 
     /**
      * @group product
+     * @throws \yii\base\InvalidConfigException
      */
     public function testRequired()
     {
-        $type = new ProductCreateType();
+        $type = $this->createType();
         $this->assertFalse($type->validate());
 
         $this->assertArrayHasKey('title', $type->getErrors(), 'Property "title" has not error');
@@ -78,14 +80,25 @@ class ProductCreateTypeTest extends Unit
 
     /**
      * @group product
+     * @throws \yii\base\InvalidConfigException
      */
     public function testExists()
     {
-        $type = new ProductCreateType();
+        $type = $this->createType();
         $type->brandId = 1;
         $type->categoryMainId = 1;
         $this->assertFalse($type->validate());
         $this->assertArrayHasKey('brandId', $type->getErrors(), 'Property "brandId" has not error');
         $this->assertArrayHasKey('categoryMainId', $type->getErrors(), 'Property "categoryMainId" has not error');
+    }
+
+
+    /**
+     * @return ProductCreateType|Object
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function createType(): ProductCreateType
+    {
+        return \Yii::createObject(ProductCreateType::class);
     }
 }
