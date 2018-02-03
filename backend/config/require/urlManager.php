@@ -14,6 +14,6 @@ return [
     'enablePrettyUrl' => true,
     'showScriptName' => false,
     'rules' => [
-
+        'sign-in' => 'auth/user/sign-in',
     ],
 ];

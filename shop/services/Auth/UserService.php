@@ -85,6 +85,39 @@ class UserService
     }
 
     /**
+     * @param string $password
+     * @param string $login
+     * @param string $email
+     * @return User
+     */
+    public function createAdmin(
+        string $password,
+        string $login,
+        string $email
+    ): User
+    {
+        if (strlen($password) < 4 || strlen($password) > 100) {
+            throw new DomainException(sprintf('The length of "%s" is too small or too big', $password));
+        }
+
+        if (strlen($login) < 4 || strlen($login) > 100) {
+            throw new DomainException(sprintf('The length of "%s" is too small or too big', $login));
+        }
+
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
+            throw new DomainException(sprintf('The "%s" is invalid email address', $email));
+        }
+
+        $user = User::createAdmin(
+            $password,
+            $login,
+            $email
+        );
+        $this->baseService->save($user);
+        return $user;
+    }
+
+    /**
      * @param SignInType $type
      * @return User
      */

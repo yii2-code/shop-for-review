@@ -35,8 +35,17 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    /**
+     *
+     */
     const STATUS_DELETE = 1;
+    /**
+     *
+     */
     const STATUS_ACTIVE = 2;
+    /**
+     *
+     */
     const STATUS_CONFIRM_EMAIL = 3;
 
     /**
@@ -85,6 +94,27 @@ class User extends ActiveRecord implements IdentityInterface
         $model->setEmail($email);
         $model->setStatus($status);
         $model->generateEmailActive();
+        $model->setPassword($password);
+        return $model;
+    }
+
+
+    /**
+     * @param string $password
+     * @param string $login
+     * @param string $email
+     * @return User
+     */
+    public static function createAdmin(
+        string $password,
+        string $login,
+        string $email
+    ): self
+    {
+        $model = new static();
+        $model->setLogin($login);
+        $model->setEmail($email);
+        $model->setStatus(self::STATUS_ACTIVE);
         $model->setPassword($password);
         return $model;
     }
@@ -213,17 +243,29 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->id;
     }
 
+    /**
+     * @param mixed $token
+     * @param null $type
+     * @return void|IdentityInterface
+     */
     public static function findIdentityByAccessToken($token, $type = null)
     {
         // TODO: Implement findIdentityByAccessToken() method.
     }
 
 
+    /**
+     * @return string|void
+     */
     public function getAuthKey()
     {
         // TODO: Implement getAuthKey() method.
     }
 
+    /**
+     * @param string $authKey
+     * @return bool|void
+     */
     public function validateAuthKey($authKey)
     {
         // TODO: Implement validateAuthKey() method.

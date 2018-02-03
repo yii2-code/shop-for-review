@@ -11,6 +11,7 @@ $params = array_merge(
 
 return [
     'id' => 'app-backend',
+    'name' => 'Admin shop',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log', 'image'],
@@ -38,8 +39,9 @@ return [
             'csrfParam' => '_csrf-backend',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
+            'identityClass' => \shop\entities\Auth\User::class,
+            'loginUrl' => ['/sign-in'],
+            //'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
         'session' => [

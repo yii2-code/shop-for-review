@@ -27,7 +27,8 @@
     "yiisoft/yii2-imagine": "~2.0.0",
     "paulzi/yii2-nested-sets": "^1.0",
     "bower-asset/bootstrap-tagsinput/bootstrap-tagsinput": "0.8.0",
-    "symfony/dotenv": "v4.0.4"
+    "symfony/dotenv": "v4.0.4",
+    "dmstr/yii2-adminlte-asset": "2.6"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.0.0",
@@ -45,5 +46,8 @@
       "type": "composer",
       "url": "https://asset-packagist.org"
     }
-  ]
+  ],
+  "scripts": {
+    "admin": "./yii admin/new login email@email.test password"
+  }
 }

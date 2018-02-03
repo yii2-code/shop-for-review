@@ -18,6 +18,7 @@ return [
                 'shop\migrations',
                 'app\modules\image\migrations',
                 'app\modules\tag\migrations',
+                'console\migrations',
             ],
             'migrationPath' => null,
         ],

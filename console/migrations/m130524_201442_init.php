@@ -1,5 +1,7 @@
 <?php
 
+namespace console\migrations;
+
 use yii\db\Migration;
 
 class m130524_201442_init extends Migration
@@ -12,7 +14,7 @@ class m130524_201442_init extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('{{%user}}', [
+        $this->createTable('{{%user_test}}', [
             'id' => $this->primaryKey(),
             'username' => $this->string()->notNull()->unique(),
             'auth_key' => $this->string(32)->notNull(),
@@ -28,6 +30,6 @@ class m130524_201442_init extends Migration
 
     public function down()
     {
-        $this->dropTable('{{%user}}');
+        $this->dropTable('{{%user_test}}');
     }
 }
