@@ -46,6 +46,10 @@ class ProductService
      * @var ValueService
      */
     private $valueService;
+    /**
+     * @var CategoryAssignService
+     */
+    private $categoryAssignService;
 
     /**
      * ProductService constructor.
@@ -53,13 +57,15 @@ class ProductService
      * @param ProductRepository $productRepository
      * @param TagAssignService $tagAssignService
      * @param ValueService $valueService
+     * @param CategoryAssignService $categoryAssignService
      * @throws \yii\base\InvalidConfigException
      */
     public function __construct(
         BaseService $baseService,
         ProductRepository $productRepository,
         TagAssignService $tagAssignService,
-        ValueService $valueService
+        ValueService $valueService,
+        CategoryAssignService $categoryAssignService
     )
     {
         $this->baseService = $baseService;
@@ -67,6 +73,7 @@ class ProductService
         $this->imageManager = \Yii::createObject(ImageManagerInterface::class);
         $this->tagAssignService = $tagAssignService;
         $this->valueService = $valueService;
+        $this->categoryAssignService = $categoryAssignService;
     }
 
     /**
@@ -110,6 +117,9 @@ class ProductService
             $this->tagAssignService->assign(Product::class, $product->id, explode(',', $productType->tags));
             foreach ($values as $value) {
                 $this->valueService->create($product->id, $value);
+            }
+            foreach ($productType->category->categories as $category) {
+                $this->categoryAssignService->create($product->id, $category);
             }
             $transaction->commit();
         } catch (Exception $exception) {

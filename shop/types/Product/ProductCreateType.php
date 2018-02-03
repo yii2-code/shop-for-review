@@ -13,6 +13,7 @@ use app\type\CompositeType;
 use shop\entities\Product\Brand;
 use shop\entities\Product\Category;
 use shop\entities\repositories\Product\CharacteristicRepository;
+use shop\services\Product\CategoryAssignService;
 use shop\services\Product\ValueService;
 
 /**
@@ -20,6 +21,7 @@ use shop\services\Product\ValueService;
  * @package shop\types\Product
  * @property PriceType $price
  * @property ValueType[] $values
+ * @property CategoryAssignType $category
  */
 class ProductCreateType extends CompositeType
 {
@@ -57,11 +59,13 @@ class ProductCreateType extends CompositeType
      * ProductType constructor.
      * @param ValueService $valueService
      * @param CharacteristicRepository $valueRepository
+     * @param CategoryAssignService $categoryAssignService
      * @param array $config
      */
     public function __construct(
         ValueService $valueService,
         CharacteristicRepository $valueRepository,
+        CategoryAssignService $categoryAssignService,
         array $config = []
     )
     {
@@ -73,6 +77,7 @@ class ProductCreateType extends CompositeType
             $values[] = $valueService->createType($characteristic);
         }
         $this->values = $values;
+        $this->category = $categoryAssignService->createType();
     }
 
     /**
@@ -80,7 +85,7 @@ class ProductCreateType extends CompositeType
      */
     protected function internalForms(): array
     {
-        return ['price', 'values'];
+        return ['price', 'values', 'category'];
     }
 
     /**

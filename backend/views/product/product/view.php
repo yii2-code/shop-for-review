@@ -7,6 +7,7 @@
  */
 
 use app\modules\image\widgets\ImageWidget;
+use shop\helpers\CategoryHelper;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use yii\bootstrap\Modal;
@@ -17,6 +18,7 @@ use yii\widgets\DetailView;
 /** @var $model \shop\entities\Product\Product */
 /** @var $type \shop\types\Product\PriceType */
 /** @var $updateValues \shop\types\Product\ValueType[] */
+/** @var $categoryType \shop\types\Product\CategoryAssignType */
 
 $this->title = $model->title;
 
@@ -59,6 +61,18 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
             <?php endif; ?>
 
         <?php endforeach; ?>
+        <div class="form-group">
+            <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
+        </div>
+        <?php $form::end() ?>
+        <?php Modal::end() ?>
+        <?php Modal::begin([
+            'toggleButton' => ['label' => 'Update other Categories', 'class' => 'btn btn-primary btn-right'],
+        ]) ?>
+        <?php $form = ActiveForm::begin(['action' => ['edit-category', 'id' => $model->id]]) ?>
+
+        <?= $form->field($categoryType, 'categories')->dropDownList(CategoryHelper::getTree(), ['multiple' => true]); ?>
+
         <div class="form-group">
             <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
         </div>

@@ -52,6 +52,8 @@ class CreateTest extends Unit
         $type->price->price = '1000';
         $type->price->oldPrice = '900';
 
+        $this->assertTrue($type->validate(), 'Unable to save type');
+
         $model = $this->service->create($type, $type->price);
 
         $this->tester->seeRecord(

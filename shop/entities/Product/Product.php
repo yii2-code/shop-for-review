@@ -41,6 +41,8 @@ use yii\helpers\ArrayHelper;
  * @property Category $categoryMain
  * @property Tag[] $tags
  * @property Value[] $values
+ * @property Category[] $categories
+ * @property CategoryAssign[] $categoryAssigns
  */
 class Product extends ActiveRecord
 {
@@ -191,7 +193,23 @@ class Product extends ActiveRecord
         return $this->hasOne(Category::class, ['id' => 'category_main_id']);
     }
 
+    /**
+     * @return ActiveQuery
+     */
+    public function getCategories()
+    {
+        return $this->hasMany(Category::class, ['id' => 'category_id'])
+            ->via('categoryAssigns');
+    }
 
+    /**
+     * @return ActiveQuery
+     */
+    public function getCategoryAssigns()
+    {
+        return $this->hasMany(CategoryAssign::class, ['product_id' => 'id']);
+    }
+    
     /**
      * @return ActiveQuery
      */

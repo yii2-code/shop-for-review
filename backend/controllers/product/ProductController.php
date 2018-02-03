@@ -15,6 +15,7 @@ use shop\entities\repositories\Product\ProductRepository;
 use shop\entities\repositories\Product\ValueRepository;
 use shop\search\ProductSearch;
 use shop\services\BaseService;
+use shop\services\Product\CategoryAssignService;
 use shop\services\Product\ProductService;
 use shop\services\Product\ValueService;
 use shop\types\Product\PriceType;
@@ -49,6 +50,10 @@ class ProductController extends Controller
      * @var ValueRepository
      */
     private $valueRepository;
+    /**
+     * @var CategoryAssignService
+     */
+    private $categoryAssignService;
 
     /**
      * ProductController constructor.
@@ -59,6 +64,7 @@ class ProductController extends Controller
      * @param ProductService $productService
      * @param ValueRepository $valueRepository
      * @param ValueService $valueService
+     * @param CategoryAssignService $categoryAssignService
      * @param array $config
      */
     public function __construct(
@@ -69,6 +75,7 @@ class ProductController extends Controller
         ProductService $productService,
         ValueRepository $valueRepository,
         ValueService $valueService,
+        CategoryAssignService $categoryAssignService,
         array $config = []
     )
     {
@@ -78,6 +85,7 @@ class ProductController extends Controller
         $this->productService = $productService;
         $this->valueRepository = $valueRepository;
         $this->valueService = $valueService;
+        $this->categoryAssignService = $categoryAssignService;
     }
 
     /**
@@ -123,15 +131,17 @@ class ProductController extends Controller
      */
     public function actionView(int $id)
     {
-        $update = $this->productRepository->findOne($id);
-        $this->baseService->notFoundHttpException($update);
+        $product = $this->productRepository->findOne($id);
+        $this->baseService->notFoundHttpException($product);
 
-        $type = new PriceType($update);
+        $type = new PriceType($product);
 
-        $updateValues = $this->valueService->createTypes($update);
+        $updateValues = $this->valueService->createTypes($product);
+
+        $categoryType = $this->categoryAssignService->createType($product);
 
         return $this->render('view',
-            ['model' => $update, 'type' => $type, 'updateValues' => $updateValues]
+            ['model' => $product, 'type' => $type, 'updateValues' => $updateValues, 'categoryType' => $categoryType]
         );
     }
 
@@ -172,7 +182,7 @@ class ProductController extends Controller
         if (Model::loadMultiple($valueTypes, Yii::$app->request->post()) && Model::validateMultiple($valueTypes)) {
             try {
                 $this->valueService->edits($id, $valueTypes);
-                Yii::$app->session->addFlash('info', 'The value is characteristics');
+                Yii::$app->session->addFlash('info', 'The characteristics is updated');
             } catch (DomainException $exception) {
                 Yii::$app->session->addFlash('waring', $exception->getMessage());
             } catch (RuntimeException $exception) {
@@ -186,6 +196,32 @@ class ProductController extends Controller
                 }
             }
         }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * @param int $id
+     * @return \yii\web\Response
+     * @throws \Exception
+     * @throws \Throwable
+     * @throws \yii\db\Exception
+     */
+    public function actionEditCategory(int $id)
+    {
+        $type = $this->categoryAssignService->createType();
+
+        if ($type->load(Yii::$app->request->post()) && $type->validate()) {
+            try {
+                $this->categoryAssignService->creates($id, $type->categories);
+                Yii::$app->session->addFlash('info', 'The category is updated');
+            } catch (DomainException $exception) {
+                Yii::$app->session->addFlash('waring', $exception->getMessage());
+            } catch (RuntimeException $exception) {
+                Yii::$app->errorHandler->logException($exception);
+                Yii::$app->session->addFlash('waring', 'Runtime error');
+            }
+        }
+
         return $this->redirect(Yii::$app->request->referrer);
     }
 

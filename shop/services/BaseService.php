@@ -63,4 +63,18 @@ class BaseService
             throw new RuntimeException(Yii::t('shop', 'Unable to save model'));
         }
     }
+
+
+    /**
+     * @param ActiveRecord $model
+     * @throws \Exception
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function delete(ActiveRecord $model)
+    {
+        if (!$model->delete()) {
+            throw new RuntimeException(Yii::t('shop', 'Unable to delete model'));
+        }
+    }
 }

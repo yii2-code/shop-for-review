@@ -39,6 +39,8 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
 
     <?= $form->field($type, 'categoryMainId')->dropDownList(CategoryHelper::getTree()); ?>
 
+    <?= $form->field($type->category, 'categories')->dropDownList(CategoryHelper::getTree(), ['multiple' => true]); ?>
+
     <?= $form->field($type, 'tags')->widget(TagWidget::class) ?>
 
     <?= $form->field($type, 'status')->dropDownList(ProductHelper::getStatusDropDown()); ?>

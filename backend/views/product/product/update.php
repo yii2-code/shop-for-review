@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
     <?= $form->field($type, 'status')->dropDownList(ProductHelper::getStatusDropDown()); ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Create', ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
     </div>
 
     <?php $form::end() ?>

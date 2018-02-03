@@ -14,6 +14,8 @@ class m180202_053521_create_value_table extends Migration
      */
     public function up()
     {
+        $options = $this->db->getDriverName() == 'mysql' ? 'ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci' : null;
+
         $this->createTable('{{%value}}', [
             'id' => $this->primaryKey(),
             'product_id' => $this->integer()->notNull(),
@@ -21,7 +23,7 @@ class m180202_053521_create_value_table extends Migration
             'value' => $this->string(100),
             'created_at' => $this->dateTime()->notNull(),
             'updated_at' => $this->dateTime()->notNull(),
-        ]);
+        ], $options);
 
         $this->createIndex(
             'ui-value-product_id-characteristic_id',
