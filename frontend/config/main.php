@@ -39,8 +39,8 @@ return [
             'clients' => [
                 'google' => [
                     'class' => yii\authclient\clients\Google::class,
-                    'clientId' => '236416334497-sc3mcf83euovrouq348ncnvk0lrsjm4l.apps.googleusercontent.com',
-                    'clientSecret' => 'GoC-ixilX1Y7KzJsI-siaA44',
+                    'clientId' => getenv('OAUTH_GOOGLE_CLIENT_ID'),
+                    'clientSecret' => getenv('OAUTH_GOOGLE_CLIENT_SECRET'),
                     'normalizeUserAttributeMap' => [
                         'email' => function ($attribute) {
                             return ArrayHelper::getValue($attribute, ['emails', '0', 'value']);
@@ -51,8 +51,8 @@ return [
                 ],
                 'github' => [
                     'class' => yii\authclient\clients\GitHub::class,
-                    'clientId' => 'cc02942dc3008fcf6d0d',
-                    'clientSecret' => 'b52d6bdf6e338739405c6383ea4afb9b6a0d1ee9',
+                    'clientId' => getenv('OAUTH_GITHUB_CLIENT_ID'),
+                    'clientSecret' => getenv('OAUTH_GITHUB_CLIENT_SECRET'),
                     'title' => 'Sign in with GitHub',
                 ],
                 'twitter' => [
@@ -60,8 +60,8 @@ return [
                     'attributeParams' => [
                         'include_email' => 'true'
                     ],
-                    'consumerKey' => 'vbcpikdBbG0UzzwgkVsCcJMlc',
-                    'consumerSecret' => 'jNYj2HxumLXxRDtIPkAFlwl6YAKniFGvd0xO8jUztDpnN7zjlv',
+                    'consumerKey' => getenv('OAUTH_TWITTER_CLIENT_KEY'),
+                    'consumerSecret' => getenv('OAUTH_TWITTER_CLIENT_SECRET'),
                     'normalizeUserAttributeMap' => [
                         'login' => 'screen_name',
                     ],
