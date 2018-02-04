@@ -76,18 +76,9 @@ class Image
      * @param UploadedFile $file
      * @return string
      */
-    public function generateName(UploadedFile $file): string
+    protected function generateName(UploadedFile $file): string
     {
         return md5(uniqid($file->baseName)) . '.' . $file->getExtension();
-    }
-
-    /**
-     * @param string $name
-     * @return string
-     */
-    public function getSrcPath(string $name)
-    {
-        return sprintf('%s/%s', $this->getPath(), $name);
     }
 
     /**
@@ -115,7 +106,7 @@ class Image
      * @param array $config
      * @param string $fullPath
      */
-    public function createThumb(string $name, array $config, string $fullPath): void
+    protected function createThumb(string $name, array $config, string $fullPath): void
     {
         $width = ArrayHelper::getValue($config, 'width');
         $height = ArrayHelper::getValue($config, 'height');
@@ -124,11 +115,19 @@ class Image
         \yii\imagine\Image::thumbnail($fullPath, $width, $height)->save($path, ['quality' => $quality]);
     }
 
-
     /**
      * @param string $src
      */
     public function unlink(string $src): void
+    {
+        $this->unlinkSrc($src);
+        $this->unlinkThumbs($src);
+    }
+
+    /**
+     * @param string $src
+     */
+    protected function unlinkSrc(string $src): void
     {
         $file = $this->getSrcPath($src);
         if (file_exists($file) && !unlink($file)) {
@@ -139,7 +138,7 @@ class Image
     /**
      * @param string $src
      */
-    public function unlinkThumbs(string $src): void
+    protected function unlinkThumbs(string $src): void
     {
         foreach ($this->getThumbs() as $name => $config) {
             $this->unlinkThumb($this->getThumbName($name, $src));
@@ -149,7 +148,7 @@ class Image
     /**
      * @param string $name
      */
-    public function unlinkThumb(string $name): void
+    protected function unlinkThumb(string $name): void
     {
         $file = $this->getSrcThumbPath($name);
         if (file_exists($file) && !unlink($file)) {
@@ -165,6 +164,15 @@ class Image
     public function getSrcThumbPath(string $src): string
     {
         return $this->getThumbPath() . '/' . $src;
+    }
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    public function getSrcPath(string $name)
+    {
+        return sprintf('%s/%s', $this->getPath(), $name);
     }
 
     /**
