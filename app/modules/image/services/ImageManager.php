@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace app\modules\image\services;
 
 
-use app\modules\image\models\Image;
+use app\modules\image\models\Image as ImageModel;
 use app\modules\image\models\ImageRepository;
 use app\modules\image\TDO\ImageTdo;
 use RuntimeException;
@@ -27,10 +27,8 @@ class ImageManager implements ImageManagerInterface
      * @var ImageRepository
      */
     private $imageRepository;
-    /**
-     * @var string
-     */
-    private $path;
+
+
     /**
      * @var string
      */
@@ -45,12 +43,6 @@ class ImageManager implements ImageManagerInterface
      * @var string
      */
     private $identitySession = '_image_token';
-
-
-    /**
-     * @var string
-     */
-    private $thumbPath;
 
     /**
      * @var string
@@ -67,6 +59,11 @@ class ImageManager implements ImageManagerInterface
             'quality' => 100,
         ],
     ];
+
+    /**
+     * @var Image
+     */
+    private $upload;
 
     /**
      * ImageManager constructor.
@@ -91,13 +88,16 @@ class ImageManager implements ImageManagerInterface
     )
     {
         $this->imageRepository = $imageRepository;
-        $this->path = rtrim($path, '/');
         $this->url = rtrim($url, '/');
         $this->identitySession = $identitySession;
         $this->maxFiles = $maxFiles;
         $this->thumbUrl = rtrim($thumbUrl, '/');
-        $this->thumbPath = rtrim($thumbPath, '/');
-        $this->thumbs = array_merge($this->thumbs, $thumbs);
+
+        $this->upload = new Image(
+            $path,
+            $thumbPath,
+            array_merge($this->thumbs, $thumbs)
+        );
     }
 
     /**
@@ -151,6 +151,14 @@ class ImageManager implements ImageManagerInterface
     }
 
     /**
+     * @return Image
+     */
+    public function getUpload(): Image
+    {
+        return $this->upload;
+    }
+
+    /**
      * @return string
      */
     public function getUrl(): string
@@ -163,7 +171,7 @@ class ImageManager implements ImageManagerInterface
      */
     public function getPath(): string
     {
-        return $this->path;
+        return $this->upload->getPath();
     }
 
     /**
@@ -171,7 +179,7 @@ class ImageManager implements ImageManagerInterface
      */
     public function getThumbPath(): string
     {
-        return $this->thumbPath;
+        return $this->upload->getThumbPath();
     }
 
     /**
@@ -182,13 +190,12 @@ class ImageManager implements ImageManagerInterface
         return $this->thumbUrl;
     }
 
-
     /**
      * @return array
      */
     public function getThumbs(): array
     {
-        return $this->thumbs;
+        return $this->upload->getThumbs();
     }
 
     /**
@@ -213,7 +220,7 @@ class ImageManager implements ImageManagerInterface
      * @param string $class
      * @param int|null $recordId
      * @param int $sort
-     * @return array|Image[]
+     * @return array|ImageModel[]
      */
     public function getImages(string $class, int $recordId = null, $sort = SORT_DESC): array
     {
@@ -226,7 +233,7 @@ class ImageManager implements ImageManagerInterface
 
     /**
      * @param string $class
-     * @return array|Image[]
+     * @return array|ImageModel[]
      */
     public function getImagesByToken(string $class, $sort = SORT_DESC): array
     {
@@ -286,7 +293,7 @@ class ImageManager implements ImageManagerInterface
     }
 
     /**
-     * @param array|Image[] $images
+     * @param array|ImageModel[] $images
      * @return array|ImageTdo[]
      */
     public function wrap(array $images): array

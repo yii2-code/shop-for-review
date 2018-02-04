@@ -35,19 +35,12 @@ class ImageService
     /**
      * ImageService constructor.
      * @param ImageManagerInterface $imageManager
-     * @throws \yii\base\Exception
      */
     public function __construct(
         ImageManagerInterface $imageManager
     )
     {
         $this->imageManager = $imageManager;
-        if (!FileHelper::createDirectory($this->imageManager->getPath())) {
-            throw new RuntimeException('Unable to create directory');
-        }
-        if (!FileHelper::createDirectory($this->imageManager->getThumbPath())) {
-            throw new RuntimeException('Unable to create directory thumb');
-        }
     }
 
     /**
@@ -91,11 +84,7 @@ class ImageService
      */
     public function create(UploadedFile $file, string $class, int $position, int $recordId = null, int $main = null): Image
     {
-        $tmpName = md5(uniqid($file->baseName)) . '.' . $file->getExtension();
-        $path = sprintf('%s/%s', $this->imageManager->getPath(), $tmpName);
-        if (!$file->saveAs($path)) {
-            throw new RuntimeException('Unable to save image');
-        }
+        $tmpName = $this->imageManager->getUpload()->create($file);
         $image = Image::create($file->name, $tmpName, $class, $position, $main);
         if (!is_null($recordId)) {
             $image->setRecordId($recordId);
@@ -104,24 +93,8 @@ class ImageService
             $image->setToken($token);
         }
         $this->save($image);
-        foreach ($this->imageManager->getThumbs() as $name => $config) {
-            $this->createThumb($this->imageManager->getThumbName($name, $image->src), $config, $path);
-        }
+        $this->imageManager->getUpload()->createThumbs($tmpName, $this->imageManager->getUpload()->getSrcPath($tmpName));
         return $image;
-    }
-
-    /**
-     * @param string $name
-     * @param array $config
-     * @param string $fullPath
-     */
-    public function createThumb(string $name, array $config, string $fullPath): void
-    {
-        $width = ArrayHelper::getValue($config, 'width');
-        $height = ArrayHelper::getValue($config, 'height');
-        $quality = ArrayHelper::getValue($config, 'quality', 100);
-        $path = $this->imageManager->getThumbPath() . '/' . $name;
-        \yii\imagine\Image::thumbnail($fullPath, $width, $height)->save($path, ['quality' => $quality]);
     }
 
     /**
@@ -278,10 +251,8 @@ class ImageService
         if ($image->isMain()) {
             throw new DomainException('Unable to delete model is main');
         }
-        $file = $this->imageManager->getPath() . '/' . $image->src;
-        if (file_exists($file) && !unlink($file)) {
-            throw new RuntimeException('Unable to unlink file');
-        };
+        $this->imageManager->getUpload()->unlink($image->src);
+        $this->imageManager->getUpload()->unlinkThumbs($image->src);
         $this->delete($image);
     }
 

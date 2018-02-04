@@ -89,11 +89,6 @@ class CreatesTest extends Unit
         }
     }
 
-    public function testPosition()
-    {
-
-    }
-
     /**
      * @return array
      * @throws \yii\base\InvalidConfigException

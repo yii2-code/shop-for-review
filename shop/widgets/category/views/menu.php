@@ -9,7 +9,7 @@
 /** @var $this \yii\web\View */
 /** @var $menu array */
 
-array_unshift($menu, ['label' => 'Menu Yii2', 'options' => ['class' => 'header']])
+array_unshift($menu, ['label' => 'Menu', 'options' => ['class' => 'header']])
 
 ?>
 
