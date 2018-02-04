@@ -4,7 +4,7 @@
 
 /* @var $content string */
 
-use frontend\assets\SignInAsset;
+use backend\assets\SignInAsset;
 use yii\helpers\Html;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;

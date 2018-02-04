@@ -45,4 +45,12 @@ class CategoryRepository
     {
         return (bool)Category::find()->id($id)->exists();
     }
+
+    /**
+     * @return array
+     */
+    public function findAll(): array
+    {
+        return Category::find()->all();
+    }
 }

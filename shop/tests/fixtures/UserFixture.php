@@ -9,9 +9,15 @@
 namespace shop\tests\fixtures;
 
 
+use shop\entities\Auth\User;
 use yii\test\ActiveFixture;
 
 class UserFixture extends ActiveFixture
 {
-    public $modelClass = 'shop\entities\Auth\User';
+    public function __construct(array $config = [])
+    {
+        $this->modelClass = User::class;
+        $this->dataFile = codecept_data_dir('/user.php');
+        parent::__construct($config);
+    }
 }

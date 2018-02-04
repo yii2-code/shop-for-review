@@ -6,8 +6,7 @@
  * Time: 16:25
  */
 
-namespace shop\tests\fixtures;
-
+namespace common\fixtures;
 
 use shop\entities\Product\Category;
 use yii\test\ActiveFixture;
@@ -25,7 +24,7 @@ class CategoryFixture extends ActiveFixture
     public function __construct(array $config = [])
     {
         $this->modelClass = Category::class;
-        $this->dataFile = codecept_data_dir('category.php');
+        $this->dataFile = __DIR__ . '/data/category.php';
         parent::__construct($config);
     }
 }
