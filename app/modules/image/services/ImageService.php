@@ -16,8 +16,6 @@ use app\modules\image\types\UpdateType;
 use DomainException;
 use RuntimeException;
 use Yii;
-use yii\helpers\ArrayHelper;
-use yii\helpers\FileHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 
@@ -84,7 +82,7 @@ class ImageService
      */
     public function create(UploadedFile $file, string $class, int $position, int $recordId = null, int $main = null): Image
     {
-        $tmpName = $this->imageManager->getUpload()->create($file);
+        $tmpName = $this->imageManager->getUpload()->upload($file);
         $image = Image::create($file->name, $tmpName, $class, $position, $main);
         if (!is_null($recordId)) {
             $image->setRecordId($recordId);
@@ -93,7 +91,7 @@ class ImageService
             $image->setToken($token);
         }
         $this->save($image);
-        $this->imageManager->getUpload()->createThumbs($tmpName, $this->imageManager->getUpload()->getSrcPath($tmpName));
+        $this->imageManager->getUpload()->createThumbs($tmpName);
         return $image;
     }
 

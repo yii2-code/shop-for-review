@@ -62,7 +62,7 @@ class Image
      * @param UploadedFile $file
      * @return string
      */
-    public function create(UploadedFile $file): string
+    public function upload(UploadedFile $file): string
     {
         $tmpName = $this->generateName($file);
         $path = $this->getSrcPath($tmpName);
@@ -92,12 +92,11 @@ class Image
 
     /**
      * @param string $src
-     * @param string $path
      */
-    public function createThumbs(string $src, string $path): void
+    public function createThumbs(string $src): void
     {
         foreach ($this->getThumbs() as $name => $config) {
-            $this->createThumb($this->getThumbName($name, $src), $config, $path);
+            $this->createThumb($this->getThumbName($name, $src), $config, $this->getSrcPath($src));
         }
     }
 

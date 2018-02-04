@@ -3,22 +3,15 @@
  * Created by PhpStorm.
  * User: cheremhovo
  * Date: 04.02.18
- * Time: 17:46
+ * Time: 19:20
  */
 
-namespace app\modules\image\tests\unit\services\ImageUpload;
-
+namespace app\modules\image\tests\unit\services\Image;
 
 use app\modules\image\services\Image;
 use app\modules\image\tests\stubs\UploadedFile;
-use Codeception\Test\Unit;
-use yii\helpers\FileHelper;
 
-/**
- * Class CreateTest
- * @package app\modules\image\tests\unit\services\ImageUpload
- */
-class CreateTest extends Unit
+class Unit extends \Codeception\Test\Unit
 {
     /**
      * @var
@@ -46,25 +39,6 @@ class CreateTest extends Unit
                 ]
             ]
         );
-    }
-
-    /**
-     * @group image
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function testSuccess()
-    {
-        $path = codecept_data_dir() . '/650x650.png';
-
-        $file = $this->createUploadFile(
-            pathinfo($path, PATHINFO_BASENAME),
-            $path,
-            FileHelper::getMimeType($path),
-            filesize($path),
-            UPLOAD_ERR_OK
-        );
-        $name = $this->service->create($file);
-        $this->assertFileExists(codecept_output_dir('image/' . $name));
     }
 
     /**
