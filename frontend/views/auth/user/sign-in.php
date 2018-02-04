@@ -1,47 +1,78 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: cheremhovo
- * Date: 20.01.18
- * Time: 16:35
- */
 
 use yii\authclient\widgets\AuthChoice;
+use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use yii\bootstrap\Html;
 
 /** @var $type \shop\types\Auth\SignInType */
 /* @var $this yii\web\View */
 
+$this->title = 'Sign In';
+
+$fieldOptions1 = [
+    'options' => ['class' => 'form-group has-feedback'],
+    'inputTemplate' => "{input}<span class='glyphicon glyphicon-envelope form-control-feedback'></span>"
+];
+
+$fieldOptions2 = [
+    'options' => ['class' => 'form-group has-feedback'],
+    'inputTemplate' => "{input}<span class='glyphicon glyphicon-lock form-control-feedback'></span>"
+];
 ?>
 
-<?php $form = ActiveForm::begin(['options' => ['class' => 'form-signin'],]); ?>
-<h2 class="form-signin-heading">Please sign in</h2>
-<?= $form->field($type, 'login')
-    ->textInput(['placeholder' => "Login", 'required' => true, 'autofocus' > true])
-    ->label(false)
-?>
-<?= $form->field($type, 'password')
-    ->passwordInput(['placeholder' => "Password", 'required' => true])
-    ->label(false)
-?>
-
-<div class="form-group checkbox">
-    <label>
-        <input type="checkbox" value="remember-me"> Remember me
-    </label>
-</div>
-
-<div class="form-group" style="color:#999;margin:1em 0">
-    If you forgot your password you can <?= Html::a('reset it', ['/request']) ?>.
-</div>
-
-<div class="form-group">
-        <?= AuthChoice::widget([
-            'baseAuthUrl' => ['/oauth'],
-            'popupMode' => false,
-        ]) ?>
+<div class="login-box">
+    <div class="login-logo">
+        <a href="#"><b>Admin</b>LTE</a>
     </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+        <p class="login-box-msg">Sign in to start your session</p>
 
-<?= Html::submitButton('Sign in', ['class' => 'btn btn-lg btn-primary btn-block']) ?>
-<?php ActiveForm::end(); ?>
+        <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false]); ?>
+
+        <?= $form
+            ->field($type, 'login', $fieldOptions1)
+            ->label(false)
+            ->textInput(['placeholder' => $type->getAttributeLabel('login')]) ?>
+
+        <?= $form
+            ->field($type, 'password', $fieldOptions2)
+            ->label(false)
+            ->passwordInput(['placeholder' => $type->getAttributeLabel('password')]) ?>
+
+        <div class="row">
+            <!--            <div class="col-xs-8">
+                <? /*= $form->field($type, 'rememberMe')->checkbox() */ ?>
+            </div>-->
+            <!-- /.col -->
+            <div class="col-xs-4">
+                <?= Html::submitButton('Sign in', ['class' => 'btn btn-primary btn-block btn-flat', 'name' => 'login-button']) ?>
+            </div>
+            <!-- /.col -->
+        </div>
+
+
+        <?php ActiveForm::end(); ?>
+
+        <div class="social-auth-links text-center">
+            <p>- OR -</p>
+            <?php $authAuthChoice = AuthChoice::begin([
+                'baseAuthUrl' => ['/oauth'],
+                'popupMode' => false,
+            ]); ?>
+
+            <?php foreach ($authAuthChoice->getClients() as $client): ?>
+                <a href="<?= $authAuthChoice->createClientUrl($client) ?>"
+                   class="btn btn-block btn-social btn-<?= $client->getName() ?> btn-flat"><i
+                            class="fa fa-<?= $client->getName() ?>"></i><?= $client->getTitle() ?></a>
+            <?php endforeach; ?>
+            <?php AuthChoice::end(); ?>
+        </div>
+        <!-- /.social-auth-links -->
+
+        <a href="#">I forgot my password</a><br>
+        <a href="register.html" class="text-center">Register a new membership</a>
+
+    </div>
+    <!-- /.login-box-body -->
+</div><!-- /.login-box -->

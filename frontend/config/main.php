@@ -12,26 +12,27 @@ $params = array_merge(
 
 return [
     'id' => 'app-frontend',
+    'name' => 'Shop',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log', \frontend\config\SetUp::class],
     'controllerNamespace' => 'frontend\controllers',
-    'as access' => [
-        'class' => AccessControl::class,
-        'rules' => [
-            [
-                'controllers' => ['auth/user', 'auth/password-reset', 'site'],
-                'actions' => ['signup', 'sign-in', 'reset', 'request', 'index', 'error', 'oauth'],
-                'allow' => true,
-                'roles' => ['?'],
+    /*    'as access' => [
+            'class' => AccessControl::class,
+            'rules' => [
+                [
+                    'controllers' => ['auth/user', 'auth/password-reset', 'site'],
+                    'actions' => ['signup', 'sign-in', 'reset', 'request', 'index', 'error', 'oauth'],
+                    'allow' => true,
+                    'roles' => ['?'],
+                ],
+                [
+                    'controllers' => ['auth/user', 'site'],
+                    'actions' => ['sign-out', 'index', 'error'],
+                    'allow' => true,
+                    'roles' => ['@'],
+                ],
             ],
-            [
-                'controllers' => ['auth/user', 'site'],
-                'actions' => ['sign-out', 'index', 'error'],
-                'allow' => true,
-                'roles' => ['@'],
-            ],
-        ],
-    ],
+        ],*/
     'components' => [
         'authClientCollection' => [
             'class' => yii\authclient\Collection::class,
@@ -46,11 +47,13 @@ return [
                         },
                         'login' => 'displayName',
                     ],
+                    'title' => 'Sign in with Google',
                 ],
                 'github' => [
                     'class' => yii\authclient\clients\GitHub::class,
                     'clientId' => 'cc02942dc3008fcf6d0d',
                     'clientSecret' => 'b52d6bdf6e338739405c6383ea4afb9b6a0d1ee9',
+                    'title' => 'Sign in with GitHub',
                 ],
                 'twitter' => [
                     'class' => yii\authclient\clients\Twitter::class,
@@ -62,22 +65,8 @@ return [
                     'normalizeUserAttributeMap' => [
                         'login' => 'screen_name',
                     ],
+                    'title' => 'Sign in with Twitter',
                 ],
-                'yandex' => [
-                    'class' => yii\authclient\clients\Yandex::class,
-                    'clientId' => 'e77b16276e33409ba104e91b49100002',
-                    'clientSecret' => '8a2086e3faac4f9cba1a67fea7bf82a5',
-                    'normalizeUserAttributeMap' => [
-                        'login' => 'display_name',
-                        'email' => ['emails', '0']
-                    ],
-                ],
-                /*                'facebook' => [
-                                    'class' => 'yii\authclient\clients\Facebook',
-                                    'clientId' => 'facebook_client_id',
-                                    'clientSecret' => 'facebook_client_secret',
-                                ],*/
-                // etc.
             ],
         ],
         'request' => [
@@ -109,7 +98,7 @@ return [
         'frontendHostInfo' => require __DIR__ . '/require/urlManager.php',
         'urlManager' => function () {
             return Yii::$app->get('frontendHostInfo');
-        }
+        },
     ],
     'params' => $params,
 ];

@@ -108,7 +108,7 @@ class UserController extends Controller
      */
     public function actionSignIn()
     {
-        $this->layout = 'sing-in';
+        $this->layout = 'main-login';
 
         $type = new SignInType();
 
