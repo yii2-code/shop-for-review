@@ -11,7 +11,6 @@ namespace shop\tests\unit\entities\Auth\User;
 use Codeception\Test\Unit;
 use DomainException;
 use shop\entities\Auth\User;
-use shop\tests\fixtures\UserFixture;
 
 /**
  * Class RequestSignupTest
@@ -56,20 +55,17 @@ class RequestSignupTest extends Unit
 
     /**
      * @group auth
+     * @throws \Exception
+     * @throws \Throwable
      * @throws \yii\base\Exception
-     * @throws \shop\tests\_generated\ModuleException
      */
     public function testEmail()
     {
-        $this->tester->haveFixtures([
-            'user' => [
-                'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir() . '/user.php',
-            ]
-        ]);
+        User::deleteAll();
+        $this->tester->have(User::class, ['id' => 1]);
 
         /** @var $user User */
-        $user = $this->tester->grabFixture('user', '1');
+        $user = $this->tester->grabRecord(User::class, ['id' => 1]);
 
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage(sprintf('Email "%s" has already been token', $user->email));
@@ -78,24 +74,22 @@ class RequestSignupTest extends Unit
             $login = 'login',
             $email = $user->email
         );
+
     }
 
     /**
      * @group auth
-     * @throws \shop\tests\_generated\ModuleException
+     * @throws \Exception
+     * @throws \Throwable
      * @throws \yii\base\Exception
      */
     public function testLogin()
     {
-        $this->tester->haveFixtures([
-            'user' => [
-                'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir() . '/user.php',
-            ]
-        ]);
+        User::deleteAll();
+        $this->tester->have(User::class, ['id' => 1]);
 
         /** @var $user User */
-        $user = $this->tester->grabFixture('user', '1');
+        $user = $this->tester->grabRecord(User::class, ['id' => 1]);
 
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage(sprintf('Login "%s" has already been token', $user->login));

@@ -4,6 +4,9 @@ modules:
     enabled:
         - Asserts
         - Yii2
+        - DataFactory:
+            factories: tests/_support/factories
+            depends: Yii2
     config:
         Yii2:
             configFile: 'tests/config/main.php'

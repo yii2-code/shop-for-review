@@ -39,6 +39,15 @@ class UserHelper
     }
 
     /**
+     * @param string $password
+     * @return string
+     */
+    public static function generatePasswordHash(string $password): string
+    {
+        return password_hash($password, PASSWORD_DEFAULT);
+    }
+
+    /**
      * @param string $string
      * @param string $repeat
      * @return bool

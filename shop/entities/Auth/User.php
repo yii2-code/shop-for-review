@@ -181,9 +181,8 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function setPassword(string $password): void
     {
-        $this->password = password_hash($password, PASSWORD_DEFAULT);
+        $this->password = UserHelper::generatePasswordHash($password);
     }
-
 
     /**
      * @param string $password

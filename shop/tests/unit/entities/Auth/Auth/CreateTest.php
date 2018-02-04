@@ -12,7 +12,7 @@ namespace shop\tests\unit\entities\Auth\Auth;
 use Codeception\Test\Unit;
 use DomainException;
 use shop\entities\Auth\Auth;
-use shop\tests\fixtures\UserFixture;
+use shop\entities\Auth\User;
 use shop\tests\UnitTester;
 
 /**
@@ -35,14 +35,11 @@ class CreateTest extends Unit
      */
     public function testSuccess()
     {
-        $this->tester->haveFixtures([
-            'user' => [
-                'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir() . '/user.php',
-            ],
-        ]);
+        User::deleteAll();
+        $this->tester->have(User::class, ['id' => 1]);
 
-        $user = $this->tester->grabFixture('user', 2);
+        /** @var $user User */
+        $user = $this->tester->grabRecord(User::class, ['id' => 1]);
 
         $auth = Auth::create($user->id, 'source', 'sourceId');
         $this->assertTrue($auth->save(), 'Unable to save model');
@@ -54,6 +51,7 @@ class CreateTest extends Unit
      */
     public function testUser()
     {
+        User::deleteAll();
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Incorrectly user');
         Auth::create(1, 'source', 'sourceId');
