@@ -143,7 +143,7 @@ class Product extends ActiveRecord
      * @param int $price
      * @param int|null $oldPrice
      */
-    public function editPrice(int $price, int $oldPrice = null)
+    public function editPrice(int $price, int $oldPrice = null): void
     {
         $this->price = $price;
         if ($oldPrice == 0) {
