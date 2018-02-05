@@ -249,8 +249,8 @@ class ImageService
         if ($image->isMain()) {
             throw new DomainException('Unable to delete model is main');
         }
-        $this->imageManager->getUpload()->unlink($image->src);
         $this->delete($image);
+        $this->imageManager->getUpload()->unlink($image->src);
     }
 
     /**
