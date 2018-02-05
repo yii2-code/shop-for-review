@@ -6,9 +6,9 @@
  * Time: 19:20
  */
 
-namespace app\modules\image\tests\unit\services\Image;
+namespace app\modules\image\tests\unit\services\Upload;
 
-use app\modules\image\services\Image;
+use app\modules\image\services\Upload;
 use app\modules\image\tests\stubs\UploadedFile;
 
 class Unit extends \Codeception\Test\Unit
@@ -19,7 +19,7 @@ class Unit extends \Codeception\Test\Unit
     protected $unitTester;
 
     /**
-     * @var Image
+     * @var Upload
      */
     public $service;
 
@@ -28,7 +28,7 @@ class Unit extends \Codeception\Test\Unit
      */
     protected function _before()
     {
-        $this->service = new Image(
+        $this->service = new Upload(
             codecept_output_dir('image'),
             codecept_output_dir('image/thumb'),
             [

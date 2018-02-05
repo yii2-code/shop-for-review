@@ -6,7 +6,7 @@
  * Time: 19:19
  */
 
-namespace app\modules\image\tests\unit\services\Image;
+namespace app\modules\image\tests\unit\services\Upload;
 
 
 /**

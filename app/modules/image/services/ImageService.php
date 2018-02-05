@@ -127,7 +127,7 @@ class ImageService
 
     /**
      * @param int $id
-     * @return array|Image[]
+     * @return array|Upload[]
      * @throws NotFoundHttpException
      */
     public function moveDown(int $id): array

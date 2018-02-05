@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace app\modules\image\services;
 
 
-use app\modules\image\models\Image as ImageModel;
+use app\modules\image\models\Image;
 use app\modules\image\models\ImageRepository;
 use app\modules\image\TDO\ImageTdo;
 use RuntimeException;
@@ -61,7 +61,7 @@ class ImageManager implements ImageManagerInterface
     ];
 
     /**
-     * @var Image
+     * @var Upload
      */
     private $upload;
 
@@ -93,7 +93,7 @@ class ImageManager implements ImageManagerInterface
         $this->maxFiles = $maxFiles;
         $this->thumbUrl = rtrim($thumbUrl, '/');
 
-        $this->upload = new Image(
+        $this->upload = new Upload(
             $path,
             $thumbPath,
             array_merge($this->thumbs, $thumbs)
@@ -151,9 +151,9 @@ class ImageManager implements ImageManagerInterface
     }
 
     /**
-     * @return Image
+     * @return Upload
      */
-    public function getUpload(): Image
+    public function getUpload(): Upload
     {
         return $this->upload;
     }
@@ -220,7 +220,7 @@ class ImageManager implements ImageManagerInterface
      * @param string $class
      * @param int|null $recordId
      * @param int $sort
-     * @return array|ImageModel[]
+     * @return array|Image[]
      */
     public function getImages(string $class, int $recordId = null, $sort = SORT_DESC): array
     {
@@ -233,7 +233,7 @@ class ImageManager implements ImageManagerInterface
 
     /**
      * @param string $class
-     * @return array|ImageModel[]
+     * @return array|Image[]
      */
     public function getImagesByToken(string $class, $sort = SORT_DESC): array
     {
@@ -293,7 +293,7 @@ class ImageManager implements ImageManagerInterface
     }
 
     /**
-     * @param array|ImageModel[] $images
+     * @param array|Image[] $images
      * @return array|ImageTdo[]
      */
     public function wrap(array $images): array

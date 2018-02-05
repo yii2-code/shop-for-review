@@ -6,7 +6,7 @@
  * Time: 17:46
  */
 
-namespace app\modules\image\tests\unit\services\Image;
+namespace app\modules\image\tests\unit\services\Upload;
 
 use yii\helpers\FileHelper;
 

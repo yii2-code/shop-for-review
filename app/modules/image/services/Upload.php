@@ -17,7 +17,7 @@ use yii\web\UploadedFile;
  * Class ImageCreateService
  * @package app\modules\image\services
  */
-class Image
+class Upload
 {
     /**
      * @var string
