@@ -80,7 +80,8 @@ class UploadImageBehavior extends Behavior
     public function events()
     {
         return [
-            ActiveRecord::EVENT_BEFORE_INSERT => 'beforeInsert'
+            ActiveRecord::EVENT_BEFORE_INSERT => 'beforeInsert',
+            ActiveRecord::EVENT_BEFORE_UPDATE => 'beforeUpdate'
         ];
     }
 
@@ -92,6 +93,24 @@ class UploadImageBehavior extends Behavior
         $model = $event->sender;
         $file = $model->{$this->attribute};
         if ($file instanceof UploadedFile) {
+            $model->{$this->attribute} = $this->upload->upload($file);
+            $this->upload->createThumbs($model->{$this->attribute});
+        }
+    }
+
+    /**
+     * @param ModelEvent $event
+     */
+    public function beforeUpdate(ModelEvent $event)
+    {
+        /** @var ActiveRecord $model */
+        $model = $event->sender;
+        $file = $model->{$this->attribute};
+        if ($file instanceof UploadedFile) {
+            $old = $model->getOldAttribute($this->attribute);
+            if (!empty($old)) {
+                $this->upload->unlink($old);
+            }
             $model->{$this->attribute} = $this->upload->upload($file);
             $this->upload->createThumbs($model->{$this->attribute});
         }

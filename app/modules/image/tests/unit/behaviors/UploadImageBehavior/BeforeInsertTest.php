@@ -10,8 +10,6 @@ namespace app\modules\image\tests\unit\behaviors\UploadImageBehavior;
 
 
 use app\modules\image\tests\stubs\ActiveRecord;
-use app\modules\image\tests\stubs\UploadedFile;
-use Codeception\Test\Unit;
 use yii\helpers\FileHelper;
 
 /**
@@ -23,7 +21,6 @@ class BeforeInsertTest extends Unit
 
     /**
      * @group image
-     * @group test
      * @throws \yii\base\InvalidConfigException
      */
     public function testSuccess()
@@ -46,23 +43,4 @@ class BeforeInsertTest extends Unit
         $this->assertFileExists(codecept_output_dir('behavior/thumb/' . '160x160-' . $activeRecord->file));
     }
 
-
-    /**
-     * @param $name
-     * @param $tempName
-     * @param $type
-     * @param $size
-     * @param $error
-     * @return UploadedFile
-     */
-    public function createUploadFile($name, $tempName, $type, $size, $error): UploadedFile
-    {
-        return new UploadedFile([
-            'name' => $name,
-            'tempName' => $tempName,
-            'type' => $type,
-            'size' => $size,
-            'error' => $error,
-        ]);
-    }
 }
