@@ -3,6 +3,7 @@
 use yii\authclient\widgets\AuthChoice;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Url;
 
 /** @var $type \shop\types\Auth\SignInType */
 /* @var $this yii\web\View */
@@ -70,8 +71,8 @@ $fieldOptions2 = [
         </div>
         <!-- /.social-auth-links -->
 
-        <a href="#">I forgot my password</a><br>
-        <a href="register.html" class="text-center">Register a new membership</a>
+        <a href="<?= Url::to('/request-reset') ?>"><?= Yii::t('auth', 'I forgot my password') ?></a><br>
+        <a href="<?= Url::to(['/signup']) ?>" class="text-center"><?= Yii::t('auth', 'Sign up a new membership') ?></a>
 
     </div>
     <!-- /.login-box-body -->

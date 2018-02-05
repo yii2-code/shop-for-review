@@ -12,9 +12,12 @@ use yii\bootstrap\Html;
 /** @var $this \yii\web\View */
 /** @var $type \shop\types\Auth\RequestPasswordResetType */
 
+$this->title = Yii::t('auth', 'Request password reset');
+
 ?>
 
 <div class="col-lg-5">
+    <h1><?= $this->title ?></h1>
     <?php $form = ActiveForm::begin(['id' => 'request-password-reset-form']); ?>
 
     <?= $form->field($type, 'email')->textInput(['autofocus' => true]) ?>

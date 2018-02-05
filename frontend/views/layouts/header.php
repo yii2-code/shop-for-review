@@ -24,7 +24,10 @@ use yii\helpers\Url;
 
                 <?php if (Yii::$app->user->isGuest): ?>
                     <li>
-                        <a href="<?= Url::to(['/sign-in']) ?>"><?= Yii::t('auth', 'Sign in') ?></i></a>
+                        <a href="<?= Url::to(['/signup']) ?>"><?= Yii::t('auth', Yii::t('auth', 'Sign up')) ?></i></a>
+                    </li>
+                    <li>
+                        <a href="<?= Url::to(['/sign-in']) ?>"><?= Yii::t('auth', Yii::t('auth', 'Sign in')) ?></i></a>
                     </li>
                 <?php else: ?>
                     <!-- Messages: style can be found in dropdown.less-->
