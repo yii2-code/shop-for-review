@@ -20,21 +20,14 @@ class BeforeUpdateTest extends Unit
 
     /**
      * @group image
-     * @group test
      * @throws \yii\base\InvalidConfigException
      */
     public function testSuccess()
     {
-        $src = '650x650.png';
         $thumb = '160x160';
-        copy(codecept_data_dir($src), codecept_output_dir("behavior/$src"));
-        copy(codecept_data_dir($src), codecept_output_dir("behavior/thumb/$thumb-$src"));
+        $path = codecept_data_dir('650x650.png');
 
         $activeRecord = new ActiveRecord();
-
-        $activeRecord->setOldAttributes(['file' => $src]);
-
-        $path = codecept_data_dir('650x650.png');
 
         $file = $this->createUploadFile(
             pathinfo($path, PATHINFO_BASENAME),
@@ -50,7 +43,6 @@ class BeforeUpdateTest extends Unit
 
         $this->assertFileExists(codecept_output_dir("behavior/{$activeRecord->file}"));
         $this->assertFileExists(codecept_output_dir("behavior/thumb/$thumb-{$activeRecord->file}"));
-        $this->assertFileNotExists(codecept_output_dir("behavior/$src"));
-        $this->assertFileNotExists(codecept_output_dir("behavior/thumb/$thumb-$src"));
+
     }
 }

@@ -15,6 +15,7 @@ use yii\base\Behavior;
 use yii\base\InvalidConfigException;
 use yii\base\ModelEvent;
 use yii\db\ActiveRecord;
+use yii\db\AfterSaveEvent;
 
 /**
  * Class UploadImageBehavior
@@ -81,7 +82,8 @@ class UploadImageBehavior extends Behavior
     {
         return [
             ActiveRecord::EVENT_BEFORE_INSERT => 'beforeInsert',
-            ActiveRecord::EVENT_BEFORE_UPDATE => 'beforeUpdate'
+            ActiveRecord::EVENT_BEFORE_UPDATE => 'beforeUpdate',
+            ActiveRecord::EVENT_AFTER_UPDATE => 'afterUpdate',
         ];
     }
 
@@ -107,12 +109,21 @@ class UploadImageBehavior extends Behavior
         $model = $event->sender;
         $file = $model->{$this->attribute};
         if ($file instanceof UploadedFile) {
-            $old = $model->getOldAttribute($this->attribute);
+            $model->{$this->attribute} = $this->upload->upload($file);
+            $this->upload->createThumbs($model->{$this->attribute});
+        }
+    }
+
+    /**
+     * @param AfterSaveEvent $event
+     */
+    public function afterUpdate(AfterSaveEvent $event)
+    {
+        if (isset($event->changedAttributes[$this->attribute])) {
+            $old = $event->changedAttributes[$this->attribute];
             if (!empty($old)) {
                 $this->upload->unlink($old);
             }
-            $model->{$this->attribute} = $this->upload->upload($file);
-            $this->upload->createThumbs($model->{$this->attribute});
         }
     }
 }
