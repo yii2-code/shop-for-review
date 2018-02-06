@@ -82,6 +82,15 @@ class Profile extends ActiveRecord
     }
 
     /**
+     * @param int $userId
+     * @return Profile
+     */
+    public static function blank(int $userId): self
+    {
+        return static::create($userId);
+    }
+
+    /**
      * @param string|null $firstName
      * @param string|null $middleName
      * @param string|null $lastName

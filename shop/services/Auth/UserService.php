@@ -12,6 +12,7 @@ namespace shop\services\Auth;
 
 use DomainException;
 use Exception;
+use shop\entities\Auth\Profile;
 use shop\entities\Auth\User;
 use shop\entities\repositories\Auth\UserRepository;
 use shop\helpers\UserHelper;
@@ -74,7 +75,8 @@ class UserService
 
             $user = User::requestSignup($type->password, $type->login, $type->email);
             $this->baseService->save($user);
-
+            $profile = Profile::blank($user->id);
+            $this->baseService->save($profile);
             $this->send($user);
             $transaction->commit();
             return $user;
@@ -89,6 +91,8 @@ class UserService
      * @param string $login
      * @param string $email
      * @return User
+     * @throws Exception
+     * @throws \yii\db\Exception
      */
     public function createAdmin(
         string $password,
@@ -96,25 +100,36 @@ class UserService
         string $email
     ): User
     {
-        if (strlen($password) < 4 || strlen($password) > 100) {
-            throw new DomainException(sprintf('The length of "%s" is too small or too big', $password));
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            if (strlen($password) < 4 || strlen($password) > 100) {
+                throw new DomainException(sprintf('The length of "%s" is too small or too big', $password));
+            }
+
+            if (strlen($login) < 4 || strlen($login) > 100) {
+                throw new DomainException(sprintf('The length of "%s" is too small or too big', $login));
+            }
+
+            if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
+                throw new DomainException(sprintf('The "%s" is invalid email address', $email));
+            }
+
+            $user = User::createAdmin(
+                $password,
+                $login,
+                $email
+            );
+            $this->baseService->save($user);
+
+            $profile = Profile::blank($user->id);
+            $this->baseService->save($profile);
+            $transaction->commit();
+            return $user;
+        } catch (Exception $exception) {
+            $transaction->rollBack();
+            throw $exception;
         }
 
-        if (strlen($login) < 4 || strlen($login) > 100) {
-            throw new DomainException(sprintf('The length of "%s" is too small or too big', $login));
-        }
-
-        if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
-            throw new DomainException(sprintf('The "%s" is invalid email address', $email));
-        }
-
-        $user = User::createAdmin(
-            $password,
-            $login,
-            $email
-        );
-        $this->baseService->save($user);
-        return $user;
     }
 
     /**

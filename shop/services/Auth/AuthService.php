@@ -12,6 +12,7 @@ namespace shop\services\Auth;
 use DomainException;
 use Exception;
 use shop\entities\Auth\Auth;
+use shop\entities\Auth\Profile;
 use shop\entities\Auth\User;
 use shop\entities\repositories\Auth\AuthRepository;
 use shop\entities\repositories\Auth\UserRepository;
@@ -90,6 +91,10 @@ class AuthService
                     $source,
                     $sourceId
                 );
+
+                $profile = Profile::blank($user->id);
+                $this->baseService->save($profile);
+
                 $this->baseService->save($auth);
 
             } else {

@@ -12,6 +12,7 @@ namespace shop\tests\unit\services\Auth\AuthService;
 use Codeception\Test\Unit;
 use DomainException;
 use shop\entities\Auth\Auth;
+use shop\entities\Auth\Profile;
 use shop\entities\Auth\User;
 use shop\services\Auth\AuthService;
 use shop\tests\fixtures\AuthFixture;
@@ -70,6 +71,7 @@ class RequestTest extends Unit
         $user = $this->service->request($login = 'Login', $email = 'test@email.com', $source = 'source', $sourceId = 'sourceId');
         $this->tester->seeRecord(User::class, ['login' => $login, 'email' => $email]);
         $this->tester->seeRecord(Auth::class, ['user_id' => $user->id, 'source' => $source, 'source_id' => $sourceId]);
+        $this->tester->seeRecord(Profile::class, ['user_id' => $user->id]);
     }
 
     /**
