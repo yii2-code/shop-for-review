@@ -42,7 +42,7 @@ class CreatesTest extends Unit
         $images = $this->service->creates($this->generateImages(), $class = $image->class, $recordId = $image->record_id);
 
         foreach ($images as $index => $image) {
-            $this->assertFileExists($this->manager->getPath() . '/' . $image->src, 'Unable to save image');
+            $this->assertFileExists(codecept_output_dir('image/') . $image->src, 'Unable to save image');
 
             $this->tester->seeRecord(
                 Image::class,
@@ -72,7 +72,7 @@ class CreatesTest extends Unit
         $images = $this->service->creates($this->generateImages(), $class = static::class);
 
         foreach ($images as $index => $image) {
-            $this->assertFileExists($this->manager->getPath() . '/' . $image->src, 'Unable to save image');
+            $this->assertFileExists(codecept_output_dir('image/') . $image->src, 'Unable to save image');
 
             $this->tester->seeRecord(
                 Image::class,

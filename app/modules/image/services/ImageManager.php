@@ -28,12 +28,6 @@ class ImageManager implements ImageManagerInterface
      */
     private $imageRepository;
 
-
-    /**
-     * @var string
-     */
-    private $url;
-
     /**
      * @var int
      */
@@ -43,11 +37,6 @@ class ImageManager implements ImageManagerInterface
      * @var string
      */
     private $identitySession = '_image_token';
-
-    /**
-     * @var string
-     */
-    private $thumbUrl;
 
     /**
      * @var array
@@ -64,6 +53,9 @@ class ImageManager implements ImageManagerInterface
      * @var Upload
      */
     private $upload;
+
+    /** @var Config */
+    private $config;
 
     /**
      * ImageManager constructor.
@@ -88,16 +80,11 @@ class ImageManager implements ImageManagerInterface
     )
     {
         $this->imageRepository = $imageRepository;
-        $this->url = rtrim($url, '/');
         $this->identitySession = $identitySession;
         $this->maxFiles = $maxFiles;
-        $this->thumbUrl = rtrim($thumbUrl, '/');
 
-        $this->upload = new Upload(
-            $path,
-            $thumbPath,
-            array_merge($this->thumbs, $thumbs)
-        );
+        $this->config = new Config($path, $thumbPath, $url, $thumbUrl, array_merge($this->thumbs, $thumbs));
+        $this->upload = new Upload($this->config);
     }
 
     /**
@@ -161,17 +148,9 @@ class ImageManager implements ImageManagerInterface
     /**
      * @return string
      */
-    public function getUrl(): string
-    {
-        return $this->url;
-    }
-
-    /**
-     * @return string
-     */
     public function getPath(): string
     {
-        return $this->upload->getPath();
+        return $this->config->getPath();
     }
 
     /**
@@ -179,15 +158,7 @@ class ImageManager implements ImageManagerInterface
      */
     public function getThumbPath(): string
     {
-        return $this->upload->getThumbPath();
-    }
-
-    /**
-     * @return string
-     */
-    public function getThumbUrl(): string
-    {
-        return $this->thumbUrl;
+        return $this->config->getThumbPath();
     }
 
     /**
@@ -195,7 +166,7 @@ class ImageManager implements ImageManagerInterface
      */
     public function getThumbs(): array
     {
-        return $this->upload->getThumbs();
+        return $this->config->getThumbs();
     }
 
     /**
@@ -204,16 +175,6 @@ class ImageManager implements ImageManagerInterface
     public function getMaxFiles(): int
     {
         return $this->maxFiles;
-    }
-
-    /**
-     * @param string $name
-     * @param string $src
-     * @return string
-     */
-    public function getThumbName(string $name, string $src): string
-    {
-        return "$name-$src";
     }
 
     /**
@@ -233,6 +194,7 @@ class ImageManager implements ImageManagerInterface
 
     /**
      * @param string $class
+     * @param int $sort
      * @return array|Image[]
      */
     public function getImagesByToken(string $class, $sort = SORT_DESC): array
@@ -300,7 +262,7 @@ class ImageManager implements ImageManagerInterface
     {
         $wrap = [];
         foreach ($images as $image) {
-            $wrap[] = new ImageTdo($image, $this);
+            $wrap[] = new ImageTdo($image, $this, $this->config);
         }
         return $wrap;
     }

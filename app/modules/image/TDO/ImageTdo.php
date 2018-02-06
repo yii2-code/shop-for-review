@@ -11,7 +11,9 @@ declare(strict_types=1);
 namespace app\modules\image\TDO;
 
 
+use app\modules\image\helper\ImageHelper;
 use app\modules\image\models\Image;
+use app\modules\image\services\Config;
 use app\modules\image\services\ImageManager;
 use app\modules\image\services\ImageManagerInterface;
 use app\modules\image\types\UpdateType;
@@ -32,16 +34,22 @@ class ImageTdo
      * @var ImageManager
      */
     private $imageManager;
+    /**
+     * @var Config
+     */
+    private $config;
 
     /**
      * Image constructor.
      * @param Image $image
      * @param ImageManagerInterface $imageManager
+     * @param Config $config
      */
-    public function __construct(Image $image, ImageManagerInterface $imageManager)
+    public function __construct(Image $image, ImageManagerInterface $imageManager, Config $config)
     {
         $this->image = $image;
         $this->imageManager = $imageManager;
+        $this->config = $config;
     }
 
     /**
@@ -57,7 +65,7 @@ class ImageTdo
      */
     public function getUrlSrc(): string
     {
-        return $this->imageManager->getUrl() . '/' . $this->image->src;
+        return $this->config->getUrl() . '/' . $this->image->src;
     }
 
     /**
@@ -66,7 +74,7 @@ class ImageTdo
      */
     public function getUrlThumb(string $thumb): string
     {
-        return $this->imageManager->getThumbUrl() . '/' . $this->imageManager->getThumbName($thumb, $this->image->src);
+        return $this->config->getThumbUrl() . '/' . ImageHelper::constructThumbName($thumb, $this->image->src);
     }
 
     /**

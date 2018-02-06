@@ -9,6 +9,7 @@
 namespace app\modules\image\behaviors;
 
 
+use app\modules\image\services\Config;
 use app\modules\image\services\Upload;
 use yii\base\Behavior;
 use yii\base\InvalidConfigException;
@@ -51,6 +52,9 @@ class UploadImageBehavior extends Behavior
     /** @var Upload */
     protected $upload;
 
+    /** @var Config */
+    private $config;
+
     /**
      * @throws InvalidConfigException
      */
@@ -72,7 +76,8 @@ class UploadImageBehavior extends Behavior
         if (is_null($this->thumbUrl)) {
             throw new InvalidConfigException(static::class . '::thumbUrl must be set');
         }
-        $this->upload = new Upload($this->path, $this->thumbPath, $this->thumbs);
+        $this->config = new Config($this->path, $this->thumbPath, $this->url, $this->thumbUrl, $this->thumbs);
+        $this->upload = new Upload($this->config);
     }
 
     /**

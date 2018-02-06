@@ -8,6 +8,7 @@
 
 namespace app\modules\image\tests\unit\services\ImageService;
 
+use app\modules\image\helper\ImageHelper;
 use app\modules\image\models\Image;
 use yii\helpers\FileHelper;
 
@@ -31,8 +32,8 @@ class CreateTest extends Unit
             UPLOAD_ERR_OK
         );
         $image = $this->service->create($file, $class = static::class, $position = 2, $recordId = 1, $main = Image::MAIN);
-        $this->assertFileExists($this->manager->getPath() . '/' . $image->src, 'Unable to save image');
-        $this->assertFileExists($this->manager->getThumbPath() . '/' . $this->manager->getThumbName('600x400', $image->src), 'Unable to save image');
+        $this->assertFileExists(codecept_output_dir('image') . '/' . $image->src, 'Unable to save image');
+        $this->assertFileExists($this->manager->getThumbPath() . '/' . ImageHelper::constructThumbName('600x400', $image->src), 'Unable to save image');
         $this->tester->seeRecord(
             Image::class,
             [

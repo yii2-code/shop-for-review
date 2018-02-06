@@ -59,7 +59,7 @@ class Profile extends ActiveRecord
                 'url' => getenv('STATIC_HOST_INFO') . '/profile',
                 'thumbUrl' => getenv('STATIC_HOST_INFO') . '/profile/thumb',
                 'thumbs' => [
-                    '150x160' => [
+                    '160x160' => [
                         'weight' => 160,
                         'height' => 160,
                         'quality' => 100,

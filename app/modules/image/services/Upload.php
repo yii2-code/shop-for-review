@@ -8,9 +8,9 @@
 
 namespace app\modules\image\services;
 
+use app\modules\image\helper\ImageHelper;
 use RuntimeException;
 use yii\helpers\ArrayHelper;
-use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 
 /**
@@ -20,42 +20,18 @@ use yii\web\UploadedFile;
 class Upload
 {
     /**
-     * @var string
+     * @var Config
      */
-    private $path;
-
-    /**
-     * @var array
-     */
-    private $thumbs;
-
-    /**
-     * @var string
-     */
-    private $thumbPath;
+    private $config;
 
     /**
      * ImageCreateService constructor.
-     * @param string $path
-     * @param string $thumbPath
-     * @param array $thumbs
-     * @throws \yii\base\Exception
+     * @param Config $config
      */
-    public function __construct(
-        string $path,
-        string $thumbPath,
-        array $thumbs
-    )
+    public function __construct(Config $config)
     {
-        $this->path = rtrim($path, '/');
-        $this->thumbPath = rtrim($thumbPath, '/');
-        $this->thumbs = $thumbs;
-        if (!FileHelper::createDirectory($this->path)) {
-            throw new RuntimeException('Unable to create directory');
-        }
-        if (!FileHelper::createDirectory($this->thumbPath)) {
-            throw new RuntimeException('Unable to create directory thumb');
-        }
+
+        $this->config = $config;
     }
 
     /**
@@ -65,7 +41,7 @@ class Upload
     public function upload(UploadedFile $file): string
     {
         $tmpName = $this->generateName($file);
-        $path = $this->getSrcPath($tmpName);
+        $path = $this->config->getSrcPath($tmpName);
         if (!$file->saveAs($path)) {
             throw new RuntimeException('Unable to save image');
         }
@@ -86,19 +62,9 @@ class Upload
      */
     public function createThumbs(string $src): void
     {
-        foreach ($this->getThumbs() as $name => $config) {
-            $this->createThumb($this->getThumbName($name, $src), $config, $this->getSrcPath($src));
+        foreach ($this->config->getThumbs() as $name => $config) {
+            $this->createThumb(ImageHelper::constructThumbName($name, $src), $config, $this->config->getSrcPath($src));
         }
-    }
-
-    /**
-     * @param string $name
-     * @param string $src
-     * @return string
-     */
-    public function getThumbName(string $name, string $src): string
-    {
-        return "$name-$src";
     }
 
     /**
@@ -111,7 +77,7 @@ class Upload
         $width = ArrayHelper::getValue($config, 'width');
         $height = ArrayHelper::getValue($config, 'height');
         $quality = ArrayHelper::getValue($config, 'quality', 100);
-        $path = $this->getSrcThumbPath($name);
+        $path = $this->config->getSrcThumbPath($name);
         \yii\imagine\Image::thumbnail($fullPath, $width, $height)->save($path, ['quality' => $quality]);
     }
 
@@ -129,7 +95,7 @@ class Upload
      */
     protected function unlinkSrc(string $src): void
     {
-        $file = $this->getSrcPath($src);
+        $file = $this->config->getSrcPath($src);
         if (file_exists($file) && !unlink($file)) {
             throw new RuntimeException('Unable to unlink file');
         };
@@ -140,8 +106,8 @@ class Upload
      */
     protected function unlinkThumbs(string $src): void
     {
-        foreach ($this->getThumbs() as $name => $config) {
-            $this->unlinkThumb($this->getThumbName($name, $src));
+        foreach ($this->config->getThumbs() as $name => $config) {
+            $this->unlinkThumb(ImageHelper::constructThumbName($name, $src));
         }
     }
 
@@ -150,52 +116,9 @@ class Upload
      */
     protected function unlinkThumb(string $name): void
     {
-        $file = $this->getSrcThumbPath($name);
+        $file = $this->config->getSrcThumbPath($name);
         if (file_exists($file) && !unlink($file)) {
             throw new RuntimeException('Unable to unlink file');
         };
-    }
-
-
-    /**
-     * @param string $src
-     * @return string
-     */
-    public function getSrcThumbPath(string $src): string
-    {
-        return $this->getThumbPath() . '/' . $src;
-    }
-
-    /**
-     * @param string $name
-     * @return string
-     */
-    public function getSrcPath(string $name)
-    {
-        return sprintf('%s/%s', $this->getPath(), $name);
-    }
-
-    /**
-     * @return array
-     */
-    public function getThumbs(): array
-    {
-        return $this->thumbs;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPath(): string
-    {
-        return $this->path;
-    }
-
-    /**
-     * @return string
-     */
-    public function getThumbPath(): string
-    {
-        return $this->thumbPath;
     }
 }

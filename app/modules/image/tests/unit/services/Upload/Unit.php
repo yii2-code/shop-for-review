@@ -8,6 +8,7 @@
 
 namespace app\modules\image\tests\unit\services\Upload;
 
+use app\modules\image\services\Config;
 use app\modules\image\services\Upload;
 use app\modules\image\tests\stubs\UploadedFile;
 
@@ -28,9 +29,11 @@ class Unit extends \Codeception\Test\Unit
      */
     protected function _before()
     {
-        $this->service = new Upload(
+        $config = new Config(
             codecept_output_dir('image'),
             codecept_output_dir('image/thumb'),
+            '/image',
+            '/image/thumb',
             [
                 '160x160' => [
                     'weight' => 160,
@@ -39,6 +42,7 @@ class Unit extends \Codeception\Test\Unit
                 ]
             ]
         );
+        $this->service = new Upload($config);
     }
 
     /**
