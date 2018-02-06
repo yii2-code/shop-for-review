@@ -10,6 +10,7 @@ namespace app\modules\image\tests\unit\behaviors\UploadImageBehavior;
 
 
 use app\modules\image\tests\stubs\ActiveRecord;
+use yii\helpers\FileHelper;
 
 /**
  * Class AfterUpdateTest
@@ -25,6 +26,7 @@ class AfterUpdateTest extends Unit
     {
         $src = '650x650.png';
         $thumb = '160x160';
+        FileHelper::createDirectory(codecept_output_dir('behavior/thumb'));
         copy(codecept_data_dir($src), codecept_output_dir("behavior/$src"));
         copy(codecept_data_dir($src), codecept_output_dir("behavior/thumb/$thumb-$src"));
 

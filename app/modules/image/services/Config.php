@@ -21,23 +21,33 @@ class Config
     /**
      * @var string
      */
-    public $path;
+    protected $path;
     /**
      * @var string
      */
-    public $thumbPath;
+    protected $thumbPath;
     /**
      * @var string
      */
-    public $url;
+    protected $url;
     /**
      * @var string
      */
-    public $thumbUrl;
+    protected $thumbUrl;
     /**
      * @var array
      */
-    public $thumbs = [];
+    protected $thumbs = [];
+
+    /**
+     * @var null|string
+     */
+    protected $placeholderPath;
+
+    /**
+     * @var string
+     */
+    protected $fileNamePlaceholder = 'placeholder.png';
 
     /**
      * Config constructor.
@@ -46,6 +56,7 @@ class Config
      * @param string $url
      * @param string $thumbUrl
      * @param array $thumbs
+     * @param string|null $placeholder
      * @throws \yii\base\Exception
      */
     public function __construct(
@@ -53,7 +64,8 @@ class Config
         string $thumbPath,
         string $url,
         string $thumbUrl,
-        array $thumbs = []
+        array $thumbs = [],
+        string $placeholder = null
     )
     {
         $this->path = rtrim($path, '/');
@@ -69,6 +81,10 @@ class Config
         if (!FileHelper::createDirectory($this->thumbPath)) {
             throw new RuntimeException('Unable to create directory thumb');
         }
+        if (!is_null($this->placeholderPath) && !is_file($this->placeholderPath)) {
+            throw new RuntimeException('Placeholder not found');
+        }
+        $this->placeholderPath = $placeholder;
     }
 
     /**
@@ -76,16 +92,7 @@ class Config
      */
     public function getPath(): string
     {
-        return $this->path;
-    }
-
-    /**
-     * @param string $fileName
-     * @return string
-     */
-    public function getSrcPath(string $fileName)
-    {
-        return sprintf('%s/%s', $this->getPath(), $fileName);
+        return $this->path . '/';
     }
 
     /**
@@ -93,16 +100,7 @@ class Config
      */
     public function getThumbPath(): string
     {
-        return $this->thumbPath;
-    }
-
-    /**
-     * @param string $fileName
-     * @return string
-     */
-    public function getSrcThumbPath(string $fileName): string
-    {
-        return $this->getThumbPath() . '/' . $fileName;
+        return $this->thumbPath . '/';
     }
 
     /**
@@ -110,7 +108,7 @@ class Config
      */
     public function getUrl(): string
     {
-        return $this->url;
+        return $this->url . '/';
     }
 
     /**
@@ -118,7 +116,7 @@ class Config
      */
     public function getThumbUrl(): string
     {
-        return $this->thumbUrl;
+        return $this->thumbUrl . '/';
     }
 
     /**
@@ -127,5 +125,30 @@ class Config
     public function getThumbs(): array
     {
         return $this->thumbs;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isPlaceholder(): bool
+    {
+        return !is_null($this->placeholderPath);
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlaceholderPath(): string
+    {
+        return $this->placeholderPath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileNamePlaceholder(): string
+    {
+        return $this->fileNamePlaceholder;
     }
 }

@@ -41,7 +41,7 @@ class Upload
     public function upload(UploadedFile $file): string
     {
         $tmpName = $this->generateName($file);
-        $path = $this->config->getSrcPath($tmpName);
+        $path = $this->config->getPath() . $tmpName;
         if (!$file->saveAs($path)) {
             throw new RuntimeException('Unable to save image');
         }
@@ -63,7 +63,7 @@ class Upload
     public function createThumbs(string $src): void
     {
         foreach ($this->config->getThumbs() as $name => $config) {
-            $this->createThumb(ImageHelper::constructThumbName($name, $src), $config, $this->config->getSrcPath($src));
+            $this->createThumb(ImageHelper::constructThumbName($name, $src), $config, $this->config->getPath() . $src);
         }
     }
 
@@ -72,12 +72,12 @@ class Upload
      * @param array $config
      * @param string $fullPath
      */
-    protected function createThumb(string $name, array $config, string $fullPath): void
+    public function createThumb(string $name, array $config, string $fullPath): void
     {
         $width = ArrayHelper::getValue($config, 'width');
         $height = ArrayHelper::getValue($config, 'height');
         $quality = ArrayHelper::getValue($config, 'quality', 100);
-        $path = $this->config->getSrcThumbPath($name);
+        $path = $this->config->getThumbPath() . $name;
         \yii\imagine\Image::thumbnail($fullPath, $width, $height)->save($path, ['quality' => $quality]);
     }
 
@@ -95,7 +95,7 @@ class Upload
      */
     protected function unlinkSrc(string $src): void
     {
-        $file = $this->config->getSrcPath($src);
+        $file = $this->config->getPath() . $src;
         if (file_exists($file) && !unlink($file)) {
             throw new RuntimeException('Unable to unlink file');
         };
@@ -116,7 +116,7 @@ class Upload
      */
     protected function unlinkThumb(string $name): void
     {
-        $file = $this->config->getSrcThumbPath($name);
+        $file = $this->config->getThumbPath() . $name;
         if (file_exists($file) && !unlink($file)) {
             throw new RuntimeException('Unable to unlink file');
         };

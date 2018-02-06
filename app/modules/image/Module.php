@@ -49,6 +49,12 @@ class Module extends \yii\base\Module implements BootstrapInterface
      */
     public $maxFiles = 20;
 
+
+    /**
+     * @var
+     */
+    public $placeholderPath;
+
     /**
      * @var string
      */
@@ -70,7 +76,8 @@ class Module extends \yii\base\Module implements BootstrapInterface
                 $this->thumbUrl,
                 $this->identitySession,
                 $this->maxFiles,
-                $this->thumbs
+                $this->thumbs,
+                $this->placeholderPath
             );
         });
     }

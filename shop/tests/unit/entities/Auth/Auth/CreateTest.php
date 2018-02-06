@@ -12,6 +12,7 @@ namespace shop\tests\unit\entities\Auth\Auth;
 use Codeception\Test\Unit;
 use DomainException;
 use shop\entities\Auth\Auth;
+use shop\entities\Auth\Profile;
 use shop\entities\Auth\User;
 use shop\tests\UnitTester;
 
@@ -51,6 +52,7 @@ class CreateTest extends Unit
      */
     public function testUser()
     {
+        Profile::deleteAll();
         User::deleteAll();
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Incorrectly user');

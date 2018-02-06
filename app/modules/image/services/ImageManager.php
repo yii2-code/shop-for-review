@@ -64,9 +64,10 @@ class ImageManager implements ImageManagerInterface
      * @param string $url
      * @param string $thumbPath
      * @param string $thumbUrl
-     * @param array $thumbs
      * @param string $identitySession
      * @param int $maxFiles
+     * @param array $thumbs
+     * @param string|null $placeholderPath
      */
     public function __construct(
         ImageRepository $imageRepository,
@@ -76,14 +77,15 @@ class ImageManager implements ImageManagerInterface
         string $thumbUrl,
         string $identitySession,
         int $maxFiles = 1,
-        array $thumbs = []
+        array $thumbs = [],
+        string $placeholderPath = null
     )
     {
         $this->imageRepository = $imageRepository;
         $this->identitySession = $identitySession;
         $this->maxFiles = $maxFiles;
 
-        $this->config = new Config($path, $thumbPath, $url, $thumbUrl, array_merge($this->thumbs, $thumbs));
+        $this->config = new Config($path, $thumbPath, $url, $thumbUrl, array_merge($this->thumbs, $thumbs), $placeholderPath);
         $this->upload = new Upload($this->config);
     }
 
@@ -143,30 +145,6 @@ class ImageManager implements ImageManagerInterface
     public function getUpload(): Upload
     {
         return $this->upload;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPath(): string
-    {
-        return $this->config->getPath();
-    }
-
-    /**
-     * @return string
-     */
-    public function getThumbPath(): string
-    {
-        return $this->config->getThumbPath();
-    }
-
-    /**
-     * @return array
-     */
-    public function getThumbs(): array
-    {
-        return $this->config->getThumbs();
     }
 
     /**

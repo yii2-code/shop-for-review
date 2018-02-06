@@ -22,6 +22,7 @@ return [
             'url' => getenv('STATIC_HOST_INFO') . '/image',
             'thumbPath' => Yii::getAlias('@static/image/thumb'),
             'thumbUrl' => getenv('STATIC_HOST_INFO') . '/image/thumb',
+            'placeholderPath' => Yii::getAlias('@app/modules/image/data/placeholder.png'),
         ],
     ],
     'container' => [

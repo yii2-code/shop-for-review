@@ -16,6 +16,8 @@ use app\modules\image\models\Image;
 use app\modules\image\services\Config;
 use app\modules\image\services\ImageManager;
 use app\modules\image\services\ImageManagerInterface;
+use app\modules\image\services\Upload;
+use app\modules\image\services\View;
 use app\modules\image\types\UpdateType;
 use yii\helpers\Url;
 
@@ -39,6 +41,9 @@ class ImageTdo
      */
     private $config;
 
+    /** @var View */
+    private $view;
+
     /**
      * Image constructor.
      * @param Image $image
@@ -50,6 +55,7 @@ class ImageTdo
         $this->image = $image;
         $this->imageManager = $imageManager;
         $this->config = $config;
+        $this->view = new View($this->config, new Upload($this->config));
     }
 
     /**
@@ -63,9 +69,13 @@ class ImageTdo
     /**
      * @return string
      */
-    public function getUrlSrc(): string
+    public function getUrlSrc(): ?string
     {
-        return $this->config->getUrl() . '/' . $this->image->src;
+        if ($this->view->isFile($this->image->src)) {
+            return $this->config->getUrl() . $this->image->src;
+        }
+
+        return $this->view->getPlaceholder();
     }
 
     /**
@@ -74,7 +84,7 @@ class ImageTdo
      */
     public function getUrlThumb(string $thumb): string
     {
-        return $this->config->getThumbUrl() . '/' . ImageHelper::constructThumbName($thumb, $this->image->src);
+        return $this->config->getThumbUrl() . ImageHelper::constructThumbName($thumb, $this->image->src);
     }
 
     /**

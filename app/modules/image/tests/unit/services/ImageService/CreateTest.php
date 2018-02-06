@@ -33,7 +33,7 @@ class CreateTest extends Unit
         );
         $image = $this->service->create($file, $class = static::class, $position = 2, $recordId = 1, $main = Image::MAIN);
         $this->assertFileExists(codecept_output_dir('image') . '/' . $image->src, 'Unable to save image');
-        $this->assertFileExists($this->manager->getThumbPath() . '/' . ImageHelper::constructThumbName('600x400', $image->src), 'Unable to save image');
+        $this->assertFileExists(codecept_output_dir('image/thumb/') . ImageHelper::constructThumbName('600x400', $image->src), 'Unable to save image');
         $this->tester->seeRecord(
             Image::class,
             [
