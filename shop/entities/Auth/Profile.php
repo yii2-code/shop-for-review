@@ -12,10 +12,13 @@ namespace shop\entities\Auth;
 
 
 use app\behaviors\TimestampBehavior;
+use app\modules\image\behaviors\UploadImageBehavior;
 use DomainException;
 use shop\entities\query\Auth\ProfileQuery;
 use shop\entities\repositories\Auth\UserRepository;
+use Yii;
 use yii\db\ActiveRecord;
+use yii\web\UploadedFile;
 
 /**
  * Class Profile
@@ -29,6 +32,7 @@ use yii\db\ActiveRecord;
  * @property $src string
  * @property $created_at string
  * @property $updated_at string
+ *
  */
 class Profile extends ActiveRecord
 {
@@ -47,6 +51,21 @@ class Profile extends ActiveRecord
     {
         return [
             'TimestampBehavior' => TimestampBehavior::class,
+            'UploadImageBehavior' => [
+                'class' => UploadImageBehavior::class,
+                'attribute' => 'src',
+                'path' => Yii::getAlias('@static/profile'),
+                'thumbPath' => Yii::getAlias('@static/profile/thumb'),
+                'url' => getenv('STATIC_HOST_INFO') . '/profile',
+                'thumbUrl' => getenv('STATIC_HOST_INFO') . '/profile/thumb',
+                'thumbs' => [
+                    '150x160' => [
+                        'weight' => 160,
+                        'height' => 160,
+                        'quality' => 100,
+                    ]
+                ]
+            ],
         ];
     }
 
@@ -121,5 +140,13 @@ class Profile extends ActiveRecord
         }
 
         $this->user_id = $id;
+    }
+
+    /**
+     * @param UploadedFile|null $file
+     */
+    public function setSrc(UploadedFile $file = null): void
+    {
+        $this->src = $file;
     }
 }

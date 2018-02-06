@@ -24,10 +24,10 @@ use yii\helpers\Url;
 
                 <?php if (Yii::$app->user->isGuest): ?>
                     <li>
-                        <a href="<?= Url::to(['/signup']) ?>"><?= Yii::t('auth', Yii::t('auth', 'Sign up')) ?></i></a>
+                        <a href="<?= Url::to(['/auth/profile/signup']) ?>"><?= Yii::t('auth', Yii::t('auth', 'Sign up')) ?></i></a>
                     </li>
                     <li>
-                        <a href="<?= Url::to(['/sign-in']) ?>"><?= Yii::t('auth', Yii::t('auth', 'Sign in')) ?></i></a>
+                        <a href="<?= Url::to(['/auth/profile/sign-in']) ?>"><?= Yii::t('auth', Yii::t('auth', 'Sign in')) ?></i></a>
                     </li>
                 <?php else: ?>
                     <!-- Messages: style can be found in dropdown.less-->
@@ -276,12 +276,13 @@ use yii\helpers\Url;
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                    <a href="<?= Url::to(['/auth/profile/update', 'id' => Yii::$app->user->identity->profile->id]); ?>"
+                                       class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
                                     <?= Html::a(
                                         'Sign out',
-                                        ['/sign-out'],
+                                        ['/auth/profile/sign-out'],
                                         ['data-method' => 'post', 'class' => 'btn btn-default btn-flat']
                                     ) ?>
                                 </div>

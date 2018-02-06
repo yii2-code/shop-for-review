@@ -14,6 +14,7 @@ return [
     'enablePrettyUrl' => true,
     'showScriptName' => false,
     'rules' => [
+        // auth
         'sign-in' => 'auth/user/sign-in',
         'oauth' => 'auth/user/oauth',
         'signup' => 'auth/user/signup',
@@ -21,5 +22,6 @@ return [
         'active-email/<token>' => 'auth/user/active-email',
         'request-reset' => 'auth/password-reset/request',
         'reset/<token>' => 'auth/password-reset/reset',
+        'profile/<id>' => 'auth/profile/update',
     ],
 ];

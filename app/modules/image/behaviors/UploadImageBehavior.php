@@ -10,12 +10,12 @@ namespace app\modules\image\behaviors;
 
 
 use app\modules\image\services\Upload;
-use app\modules\image\tests\stubs\UploadedFile;
 use yii\base\Behavior;
 use yii\base\InvalidConfigException;
 use yii\base\ModelEvent;
 use yii\db\ActiveRecord;
 use yii\db\AfterSaveEvent;
+use yii\web\UploadedFile;
 
 /**
  * Class UploadImageBehavior
