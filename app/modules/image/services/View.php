@@ -77,6 +77,23 @@ class View
 
     /**
      * @param string $thumb
+     * @return null|string
+     */
+    public function getThumbPlaceholder(string $thumb): ?string
+    {
+        if ($this->config->isPlaceholder()) {
+            if (!isset($this->config->getThumbs()[$thumb])) {
+                return $this->getPlaceholder();
+            }
+            if (!is_file($this->config->getThumbUrl() . ImageHelper::constructThumbName($thumb, $this->config->getFileNamePlaceholder()))) {
+                $this->createThumbPlaceholder($thumb);
+            }
+            return $this->config->getThumbUrl() . ImageHelper::constructThumbName($thumb, $this->config->getFileNamePlaceholder());
+        }
+    }
+
+    /**
+     * @param string $thumb
      */
     public function createThumbPlaceholder(string $thumb): void
     {
@@ -90,4 +107,6 @@ class View
     {
         return copy($this->config->getPlaceholderPath(), $this->config->getPath() . $this->config->getFileNamePlaceholder());
     }
+
+
 }

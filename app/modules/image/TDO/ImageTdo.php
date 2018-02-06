@@ -82,9 +82,12 @@ class ImageTdo
      * @param $thumb
      * @return string
      */
-    public function getUrlThumb(string $thumb): string
+    public function getUrlThumb(string $thumb): ?string
     {
-        return $this->config->getThumbUrl() . ImageHelper::constructThumbName($thumb, $this->image->src);
+        if ($this->view->isThumbFile($thumb, $this->image->src)) {
+            return $this->config->getThumbUrl() . ImageHelper::constructThumbName($thumb, $this->image->src);
+        }
+        return $this->view->getThumbPlaceholder($thumb);
     }
 
     /**
