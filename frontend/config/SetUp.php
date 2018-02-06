@@ -9,6 +9,7 @@
 namespace frontend\config;
 
 
+use shop\services\Auth\PasswordResetService;
 use shop\services\Auth\UserService;
 use Yii;
 use yii\base\BootstrapInterface;
@@ -39,5 +40,6 @@ class SetUp implements BootstrapInterface
         });
 
         $container->set(UserService::class, [], [1 => Instance::of('mailerShop')]);
+        $container->set(PasswordResetService::class, [], [3 => Instance::of('mailerShop')]);
     }
 }

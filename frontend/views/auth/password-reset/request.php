@@ -18,6 +18,9 @@ $this->title = Yii::t('auth', 'Request password reset');
 
 <div class="col-lg-5">
     <h1><?= $this->title ?></h1>
+
+    <p><?= Yii::t('auth', 'Please fill out your email. A link to reset password will be sent there.') ?></p>
+
     <?php $form = ActiveForm::begin(['id' => 'request-password-reset-form']); ?>
 
     <?= $form->field($type, 'email')->textInput(['autofocus' => true]) ?>

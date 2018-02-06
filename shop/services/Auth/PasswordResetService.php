@@ -18,6 +18,7 @@ use shop\services\BaseService;
 use shop\types\Auth\RequestPasswordResetType;
 use shop\types\Auth\ResetPasswordType;
 use Yii;
+use yii\mail\MailerInterface;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -34,19 +35,26 @@ class PasswordResetService
      * @var BaseService
      */
     public $baseService;
+    /**
+     * @var MailerInterface
+     */
+    private $mailer;
 
     /**
      * UserService constructor.
      * @param BaseService $baseService
      * @param \shop\entities\repositories\Auth\UserRepository $userRepository
+     * @param MailerInterface $mailer
      */
     public function __construct(
         BaseService $baseService,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        MailerInterface $mailer
     )
     {
         $this->baseService = $baseService;
         $this->userRepository = $userRepository;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -61,6 +69,7 @@ class PasswordResetService
         $this->baseService->notFoundHttpException($user);
         $user->generatePasswordReset();
         $this->baseService->save($user);
+        $this->send($user);
         return $user;
     }
 
@@ -102,5 +111,21 @@ class PasswordResetService
             return false;
         }
         return time() < $timestamp + $expire;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function send(User $user): void
+    {
+        $sent = $this->mailer
+            ->compose('passwordResetToken', ['user' => $user])
+            ->setSubject('Shop')
+            ->setTo($user->email)
+            ->send();
+
+        if (!$sent) {
+            Yii::warning('Unable to send message', 'shop');
+        }
     }
 }

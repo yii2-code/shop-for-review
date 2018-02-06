@@ -32,6 +32,7 @@ class RequestTest extends Unit
         $type->email = $user->email;
         $model = $this->service->request($type);
         $this->assertNotNull($model->password_reset_token);
+        $this->tester->seeEmailIsSent(1);
     }
 
     /**
