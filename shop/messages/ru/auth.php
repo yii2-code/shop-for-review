@@ -10,6 +10,8 @@ return [
     'Request password reset' => false,
     'Sign up a new membership' => false,
     'I alredy have a membership' => false,
+    'hello {login}' => false,
+    'Follow the link below to active your email:' => false,
     'Sign up' => false,
     'Sign in' => false,
     'I forgot my password' => false,

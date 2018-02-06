@@ -8,12 +8,7 @@ use yii\helpers\Url;
 /** @var $type \shop\types\Auth\SignInType */
 /* @var $this yii\web\View */
 
-$this->title = 'Sign In';
-
-$fieldOptions1 = [
-    'options' => ['class' => 'form-group has-feedback'],
-    'inputTemplate' => "{input}<span class='glyphicon glyphicon-envelope form-control-feedback'></span>"
-];
+$this->title = Yii::t('auth', 'Sign in');
 
 $fieldOptions2 = [
     'options' => ['class' => 'form-group has-feedback'],
@@ -21,10 +16,7 @@ $fieldOptions2 = [
 ];
 ?>
 
-<div class="login-box">
-    <div class="login-logo">
-        <a href="#"><b>Admin</b>LTE</a>
-    </div>
+<div class="login-box" style="margin-top: 0px">
     <!-- /.login-logo -->
     <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p>
@@ -32,13 +24,23 @@ $fieldOptions2 = [
         <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false]); ?>
 
         <?= $form
-            ->field($type, 'login', $fieldOptions1)
-            ->label(false)
+            ->field(
+                $type,
+                'login',
+                [
+                    'options' => ['class' => 'form-group has-feedback'],
+                    'inputTemplate' => "{input}<span class='glyphicon glyphicon-envelope form-control-feedback'></span>"
+                ])->label(false)
             ->textInput(['placeholder' => $type->getAttributeLabel('login')]) ?>
 
         <?= $form
-            ->field($type, 'password', $fieldOptions2)
-            ->label(false)
+            ->field(
+                $type,
+                'password',
+                [
+                    'options' => ['class' => 'form-group has-feedback'],
+                    'inputTemplate' => "{input}<span class='glyphicon glyphicon-lock form-control-feedback'></span>"
+                ])->label(false)
             ->passwordInput(['placeholder' => $type->getAttributeLabel('password')]) ?>
 
         <div class="row">
