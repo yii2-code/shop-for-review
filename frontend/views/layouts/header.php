@@ -24,10 +24,10 @@ use yii\helpers\Url;
 
                 <?php if (Yii::$app->user->isGuest): ?>
                     <li>
-                        <a href="<?= Url::to(['/auth/profile/signup']) ?>"><?= Yii::t('auth', Yii::t('auth', 'Sign up')) ?></i></a>
+                        <a href="<?= Url::to(['/auth/user/signup']) ?>"><?= Yii::t('auth', Yii::t('auth', 'Sign up')) ?></i></a>
                     </li>
                     <li>
-                        <a href="<?= Url::to(['/auth/profile/sign-in']) ?>"><?= Yii::t('auth', Yii::t('auth', 'Sign in')) ?></i></a>
+                        <a href="<?= Url::to(['/auth/user/sign-in']) ?>"><?= Yii::t('auth', Yii::t('auth', 'Sign in')) ?></i></a>
                     </li>
                 <?php else: ?>
                     <!-- Messages: style can be found in dropdown.less-->
@@ -282,7 +282,7 @@ use yii\helpers\Url;
                                 <div class="pull-right">
                                     <?= Html::a(
                                         'Sign out',
-                                        ['/auth/profile/sign-out'],
+                                        ['/auth/user/sign-out'],
                                         ['data-method' => 'post', 'class' => 'btn btn-default btn-flat']
                                     ) ?>
                                 </div>
