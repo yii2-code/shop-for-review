@@ -23,8 +23,10 @@ return [
             'migrationPath' => null,
         ],
         'fixture' => [
-            'class' => 'yii\console\controllers\FixtureController',
+            'class' => yii\faker\FixtureController::class,
+            'fixtureDataPath' => Yii::getAlias('@common/fixtures/data'),
             'namespace' => 'common\fixtures',
+            'templatePath' => Yii::getAlias('@common/fixtures/template'),
         ],
     ],
     'components' => [
