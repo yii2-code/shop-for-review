@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace shop\entities\repositories\Product;
 
 
+use app\modules\image\models\Image;
 use shop\entities\Product\Product;
 
 /**
@@ -43,5 +44,18 @@ class ProductRepository
     public function findAll()
     {
         return Product::find()->all();
+    }
+
+
+    /**
+     * @return array|Product[]
+     */
+    public function carousel(): array
+    {
+        return Product::find()
+            ->innerJoin(Image::tableName(),
+                ['record_id' => Product::tableName() . '.[[id]]', 'class' => Product::class, 'main' => Image::MAIN]
+            )
+            ->active()->orderBy(['id' => SORT_DESC])->limit(10)->all();
     }
 }

@@ -17,6 +17,27 @@ use yii\base\BootstrapInterface;
 
 /**
  * Class Module
+ *
+ * ```php
+ *  'modules' => [
+ *      'image' => [
+ *          'class' => Module::class,
+ *          'path' => '/image/',
+ *          'url' => 'http://example.com/image',
+ *          'thumbPath' '/image/thumb',
+ *          'thumbUrl' => 'http://example.com/image/thumb',
+ *          'placeholderPath' => '/modules/image/data/placeholder.png',
+ *          'thumbs' => [
+ *              '1000x400' => [
+ *                  'weight' => 1000,
+ *                  'height' => 400,
+ *                  'quality' => 100,
+ *              ]
+ *          ],
+ *      ],
+ *  ],
+ * ```
+ * Class Module
  * @package app\modules\image
  */
 class Module extends \yii\base\Module implements BootstrapInterface

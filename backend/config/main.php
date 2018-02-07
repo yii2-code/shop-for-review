@@ -1,7 +1,5 @@
 <?php
 
-use app\modules\image\Module;
-
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
@@ -14,17 +12,7 @@ return [
     'name' => 'Admin shop',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log', 'image'],
-    'modules' => [
-        'image' => [
-            'class' => Module::class,
-            'path' => Yii::getAlias('@static/image'),
-            'url' => getenv('STATIC_HOST_INFO') . '/image',
-            'thumbPath' => Yii::getAlias('@static/image/thumb'),
-            'thumbUrl' => getenv('STATIC_HOST_INFO') . '/image/thumb',
-            'placeholderPath' => Yii::getAlias('@app/modules/image/data/placeholder.png'),
-        ],
-    ],
+    'bootstrap' => ['log'],
     'container' => [
         'definitions' => [
             \app\modules\tag\widgets\TagWidget::class => [

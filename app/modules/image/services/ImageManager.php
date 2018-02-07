@@ -233,6 +233,15 @@ class ImageManager implements ImageManagerInterface
     }
 
     /**
+     * @param Image $image
+     * @return ImageTdo
+     */
+    public function createImageTdo(Image $image): ImageTdo
+    {
+        return new ImageTdo($image, $this, $this->config);
+    }
+
+    /**
      * @param array|Image[] $images
      * @return array|ImageTdo[]
      */
@@ -240,7 +249,7 @@ class ImageManager implements ImageManagerInterface
     {
         $wrap = [];
         foreach ($images as $image) {
-            $wrap[] = new ImageTdo($image, $this, $this->config);
+            $wrap[] = $this->createImageTdo($image);
         }
         return $wrap;
     }

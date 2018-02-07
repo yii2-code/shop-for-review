@@ -11,6 +11,9 @@ declare(strict_types=1);
 namespace shop\entities\Product;
 
 use app\behaviors\TimestampBehavior;
+use app\modules\image\models\Image;
+use app\modules\image\services\ImageManager;
+use app\modules\image\services\ImageManagerInterface;
 use app\modules\tag\models\Tag;
 use app\modules\tag\models\TagAssign;
 use DomainException;
@@ -43,6 +46,8 @@ use yii\helpers\ArrayHelper;
  * @property Value[] $values
  * @property Category[] $categories
  * @property CategoryAssign[] $categoryAssigns
+ * @property Image[] $images
+ * @property Image $mainImage
  */
 class Product extends ActiveRecord
 {
@@ -226,6 +231,45 @@ class Product extends ActiveRecord
     {
         return $this->hasMany(TagAssign::class, ['record_id' => 'id'])
             ->andWhere(['class' => static::class]);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getImages()
+    {
+        return $this->hasMany(Image::class, ['record_id' => 'id'])->andWhere(['model' => static::class]);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getMainImage()
+    {
+        return $this->hasOne(Image::class, ['record_id' => 'id'])->andWhere(['class' => static::class, 'main' => Image::MAIN]);
+    }
+
+    /**
+     * @return \app\modules\image\TDO\ImageTdo[]|array
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getImageDto()
+    {
+        /** @var ImageManager $manager */
+        $manager = \Yii::createObject(ImageManagerInterface::class);
+        return $manager->wrap($this->images);
+    }
+
+
+    /**
+     * @return \app\modules\image\TDO\ImageTdo
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getMainImageDto()
+    {
+        /** @var ImageManager $manager */
+        $manager = \Yii::createObject(ImageManagerInterface::class);
+        return $manager->createImageTdo($this->mainImage);
     }
 
     /**

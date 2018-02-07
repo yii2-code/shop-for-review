@@ -46,4 +46,12 @@ class ProductQuery extends ActiveQuery
     {
         return $this->andWhere([Product::tableName() . '.[[id]]' => $id]);
     }
+
+    /**
+     * @return ProductQuery
+     */
+    public function active(): self
+    {
+        return $this->andWhere([Product::tableName() . '.[[status]]' => Product::STATUS_ACTIVE]);
+    }
 }
