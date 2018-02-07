@@ -44,6 +44,9 @@ class ImageTdo
     /** @var View */
     private $view;
 
+    /** @var Upload */
+    private $upload;
+
     /**
      * Image constructor.
      * @param Image $image
@@ -55,7 +58,8 @@ class ImageTdo
         $this->image = $image;
         $this->imageManager = $imageManager;
         $this->config = $config;
-        $this->view = new View($this->config, new Upload($this->config));
+        $this->upload = new Upload($this->config);
+        $this->view = new View($this->config, $this->upload);
     }
 
     /**
@@ -86,8 +90,19 @@ class ImageTdo
     {
         if ($this->view->isThumbFile($thumb, $this->image->src)) {
             return $this->config->getThumbUrl() . ImageHelper::constructThumbName($thumb, $this->image->src);
+
         }
-        return $this->view->getThumbPlaceholder($thumb);
+        if ($this->view->isFile($this->image->src)) {
+            if (isset($this->config->getThumbs()[$thumb])) {
+                $this->upload->createThumb(
+                    ImageHelper::constructThumbName($thumb, $this->image->src),
+                    $this->config->getThumbs()[$thumb],
+                    $this->config->getPath() . $this->image->src
+                );
+            }
+            return $this->config->getThumbUrl() . ImageHelper::constructThumbName($thumb, $this->image->src);
+        }
+        return $this->view->getPlaceholder();
     }
 
     /**

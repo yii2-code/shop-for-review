@@ -29,9 +29,9 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
 
     <?= $form->field($type, 'title')->textInput(); ?>
 
-    <?= $form->field($type, 'announce')->textarea(); ?>
+    <?= $form->field($type, 'announce')->textarea(['class' => 'wysihtml5 form-control']); ?>
 
-    <?= $form->field($type, 'description')->textarea(); ?>
+    <?= $form->field($type, 'description')->textarea(['class' => 'wysihtml5 form-control']); ?>
 
     <?= $form->field($type, 'brandId')->dropDownList(BrandHelper::getDropDown()); ?>
 
