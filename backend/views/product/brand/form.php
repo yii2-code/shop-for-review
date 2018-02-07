@@ -19,7 +19,7 @@ use yii\helpers\Html;
 
 <?= $form->field($type, 'title')->textInput() ?>
 
-<?= $form->field($type, 'description')->textarea() ?>
+<?= $form->field($type, 'description')->textarea(['class' => 'wysihtml5 form-control']) ?>
 
 <?= $form->field($type, 'status')->dropDownList(BrandHelper::getStatusDropDown()) ?>
 

@@ -69,7 +69,6 @@ class BrandController extends Controller
     {
         $modelSearch = new BrandSearch();
         $dataProvider = $modelSearch->search(Yii::$app->request->queryParams);
-
         return $this->render('index', ['dataProvider' => $dataProvider, 'modelSearch' => $modelSearch]);
     }
 

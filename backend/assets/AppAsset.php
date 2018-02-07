@@ -19,5 +19,6 @@ class AppAsset extends AssetBundle
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
+        Wysihtml5Asset::class,
     ];
 }
