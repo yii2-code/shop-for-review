@@ -73,7 +73,7 @@ class ProfileController extends Controller
 
         $type = $this->profileService->createType($model);
 
-        if ($type->load(Yii::$app->request->post()) && $type->validate()) {
+        if (Yii::$app->request->isPost && $type->load(Yii::$app->request->post()) && $type->validate()) {
             try {
                 $this->profileService->edit($id, $type);
                 Yii::$app->session->addFlash('info', 'The profile was updated');

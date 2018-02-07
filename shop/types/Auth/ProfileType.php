@@ -54,9 +54,12 @@ class ProfileType extends Model
         array $config = []
     )
     {
-
         parent::__construct($config);
         $this->model = $model;
+        $this->firstName = $model->first_name;
+        $this->middleName = $model->middle_name;
+        $this->lastName = $model->last_name;
+        $this->about = $model->about;
     }
 
     /**

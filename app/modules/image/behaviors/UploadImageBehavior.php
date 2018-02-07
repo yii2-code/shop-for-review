@@ -122,6 +122,8 @@ class UploadImageBehavior extends Behavior
         if ($file instanceof UploadedFile) {
             $model->{$this->attribute} = $this->upload->upload($file);
             $this->upload->createThumbs($model->{$this->attribute});
+        } else {
+            unset($model->{$this->attribute});
         }
     }
 
