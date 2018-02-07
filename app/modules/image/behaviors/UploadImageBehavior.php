@@ -9,8 +9,10 @@
 namespace app\modules\image\behaviors;
 
 
+use app\modules\image\helper\ImageHelper;
 use app\modules\image\services\Config;
 use app\modules\image\services\Upload;
+use app\modules\image\services\View;
 use yii\base\Behavior;
 use yii\base\InvalidConfigException;
 use yii\base\ModelEvent;
@@ -55,6 +57,9 @@ class UploadImageBehavior extends Behavior
     /** @var Config */
     private $config;
 
+    /** @var View */
+    private $view;
+
     /**
      * @throws InvalidConfigException
      */
@@ -78,6 +83,7 @@ class UploadImageBehavior extends Behavior
         }
         $this->config = new Config($this->path, $this->thumbPath, $this->url, $this->thumbUrl, $this->thumbs);
         $this->upload = new Upload($this->config);
+        $this->view = new View($this->config, $this->upload);
     }
 
     /**
@@ -129,6 +135,17 @@ class UploadImageBehavior extends Behavior
             if (!empty($old)) {
                 $this->upload->unlink($old);
             }
+        }
+    }
+
+    /**
+     * @param string $thumb
+     * @return string
+     */
+    public function getThumbUrl(string $thumb)
+    {
+        if ($this->view->isThumbFile($thumb, $this->owner->{$this->attribute})) {
+            return $this->config->getThumbUrl() . ImageHelper::constructThumbName($thumb, $this->owner->{$this->attribute});
         }
     }
 }

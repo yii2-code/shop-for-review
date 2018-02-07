@@ -245,6 +245,24 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * @param string $thumb
+     * @param int $width
+     * @return string
+     */
+    public function getAvatar(string $thumb, int $width): ?string
+    {
+        if (is_null($this->profile->src)) {
+            $id = md5(strtolower(trim($this->email)));
+            $default = '?d=' . urlencode('identicon');
+            $width = $width ? '&amp;s=' . $width : '';
+            return 'http://www.gravatar.com/avatar/' . $id . $default . $width;
+        } else {
+            return $this->profile->getThumbUrl($thumb);
+        }
+
+    }
+
+    /**
      * @return int|string
      */
     public function getId()

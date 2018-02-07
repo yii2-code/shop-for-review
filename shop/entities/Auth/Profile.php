@@ -21,6 +21,8 @@ use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
 
 /**
+ * @method getThumbUrl(string $thumb);
+ *
  * Class Profile
  * @package shop\entities\Auth
  * @property $id int
@@ -33,6 +35,7 @@ use yii\web\UploadedFile;
  * @property $created_at string
  * @property $updated_at string
  *
+ * @property User $user
  */
 class Profile extends ActiveRecord
 {
@@ -148,5 +151,13 @@ class Profile extends ActiveRecord
     public function setSrc(UploadedFile $file = null): void
     {
         $this->src = $file;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 }
