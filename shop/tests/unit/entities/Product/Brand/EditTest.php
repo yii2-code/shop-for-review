@@ -11,7 +11,6 @@ namespace shop\tests\unit\entities\Product\Brand;
 
 use Codeception\Test\Unit;
 use shop\entities\Product\Brand;
-use shop\tests\fixtures\BrandFixture;
 use shop\tests\UnitTester;
 
 /**
@@ -29,15 +28,11 @@ class EditTest extends Unit
      */
     public function testSuccess()
     {
-        $this->tester->haveFixtures([
-            'brand' => [
-                'class' => BrandFixture::class,
-                'dataFile' => codecept_data_dir() . '/brand.php',
-            ]
-        ]);
+        Brand::deleteAll();
+        $this->tester->have(Brand::class, ['id' => 1]);
 
         /** @var Brand $brand */
-        $brand = $this->tester->grabFixture('brand', 1);
+        $brand = $this->tester->grabRecord(Brand::class, ['id' => 1]);
 
         $brand->edit($title = 'title', $description = 'description', $status = Brand::STATUS_ACTIVE);
         $this->assertTrue($brand->save(), 'Unable to save model');

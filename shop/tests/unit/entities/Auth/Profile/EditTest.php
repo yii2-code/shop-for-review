@@ -6,7 +6,7 @@
  * Time: 19:10
  */
 
-namespace shop\tests\unit\entities\Profile;
+namespace shop\tests\unit\entities\Auth\Profile;
 
 
 use Codeception\Test\Unit;
@@ -16,7 +16,7 @@ use shop\entities\Auth\User;
 
 /**
  * Class EditTest
- * @package shop\tests\unit\entities\Profile
+ * @package shop\tests\unit\entities\Auth\Profile
  */
 class EditTest extends Unit
 {

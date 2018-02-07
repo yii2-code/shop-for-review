@@ -12,7 +12,6 @@ namespace shop\tests\unit\entities\Product\Characteristic;
 use Codeception\Test\Unit;
 use shop\entities\Product\Characteristic;
 use shop\entities\Product\Variant;
-use shop\tests\fixtures\CharacteristicFixture;
 use shop\tests\UnitTester;
 
 /**
@@ -30,12 +29,11 @@ class EditTest extends Unit
      */
     public function testSuccess()
     {
-        $this->tester->haveFixtures([
-            'characteristic' => CharacteristicFixture::class,
-        ]);
+        Characteristic::deleteAll();
+        $this->tester->have(Characteristic::class, ['id' => 1]);
 
         /** @var Characteristic $characteristic */
-        $characteristic = $this->tester->grabFixture('characteristic', 1);
+        $characteristic = $this->tester->grabRecord(Characteristic::class, ['id' => 1]);
 
         $characteristic->edit(
             $title = 'Title',

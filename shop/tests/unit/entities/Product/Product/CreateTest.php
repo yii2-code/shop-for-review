@@ -13,7 +13,6 @@ use Codeception\Test\Unit;
 use shop\entities\Product\Brand;
 use shop\entities\Product\Category;
 use shop\entities\Product\Product;
-use shop\tests\fixtures\BrandFixture;
 use shop\tests\fixtures\CategoryFixture;
 use shop\tests\UnitTester;
 
@@ -33,19 +32,19 @@ class CreateTest extends Unit
      */
     public function testSuccess()
     {
+        Brand::deleteAll();
+        $this->tester->have(Brand::class, ['id' => 1]);
+        /** @var Brand $brand */
+        $brand = $this->tester->grabRecord(Brand::class, ['id' => 1]);
+
+
         $this->tester->haveFixtures([
-            'brand' => [
-                'class' => BrandFixture::class,
-                'dataFile' => codecept_data_dir() . '/brand.php'
-            ],
             'category' => [
                 'class' => CategoryFixture::class,
                 'dataFile' => codecept_data_dir() . '/category.php'
             ],
         ]);
 
-        /** @var Brand $brand */
-        $brand = $this->tester->grabFixture('brand', 1);
         /** @var Category $category */
         $category = $this->tester->grabFixture('category', 2);
 
