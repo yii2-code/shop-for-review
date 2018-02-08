@@ -21,11 +21,16 @@ $config = [
             'thumbUrl' => getenv('STATIC_HOST_INFO') . '/image/thumb',
             'placeholderPath' => Yii::getAlias('@app/modules/image/data/placeholder.png'),
             'thumbs' => [
-                '1000x400' => [
-                    'width' => 1000,
-                    'height' => 400,
+                '1900x800' => [
+                    'width' => 1900,
+                    'height' => 800,
                     'quality' => 100,
-                ]
+                ],
+                '340x250' => [
+                    'width' => 340,
+                    'height' => 250,
+                    'quality' => 100,
+                ],
             ],
         ],
     ],

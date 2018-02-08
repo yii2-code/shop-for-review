@@ -28,7 +28,7 @@ foreach ($products as $product) {
     for ($index = 1; $index <= 11; $index++) {
 
         if ($index == 1) {
-            $pathFile = $faker->image(Yii::getAlias('@static/image'), 600, 400);
+            $pathFile = $faker->image(Yii::getAlias('@static/image'), 1900, 800);
         } else {
             $pathFile = $faker->image(Yii::getAlias('@static/image'), rand(100, 1000), rand(100, 1000));
         }

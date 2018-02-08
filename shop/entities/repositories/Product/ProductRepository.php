@@ -57,6 +57,25 @@ class ProductRepository
                 Image::tableName() . '.[[record_id]] = ' . Product::tableName() . '.[[id]]'
             )
             ->andWhere(['class' => Product::class, 'main' => Image::MAIN])
-            ->active()->orderBy(['id' => SORT_DESC])->limit(10)->all();
+            ->active()
+            ->orderBy(['id' => SORT_DESC])
+            ->limit(10)
+            ->all();
+    }
+
+    /**
+     * @return array|Product[]|\yii\db\ActiveRecord[]
+     */
+    public function listOnMain()
+    {
+        return Product::find()
+            ->innerJoin(Image::tableName(),
+                Image::tableName() . '.[[record_id]] = ' . Product::tableName() . '.[[id]]'
+            )
+            ->andWhere(['class' => Product::class, 'main' => Image::MAIN])
+            ->active()
+            ->orderBy(['id' => SORT_DESC])
+            ->limit(20)
+            ->all();
     }
 }
