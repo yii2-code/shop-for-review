@@ -11,6 +11,7 @@
 
 ?>
 
+
 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
     <?php foreach ($models as $index => $model): ?>
@@ -20,19 +21,20 @@
         </ol>
     <?php endforeach; ?>
 
-
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner" role="listbox">
-        <?php foreach ($models as $index => $model): ?>
-            <div class="item<?= $index == 0 ? ' active' : null ?>">
-                <img src="<?= $model->getMainImageDto()->getUrlThumb('600x400') ?>" alt="...">
-                <div class="carousel-caption">
-                    First
+    <div class="row">
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <?php foreach ($models as $index => $model): ?>
+                <div class="item<?= $index == 0 ? ' active' : null ?>">
+                    <img src="<?= $model->getMainImageDto()->getUrlThumb('1000x400') ?>" class="img-responsive"
+                         alt="...">
+                    <div class="carousel-caption">
+                        First
+                    </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        </div>
     </div>
-
     <!-- Controls -->
     <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
@@ -43,3 +45,7 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
+
+
+
+

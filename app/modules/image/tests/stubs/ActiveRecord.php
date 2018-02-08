@@ -28,7 +28,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
                 'thumbUrl' => '/thumb',
                 'thumbs' => [
                     '160x160' => [
-                        'weight' => '160',
+                        'width' => '160',
                         'height' => '160',
                         'quality' => '100',
                     ]

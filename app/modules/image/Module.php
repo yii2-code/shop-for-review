@@ -29,7 +29,7 @@ use yii\base\BootstrapInterface;
  *          'placeholderPath' => '/modules/image/data/placeholder.png',
  *          'thumbs' => [
  *              '1000x400' => [
- *                  'weight' => 1000,
+ *                  'width' => 1000,
  *                  'height' => 400,
  *                  'quality' => 100,
  *              ]

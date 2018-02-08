@@ -54,8 +54,9 @@ class ProductRepository
     {
         return Product::find()
             ->innerJoin(Image::tableName(),
-                ['record_id' => Product::tableName() . '.[[id]]', 'class' => Product::class, 'main' => Image::MAIN]
+                Image::tableName() . '.[[record_id]] = ' . Product::tableName() . '.[[id]]'
             )
+            ->andWhere(['class' => Product::class, 'main' => Image::MAIN])
             ->active()->orderBy(['id' => SORT_DESC])->limit(10)->all();
     }
 }

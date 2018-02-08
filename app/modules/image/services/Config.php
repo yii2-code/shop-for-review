@@ -10,6 +10,7 @@ namespace app\modules\image\services;
 
 
 use RuntimeException;
+use yii\base\InvalidConfigException;
 use yii\helpers\FileHelper;
 
 /**
@@ -85,6 +86,22 @@ class Config
             throw new RuntimeException('Placeholder not found');
         }
         $this->placeholderPath = $placeholder;
+        $this->validateThumbs();
+    }
+
+    /**
+     * @throws InvalidConfigException
+     */
+    private function validateThumbs()
+    {
+        foreach ($this->thumbs as $thumb) {
+            if (!isset($thumb['width']) || !is_numeric($thumb['width'])) {
+                throw new InvalidConfigException('Incorrectly thumb');
+            }
+            if (!isset($thumb['height']) || !is_numeric($thumb['height'])) {
+                throw new InvalidConfigException('Incorrectly thumb');
+            }
+        }
     }
 
     /**

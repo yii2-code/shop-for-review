@@ -43,7 +43,7 @@ class ImageManager implements ImageManagerInterface
      */
     private $thumbs = [
         '600x400' => [
-            'weight' => 600,
+            'width' => 600,
             'height' => 400,
             'quality' => 100,
         ],

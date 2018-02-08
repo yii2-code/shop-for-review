@@ -36,7 +36,7 @@ class Unit extends \Codeception\Test\Unit
             '/image/thumb',
             [
                 '160x160' => [
-                    'weight' => 160,
+                    'width' => 160,
                     'height' => 160,
                     'quality' => 100,
                 ]
