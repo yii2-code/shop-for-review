@@ -6,6 +6,8 @@
  * Time: 17:49
  */
 
+use yii\widgets\LinkPager;
+
 /** @var $this \yii\web\View */
 /** @var $dataProvider \yii\data\ActiveDataProvider */
 
@@ -18,3 +20,5 @@
         <?php endforeach; ?>
     </div>
 <?php endforeach; ?>
+
+<?= LinkPager::widget(['pagination' => $dataProvider->getPagination()]); ?>
