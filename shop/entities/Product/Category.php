@@ -18,6 +18,7 @@ use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
+ * @method populateTree()
  * @method appendTo(ActiveRecord $node)
  * @method CategoryQuery getDescendants($depth = null, $andSelf = false, $backOrder = false)
  * @method CategoryQuery getParent()

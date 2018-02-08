@@ -60,7 +60,10 @@ class MenuWidget extends Widget
     {
         $menu = [];
         foreach ($root->children as $level) {
-            $menu[] = ['label' => $level->title, 'url' => ['/'], 'items' => $this->buildMenu($level)];
+            $menu[] = [
+                'label' => $level->title,
+                'url' => ['/product/category/index', 'id' => $level->id],
+                'items' => $this->buildMenu($level)];
         }
         return $menu;
     }

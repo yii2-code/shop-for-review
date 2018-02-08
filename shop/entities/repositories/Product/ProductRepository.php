@@ -78,4 +78,15 @@ class ProductRepository
             ->limit(20)
             ->all();
     }
+
+    /**
+     * @param array $categoryIds
+     * @return \shop\entities\query\Product\ProductQuery
+     */
+    public function queryByCategoryMains(array $categoryIds)
+    {
+        return Product::find()
+            ->inCategoryMain($categoryIds)
+            ->active();
+    }
 }
