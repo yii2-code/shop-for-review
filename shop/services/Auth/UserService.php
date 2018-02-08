@@ -194,8 +194,8 @@ class UserService
     public function send(User $user): void
     {
         $sent = $this->mailer
-            ->compose('requestEmailToken', ['user' => $user])
-            ->setSubject('Shop')
+            ->compose('active-email', ['user' => $user])
+            ->setSubject(Yii::t('auth', 'Confirm your email on Shop'))
             ->setTo($user->email)
             ->send();
 

@@ -16,6 +16,7 @@ return [
 
     // Active email
     'Follow the link below to active your email:' => false,
+    'Confirm your email on Shop' => false,
 
     // Sign up
     'Sign up a new membership' => false,
