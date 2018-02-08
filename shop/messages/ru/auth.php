@@ -17,6 +17,7 @@ return [
     // Active email
     'Follow the link below to active your email:' => false,
     'Confirm your email on Shop' => false,
+    'Thanks for singing up with Shop. You must follow this link to activate your email:' => false,
 
     // Sign up
     'Sign up a new membership' => false,

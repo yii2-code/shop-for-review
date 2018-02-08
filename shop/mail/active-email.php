@@ -10,7 +10,8 @@ $emailLink = Yii::$app->urlManager->createAbsoluteUrl(['/auth/user/active-email'
 <div class="password-reset">
     <p><?= Yii::t('auth', 'Hello {login}', ['login' => Html::encode($user->login)]) ?></p>
 
-    <p><?= Yii::t('auth', 'Follow the link below to reset your password:') ?></p>
+    <p><?= Yii::t('auth', 'Thanks for singing up with Shop. You must follow this link to activate your email:') ?></p>
 
     <p><?= Html::a(Html::encode($emailLink), $emailLink) ?></p>
+
 </div>
