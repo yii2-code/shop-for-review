@@ -20,6 +20,7 @@ use yii\helpers\ArrayHelper;
 /**
  * @method populateTree()
  * @method appendTo(ActiveRecord $node)
+ * @method CategoryQuery getParents()
  * @method CategoryQuery getDescendants($depth = null, $andSelf = false, $backOrder = false)
  * @method CategoryQuery getParent()
  * @method bool isRoot()
@@ -47,6 +48,7 @@ class Category extends ActiveRecord
      */
     const STATUS_DELETE = 2;
 
+    const DEPTH_ROOT = 0;
     /**
      * @return string
      */

@@ -6,6 +6,7 @@ use yii\helpers\Html;
 /* @var $user \shop\entities\Auth\User */
 
 $emailLink = Yii::$app->urlManager->createAbsoluteUrl(['/auth/user/active-email', 'token' => $user->email_active_token]);
+
 ?>
 <div class="password-reset">
     <p><?= Yii::t('auth', 'Hello {login}', ['login' => Html::encode($user->login)]) ?></p>

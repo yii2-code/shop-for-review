@@ -72,10 +72,12 @@ class CategoryController extends Controller
         $categoryIds = array_merge([$category->id], ArrayHelper::getColumn($category->getDescendants()->all(), 'id'));
         $query = $this->productRepository->queryByCategoryMains($categoryIds);
 
+        $parents = $category->getParents()->notRoot()->all();
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query
         ]);
 
-        return $this->render('index', ['dataProvider' => $dataProvider]);
+        return $this->render('index', ['dataProvider' => $dataProvider, 'parents' => $parents, 'category' => $category]);
     }
 }

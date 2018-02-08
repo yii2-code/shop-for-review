@@ -49,4 +49,13 @@ class CategoryQuery extends ActiveQuery
     {
         return $this->andWhere([Category::tableName() . '.[[id]]' => $id]);
     }
+
+
+    /**
+     * @return CategoryQuery
+     */
+    public function notRoot(): self
+    {
+        return $this->andWhere(['NOT', [Category::tableName() . '.[[depth]]' => Category::DEPTH_ROOT]]);
+    }
 }

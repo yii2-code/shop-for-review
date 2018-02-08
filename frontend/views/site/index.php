@@ -5,7 +5,7 @@
 use shop\widgets\product\CarouselWidget;
 use shop\widgets\product\ListOnMainWidget;
 
-$this->title = 'My Yii Application';
+$this->title = 'Shop';
 
 ?>
 
