@@ -3,8 +3,7 @@
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
-    require __DIR__ . '/params.php',
-    require __DIR__ . '/params-local.php'
+    require __DIR__ . '/params.php'
 );
 
 return [
@@ -26,6 +25,8 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+            'cookieValidationKey' => 'aH_eY_CX4tB809ookNkvOO9QJwZQ-X_o',
         ],
         'user' => [
             'identityClass' => \shop\entities\Auth\User::class,

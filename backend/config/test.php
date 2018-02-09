@@ -1,12 +1,17 @@
 <?php
-return [
-    'id' => 'app-backend-tests',
-    'components' => [
-        'assetManager' => [
-            'basePath' => __DIR__ . '/../web/assets',
+
+return yii\helpers\ArrayHelper::merge(
+    require __DIR__ . '/../../common/config/test-local.php',
+    require __DIR__ . '/main.php',
+    [
+        'id' => 'app-backend-tests',
+        'components' => [
+            'assetManager' => [
+                'basePath' => __DIR__ . '/../web/assets',
+            ],
+            'urlManager' => [
+                'showScriptName' => true,
+            ],
         ],
-        'urlManager' => [
-            'showScriptName' => true,
-        ],
-    ],
-];
+    ]
+);
