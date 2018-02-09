@@ -86,6 +86,7 @@ class ProductRepository
     public function queryByCategoryMains(array $categoryIds)
     {
         return Product::find()
+            ->with(['mainImage'])
             ->inCategoryMain($categoryIds)
             ->active();
     }
