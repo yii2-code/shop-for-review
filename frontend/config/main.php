@@ -70,16 +70,25 @@ return [
         'request' => [
             'csrfParam' => '_csrf-frontend',
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'NESUVs_NEkW3XKI2XAqGNz6d4ZP0VK2y',
+            'cookieValidationKey' => hash('sha512', __FILE__ . __LINE__),
         ],
         'user' => [
             'identityClass' => \shop\entities\Auth\User::class,
+            'loginUrl' => ['/sign-in'],
             //'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'identityCookie' => [
+                'name' => '_identity',
+                'httpOnly' => true,
+                'domain' => getenv('COOKIE_DOMAIN'),
+            ],
         ],
         'session' => [
-            // this is the name of the session cookie used for login on the frontend
-            'name' => 'advanced-frontend',
+            // this is the name of the session cookie used for login on the backend
+            'name' => '_session',
+            'cookieParams' => [
+                'domain' => getenv('COOKIE_DOMAIN'),
+                'httponly' => true,
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

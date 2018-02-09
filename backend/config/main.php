@@ -2,7 +2,6 @@
 
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
-    require __DIR__ . '/../../common/config/params-local.php',
     require __DIR__ . '/params.php'
 );
 
@@ -26,17 +25,25 @@ return [
         'request' => [
             'csrfParam' => '_csrf-backend',
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'aH_eY_CX4tB809ookNkvOO9QJwZQ-X_o',
+            'cookieValidationKey' => hash('sha512', __FILE__ . __LINE__),
         ],
         'user' => [
             'identityClass' => \shop\entities\Auth\User::class,
             'loginUrl' => ['/sign-in'],
             //'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+            'identityCookie' => [
+                'name' => '_identity',
+                'httpOnly' => true,
+                'domain' => getenv('COOKIE_DOMAIN'),
+            ],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend
-            'name' => 'advanced-backend',
+            'name' => '_session',
+            'cookieParams' => [
+                'domain' => getenv('COOKIE_DOMAIN'),
+                'httponly' => true,
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
