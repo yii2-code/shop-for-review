@@ -36,6 +36,7 @@ class CreateTest extends Unit
      */
     public function testSuccess()
     {
+        Profile::deleteAll();
         User::deleteAll();
         $this->tester->have(User::class, ['id' => 1]);
 
