@@ -9,10 +9,12 @@
 namespace frontend\controllers\product;
 
 
+use shop\entities\Product\Product;
 use shop\entities\repositories\Product\CategoryRepository;
 use shop\entities\repositories\Product\ProductRepository;
 use shop\services\BaseService;
 use yii\base\Module;
+use yii\caching\TagDependency;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -69,14 +71,33 @@ class CategoryController extends Controller
     {
         $category = $this->categoryRepository->findOne($id);
         $this->baseService->notFoundHttpException($category);
-        $categoryIds = array_merge([$category->id], ArrayHelper::getColumn($category->getDescendants()->all(), 'id'));
-        $query = $this->productRepository->queryByCategoryMains($categoryIds);
 
-        $parents = $category->getParents()->notRoot()->all();
+        $key = [
+            __CLASS__,
+            __METHOD__,
+            __LINE__,
+            $id
+        ];
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query
+        $dependency = new TagDependency([
+            'tags' => [
+                Product::class,
+            ],
         ]);
+
+        list($dataProvider, $parents) = \Yii::$app->cache->getOrSet($key, function () use ($category) : array {
+
+            $categoryIds = array_merge([$category->id], ArrayHelper::getColumn($category->getDescendants()->all(), 'id'));
+            $query = $this->productRepository->queryByCategoryMains($categoryIds);
+
+            $parents = $category->getParents()->notRoot()->all();
+
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query
+            ]);
+            return [$dataProvider, $parents];
+        }, null, $dependency);
+
 
         return $this->render('index', ['dataProvider' => $dataProvider, 'parents' => $parents, 'category' => $category]);
     }

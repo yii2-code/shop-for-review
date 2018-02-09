@@ -25,6 +25,7 @@
     "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
     "yiisoft/yii2-authclient": "~2.1.0",
     "yiisoft/yii2-imagine": "~2.0.0",
+    "yiisoft/yii2-redis": "2.0.*",
     "paulzi/yii2-nested-sets": "^1.0",
     "bower-asset/bootstrap-tagsinput/bootstrap-tagsinput": "0.8.0",
     "symfony/dotenv": "v4.0.4",

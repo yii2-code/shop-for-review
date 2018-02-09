@@ -49,6 +49,11 @@ services:
         networks:
             self:
                 ipv4_address: ${MYSQL_HOST_TEST}
+    redis:
+        image: redis:3.2
+        networks:
+            self:
+                ipv4_address: ${REDIS_HOST}
     node:
         image: node:9.3.0
         working_dir: /var/www/html

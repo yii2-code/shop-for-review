@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace shop\entities\Product;
 
+use app\behaviors\TagDependencyBehavior;
 use app\behaviors\TimestampBehavior;
 use app\modules\image\models\Image;
 use app\modules\image\services\ImageManager;
@@ -75,6 +76,7 @@ class Product extends ActiveRecord
     {
         return [
             'TimestampBehavior' => TimestampBehavior::class,
+            'TagDependencyBehavior' => TagDependencyBehavior::class,
         ];
     }
 
@@ -214,7 +216,7 @@ class Product extends ActiveRecord
     {
         return $this->hasMany(CategoryAssign::class, ['product_id' => 'id']);
     }
-    
+
     /**
      * @return ActiveQuery
      */

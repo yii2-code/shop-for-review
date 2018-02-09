@@ -36,8 +36,12 @@ $config = [
     ],
     'components' => [
         'cache' => [
-            'class' => \yii\caching\FileCache::class,
-            'cachePath' => '@runtime/cache'
+            'class' => \yii\redis\Cache::class,
+            'defaultDuration' => 24 * 60 * 60,
+            'keyPrefix' => hash('crc32', __FILE__),
+            'redis' => [
+                'hostname' => getenv('REDIS_HOST'),
+            ]
         ],
         'i18n' => [
             'translations' => [
