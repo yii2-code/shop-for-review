@@ -39,7 +39,7 @@ docker-compose exec php ./vendor/bin/codecept run
 ```bash
 docker-compose exec php ./yii fixture/load Brand
 docker-compose exec php ./yii fixture/load Category
-docker-compose exec php ./yii fixture/generate product
+docker-compose exec php ./yii fixture/generate product --count=10
 docker-compose exec php ./yii fixture/load Image # может занять несколько минут
 ```
 
