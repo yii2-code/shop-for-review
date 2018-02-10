@@ -17,4 +17,6 @@ RUN docker-php-ext-install pdo_mysql zip
 RUN pecl install xdebug-2.5.5
 RUN docker-php-ext-enable xdebug
 
+RUN mkdir /var/composer && chmod 0777 /var/composer
+
 
