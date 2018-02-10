@@ -25,6 +25,8 @@ services:
             - ./docker/server/composer:/var/composer
         environment:
             COMPOSER_HOME: '/var/composer'
+        extra_hosts:
+            - 'api.shop.app:172.73.251.2'
         networks:
             self:
                 ipv4_address: ${PHP_HOST}

@@ -1,7 +1,7 @@
 <?php
 
 // NOTE: Make sure this file is not accessible when deployed to production
-if (!in_array(@$_SERVER['REMOTE_ADDR'], ['172.73.251.1'])) {
+if (!in_array(@$_SERVER['REMOTE_ADDR'], ['172.73.251.1', '172.73.251.3'])) {
     die('You are not allowed to access this file.');
 }
 
