@@ -12,7 +12,6 @@ namespace shop\services\Auth;
 
 use DomainException;
 use Exception;
-use shop\entities\Auth\Profile;
 use shop\entities\Auth\User;
 use shop\entities\repositories\Auth\UserRepository;
 use shop\helpers\UserHelper;
@@ -75,7 +74,7 @@ class UserService
 
             $user = User::requestSignup($type->password, $type->login, $type->email);
             $this->baseService->save($user);
-            $profile = Profile::blank($user->id);
+            $profile = $user->attachProfileBlank();
             $this->baseService->save($profile);
             $this->send($user);
             $transaction->commit();
@@ -120,8 +119,7 @@ class UserService
                 $email
             );
             $this->baseService->save($user);
-
-            $profile = Profile::blank($user->id);
+            $profile = $user->attachProfileBlank();
             $this->baseService->save($profile);
             $transaction->commit();
             return $user;

@@ -270,6 +270,31 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->id;
     }
 
+
+    /**
+     * @param string $source
+     * @param string $sourceId
+     * @return Auth
+     */
+    public function attachAuth(string $source, string $sourceId): Auth
+    {
+        $auth = Auth::create(
+            $this->id,
+            $source,
+            $sourceId
+        );
+        return $auth;
+    }
+
+
+    /**
+     * @return Profile
+     */
+    public function attachProfileBlank(): Profile
+    {
+        return Profile::blank($this->id);
+    }
+
     /**
      * @param mixed $token
      * @param null $type
