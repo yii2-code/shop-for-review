@@ -1,6 +1,6 @@
 ### запуск
 ```bash
-cp ./.env.dist ./.env
+cp .env.dist .env
 
 docker-compose up -d
 docker-compose exec php php ./composer.phar global require "fxp/composer-asset-plugin:^1.2.0"
