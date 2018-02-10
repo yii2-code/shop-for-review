@@ -1,9 +1,11 @@
 ### запуск
 ```bash
+cp ./.env.dist ./.env
+
 docker-compose up -d
 docker-compose exec php php ./composer.phar global require "fxp/composer-asset-plugin:^1.2.0"
-docker-compose exec php ./composer.phar config --global github-oauth.github.com 'enter your github token'
-docker-compose exec php ./composer.phar udpate
+docker-compose exec php php ./composer.phar config --global github-oauth.github.com 'enter your github token'
+docker-compose exec php php ./composer.phar udpate
 ```
 
 Добавить
@@ -24,7 +26,7 @@ docker-compose exec php ./yii migrate/up
 
 ### создание админа
 ```bash
-docker-compose exec php ./composer.phar admin
+docker-compose exec php php ./composer.phar admin
 ```
 
 ### тесты
