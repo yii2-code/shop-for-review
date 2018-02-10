@@ -43,6 +43,7 @@ return [
         'backendHostInfo' => require __DIR__ . '/../../backend/config/require/urlManager.php',
         'frontendHostInfo' => require __DIR__ . '/../../frontend/config/require/urlManager.php',
         'urlManager' => [
+            'hostInfo' => getenv('API_HOST_INFO'),
             'enablePrettyUrl' => true,
             'enableStrictParsing' => false,
             'showScriptName' => false,

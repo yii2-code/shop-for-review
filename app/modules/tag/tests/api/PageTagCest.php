@@ -26,7 +26,9 @@ class PageTagCest
      */
     public function createPage(ApiTester $tester)
     {
-        $tester->sendPOST(Yii::$app->urlManager->createUrl('/tag/tag/create'), ['tag' => 'test']);
+
+        codecept_debug(Yii::$app->urlManager->createAbsoluteUrl('/tag/tag/create'));
+        $tester->sendPOST(Yii::$app->urlManager->createAbsoluteUrl('/tag/tag/create'), ['tag' => 'test']);
         $tester->seeResponseCodeIs(200);
         $tester->seeResponseIsJson();
         $tester->seeResponseContainsJson(['status' => 'ok']);
