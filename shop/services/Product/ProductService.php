@@ -78,7 +78,7 @@ class ProductService
 
     /**
      * @param Product|null $model
-     * @return ProductCreateType|ProductEditType
+     * @return ProductCreateType|ProductEditType|object
      * @throws \yii\base\InvalidConfigException
      */
     public function createType(Product $model = null)
