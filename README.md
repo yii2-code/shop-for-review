@@ -31,6 +31,6 @@ docker-compose exec php php ./composer.phar admin
 
 ### тесты
 ```bash
-docker-compose exec ./yii_test migrate/up
-docker-compose exec ./vendor/bin/codecept run
+docker-compose exec php ./yii_test migrate/up
+docker-compose exec php ./vendor/bin/codecept run
 ```
