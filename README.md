@@ -5,7 +5,7 @@ cp .env.dist .env
 docker-compose up -d
 docker-compose exec php php ./composer.phar global require "fxp/composer-asset-plugin:^1.2.0"
 docker-compose exec php php ./composer.phar config --global github-oauth.github.com 'enter your github token'
-docker-compose exec php php ./composer.phar udpate
+docker-compose exec php php ./composer.phar update
 ```
 
 Добавить
