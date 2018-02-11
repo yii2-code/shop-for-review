@@ -13,6 +13,7 @@ namespace app\modules\tag\models;
 
 use DomainException;
 use yii\db\ActiveRecord;
+use yii\di\Instance;
 
 /**
  * Class Tag
@@ -33,10 +34,12 @@ class Tag extends ActiveRecord
     /**
      * @param string $name
      * @return Tag
+     * @throws \yii\base\InvalidConfigException
      */
     public static function create(string $name): self
     {
-        $repository = new TagRepository();
+        /** @var TagRepository $repository */
+        $repository = Instance::ensure(TagRepository::class);
         if ($repository->existsByName($name)) {
             throw new DomainException(sprintf('Unable to create tag because the name "%s" have already been taken.', $name));
         }

@@ -11,6 +11,7 @@ namespace app\modules\tag\models;
 
 use DomainException;
 use yii\db\ActiveRecord;
+use yii\di\Instance;
 
 /**
  * Class TagAssign
@@ -43,10 +44,12 @@ class TagAssign extends ActiveRecord
      * @param int $recordId
      * @param int $tagId
      * @return TagAssign
+     * @throws \yii\base\InvalidConfigException
      */
     public static function create(string $class, int $recordId, int $tagId): TagAssign
     {
-        $repository = new TagRepository();
+        /** @var TagRepository $repository */
+        $repository = Instance::ensure(TagRepository::class);
 
         if (!$repository->existsById($tagId)) {
             throw new DomainException('Unable to create tag assign because tag not found');
