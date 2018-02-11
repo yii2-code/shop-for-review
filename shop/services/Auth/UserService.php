@@ -18,6 +18,7 @@ use shop\helpers\UserHelper;
 use shop\services\BaseService;
 use shop\types\Auth\SignInType;
 use shop\types\Auth\SignupType;
+use shop\types\Auth\UserType;
 use Yii;
 use yii\mail\MailerInterface;
 use yii\web\NotFoundHttpException;
@@ -56,6 +57,45 @@ class UserService
         $this->baseService = $baseService;
         $this->mailer = $mailer;
         $this->userRepository = $userRepository;
+    }
+
+
+    /**
+     * @param UserType $type
+     * @return User
+     * @throws Exception
+     * @throws \yii\db\Exception
+     */
+    public function create(UserType $type): User
+    {
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            $user = User::create($type->password, $type->login, $type->email, $type->status);
+            $this->baseService->save($user);
+            $profile = $user->attachProfileBlank();
+            $this->baseService->save($profile);
+            $transaction->commit();
+            return $user;
+        } catch (Exception $exception) {
+            $transaction->rollBack();
+            throw $exception;
+        }
+    }
+
+    /**
+     * @param int $id
+     * @param UserType $type
+     * @return User
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function edit(int $id, UserType $type): User
+    {
+        $user = $this->userRepository->findOne($id);
+        $this->baseService->notFoundHttpException($user);
+        $user->edit($type->login, $type->email, $type->status, $type->password);
+        $this->baseService->save($user);
+        return $user;
     }
 
     /**

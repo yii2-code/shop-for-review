@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace shop\helpers;
 
 
+use shop\entities\Auth\User;
 use Yii;
 
 /**
@@ -19,6 +20,17 @@ use Yii;
  */
 class UserHelper
 {
+    /**
+     * @return array
+     */
+    public static function getStatusDropDown(): array
+    {
+        return [
+            User::STATUS_ACTIVE => 'Active',
+            User::STATUS_DELETE => 'Delete',
+            User::STATUS_CONFIRM_EMAIL => 'Confirm email',
+        ];
+    }
 
     /**
      * @return string

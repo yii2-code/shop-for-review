@@ -55,6 +55,11 @@ $config = [
                     'sourceLanguage' => 'en-US',
                     'basePath' => '@shop/messages',
                 ],
+                'backend' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'sourceLanguage' => 'en-US',
+                    'basePath' => '@backend/messages',
+                ],
             ],
         ],
         'db' => require __DIR__ . '/require/db.php',

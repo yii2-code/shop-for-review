@@ -14,6 +14,7 @@ return [
     'enablePrettyUrl' => true,
     'showScriptName' => false,
     'rules' => [
-        'sign-in' => 'auth/user/sign-in',
+        'sign-in' => 'auth/auth/sign-in',
+        'sign-out' => 'auth/auth/sign-out',
     ],
 ];

@@ -17,6 +17,7 @@ use shop\entities\repositories\Auth\UserRepository;
 use shop\helpers\UserHelper;
 use yii\db\ActiveRecord;
 use yii\di\Instance;
+use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 
 /**
@@ -81,6 +82,51 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $login
      * @param string $email
      * @param int $status
+     * @return static
+     * @throws \yii\base\InvalidConfigException
+     */
+    public static function create(
+        string $password,
+        string $login,
+        string $email,
+        int $status
+    ): self
+    {
+        $model = new static();
+        $model->setLogin($login);
+        $model->setEmail($email);
+        $model->setStatus($status);
+        $model->setPassword($password);
+        return $model;
+    }
+
+    /**
+     * @param string $login
+     * @param string $email
+     * @param int $status
+     * @param string|null $password
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function edit(
+        string $login,
+        string $email,
+        int $status,
+        string $password = null
+    ): void
+    {
+        $this->setLogin($login);
+        $this->setEmail($email);
+        $this->setStatus($status);
+        if (!is_null($password)) {
+            $this->setPassword($password);
+        }
+    }
+
+    /**
+     * @param string $password
+     * @param string $login
+     * @param string $email
+     * @param int $status
      * @return User
      * @throws \yii\base\Exception
      */
@@ -88,7 +134,7 @@ class User extends ActiveRecord implements IdentityInterface
         string $password,
         string $login,
         string $email,
-        $status = self::STATUS_CONFIRM_EMAIL
+        int $status = self::STATUS_CONFIRM_EMAIL
     ): self
     {
         $model = new static();
@@ -128,6 +174,10 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function setEmail(string $email): void
     {
+        if (!$this->isAttributeChanged('email')) {
+            return;
+        }
+
         /** @var UserRepository $repository */
         $repository = Instance::ensure(UserRepository::class);
 
@@ -141,10 +191,14 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $login
      * @throws \yii\base\InvalidConfigException
      */
-    public function setLogin(string $login)
+    public function setLogin(string $login): void
     {
+        if (!$this->isAttributeChanged('login')) {
+            return;
+        }
         /** @var UserRepository $repository */
         $repository = Instance::ensure(UserRepository::class);
+
         if ($repository->existsByLogin($login)) {
             throw new DomainException(sprintf('Login "%s" has already been token', $login));
         }
@@ -277,6 +331,13 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return ArrayHelper::getValue(UserHelper::getStatusDropDown(), $this->status);
+    }
 
     /**
      * @param string $source

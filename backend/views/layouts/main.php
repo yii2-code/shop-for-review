@@ -39,6 +39,12 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
         [
+            'label' => 'User',
+            'items' => [
+                ['label' => 'User', 'url' => ['/auth/user/index']],
+            ],
+        ],
+        [
             'label' => 'Product',
             'items' => [
                 ['label' => 'Brand', 'url' => ['/product/brand/index']],
@@ -49,10 +55,10 @@ AppAsset::register($this);
         ],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/sign-in']];
+        $menuItems[] = ['label' => 'Login', 'url' => ['/auth/auth/sign-in']];
     } else {
         $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
+            . Html::beginForm(['/auth/auth/sign-out'], 'post')
             . Html::submitButton(
                 'Logout (' . Yii::$app->user->identity->login . ')',
                 ['class' => 'btn btn-link logout']

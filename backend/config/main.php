@@ -29,7 +29,7 @@ return [
         ],
         'user' => [
             'identityClass' => \shop\entities\Auth\User::class,
-            'loginUrl' => ['/sign-in'],
+            'loginUrl' => ['/auth/auth/sign-in'],
             //'enableAutoLogin' => true,
             'identityCookie' => [
                 'name' => '_identity',

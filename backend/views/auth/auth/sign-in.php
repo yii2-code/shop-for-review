@@ -6,7 +6,6 @@
  * Time: 16:35
  */
 
-use yii\authclient\widgets\AuthChoice;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 

@@ -19,6 +19,16 @@ use shop\entities\Auth\User;
  */
 class UserRepository
 {
+
+    /**
+     * @param $id
+     * @return null|User
+     */
+    public function findOne(int $id): ?User
+    {
+        return User::find()->id($id)->limit(1)->one();
+    }
+
     /**
      * @param string $login
      * @return null|User
@@ -81,4 +91,6 @@ class UserRepository
     {
         return (bool)User::find()->id($id)->exists();
     }
+
+
 }
