@@ -22,7 +22,10 @@ class CreateTest extends Unit
 {
     /**
      * @group product
+     * @throws \Exception
      * @throws \shop\tests\_generated\ModuleException
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
      */
     public function testSuccess()
     {

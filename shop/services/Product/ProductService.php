@@ -8,9 +8,6 @@
 
 namespace shop\services\Product;
 
-use app\modules\image\services\ImageManager;
-use app\modules\image\services\ImageManagerInterface;
-use app\modules\tag\services\TagAssignService;
 use Exception;
 use shop\entities\Product\Product;
 use shop\entities\repositories\Product\ProductRepository;
@@ -35,13 +32,6 @@ class ProductService
      */
     private $productRepository;
 
-    /** @var ImageManager */
-    private $imageManager;
-
-    /**
-     * @var TagAssignService
-     */
-    private $tagAssignService;
     /**
      * @var ValueService
      */
@@ -55,23 +45,18 @@ class ProductService
      * ProductService constructor.
      * @param BaseService $baseService
      * @param ProductRepository $productRepository
-     * @param TagAssignService $tagAssignService
      * @param ValueService $valueService
      * @param CategoryAssignService $categoryAssignService
-     * @throws \yii\base\InvalidConfigException
      */
     public function __construct(
         BaseService $baseService,
         ProductRepository $productRepository,
-        TagAssignService $tagAssignService,
         ValueService $valueService,
         CategoryAssignService $categoryAssignService
     )
     {
         $this->baseService = $baseService;
         $this->productRepository = $productRepository;
-        $this->imageManager = \Yii::createObject(ImageManagerInterface::class);
-        $this->tagAssignService = $tagAssignService;
         $this->valueService = $valueService;
         $this->categoryAssignService = $categoryAssignService;
     }
@@ -113,8 +98,8 @@ class ProductService
                 $priceType->oldPrice
             );
             $this->baseService->save($product);
-            $this->imageManager->createService()->editAfterCreatedRecord($product->id, $product::className());
-            $this->tagAssignService->assign(Product::class, $product->id, explode(',', $productType->tags));
+            $product->attachImages();
+            $product->attachTags(explode(',', $productType->tags));
             foreach ($values as $value) {
                 $this->valueService->create($product->id, $value);
             }
@@ -134,6 +119,7 @@ class ProductService
      * @param ProductEditType $type
      * @return Product
      * @throws \yii\web\NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
      */
     public function edit(int $id, ProductEditType $type): Product
     {
@@ -149,7 +135,7 @@ class ProductService
         );
 
         $this->baseService->save($product);
-        $this->tagAssignService->assign(Product::class, $product->id, explode(',', $type->tags));
+        $product->attachTags(explode(',', $type->tags));
         return $product;
     }
 

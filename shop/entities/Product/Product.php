@@ -17,6 +17,7 @@ use app\modules\image\services\ImageManager;
 use app\modules\image\services\ImageManagerInterface;
 use app\modules\tag\models\Tag;
 use app\modules\tag\models\TagAssign;
+use app\modules\tag\services\TagAssignService;
 use DomainException;
 use shop\entities\query\Product\ProductQuery;
 use shop\entities\repositories\Product\BrandRepository;
@@ -296,5 +297,27 @@ class Product extends ActiveRecord
     public function getStatus(): string
     {
         return ArrayHelper::getValue(ProductHelper::getStatusDropDown(), $this->status);
+    }
+
+
+    /**
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function attachImages(): void
+    {
+        /** @var ImageManager $manager */
+        $manager = Instance::ensure(ImageManagerInterface::class, ImageManagerInterface::class);
+        $manager->createService()->editAfterCreatedRecord($this->id, static::className());
+    }
+
+    /**
+     * @param array $tags
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function attachTags(array $tags): void
+    {
+        /** @var TagAssignService $service */
+        $service = Instance::ensure(TagAssignService::class);
+        $service->assign(static::class, $this->id, $tags);
     }
 }
