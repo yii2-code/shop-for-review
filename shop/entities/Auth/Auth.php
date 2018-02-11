@@ -14,6 +14,7 @@ use DomainException;
 use shop\entities\query\Auth\AuthQuery;
 use shop\entities\repositories\Auth\UserRepository;
 use yii\db\ActiveRecord;
+use yii\di\Instance;
 
 
 /**
@@ -41,6 +42,7 @@ class Auth extends ActiveRecord
      * @param string $source
      * @param string $sourceId
      * @return Auth
+     * @throws \yii\base\InvalidConfigException
      */
     public static function create(
         int $userId,
@@ -58,10 +60,12 @@ class Auth extends ActiveRecord
 
     /**
      * @param int $id
+     * @throws \yii\base\InvalidConfigException
      */
     public function setUserId(int $id)
     {
-        $repository = new UserRepository();
+        /** @var UserRepository $repository */
+        $repository = Instance::ensure(UserRepository::class);
 
         if (!$repository->existsById($id)) {
             throw new DomainException('Incorrectly user');

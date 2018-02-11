@@ -17,6 +17,7 @@ use shop\entities\query\Product\CharacteristicQuery;
 use shop\entities\repositories\Product\CharacteristicRepository;
 use shop\helpers\CharacteristicHelper;
 use yii\db\ActiveRecord;
+use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -80,6 +81,7 @@ class Characteristic extends ActiveRecord
      * @param null $default
      * @param array $variants
      * @return Characteristic
+     * @throws \yii\base\InvalidConfigException
      */
     public static function create(
         string $title,
@@ -119,10 +121,12 @@ class Characteristic extends ActiveRecord
 
     /**
      * @param int|null $position
+     * @throws \yii\base\InvalidConfigException
      */
     public function setPosition(int $position = null): void
     {
-        $repository = new CharacteristicRepository();
+        /** @var CharacteristicRepository $repository */
+        $repository = Instance::ensure(CharacteristicRepository::class);
 
         if (is_null($position)) {
             $position = $repository->maxPosition();

@@ -17,6 +17,7 @@ use shop\entities\query\Product\ValueQuery;
 use shop\entities\repositories\Product\CharacteristicRepository;
 use shop\entities\repositories\Product\ProductRepository;
 use yii\db\ActiveRecord;
+use yii\di\Instance;
 
 
 /**
@@ -64,6 +65,7 @@ class Value extends ActiveRecord
      * @param int $characteristicId
      * @param string|null $value
      * @return Value
+     * @throws \yii\base\InvalidConfigException
      */
     public static function create(int $productId, int $characteristicId, string $value = null): self
     {
@@ -73,10 +75,10 @@ class Value extends ActiveRecord
             throw new DomainException('Unable to save model because the product not found');
         }
 
+        /** @var CharacteristicRepository $repository */
+        $repository = Instance::ensure(CharacteristicRepository::class);
 
-        $characteristicRepository = new CharacteristicRepository();
-
-        if (!$characteristicRepository->existsById($characteristicId)) {
+        if (!$repository->existsById($characteristicId)) {
             throw new DomainException('Unable to save model because the characteristic not found');
         }
 
@@ -91,6 +93,7 @@ class Value extends ActiveRecord
      * @param $productId
      * @param $characteristicId
      * @return Value
+     * @throws \yii\base\InvalidConfigException
      */
     public static function blank($productId, $characteristicId): Value
     {

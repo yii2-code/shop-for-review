@@ -97,6 +97,7 @@ class CategoryAssignService
      * @param int $productId
      * @param int $categoryId
      * @return CategoryAssign
+     * @throws \yii\base\InvalidConfigException
      */
     public function create(int $productId, int $categoryId): CategoryAssign
     {

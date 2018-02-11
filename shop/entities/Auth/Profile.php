@@ -18,6 +18,7 @@ use shop\entities\query\Auth\ProfileQuery;
 use shop\entities\repositories\Auth\UserRepository;
 use Yii;
 use yii\db\ActiveRecord;
+use yii\di\Instance;
 use yii\web\UploadedFile;
 
 /**
@@ -88,6 +89,7 @@ class Profile extends ActiveRecord
      * @param string|null $lastName
      * @param string|null $about
      * @return Profile
+     * @throws \yii\base\InvalidConfigException
      */
     public static function create(
         int $userId,
@@ -106,6 +108,7 @@ class Profile extends ActiveRecord
     /**
      * @param int $userId
      * @return Profile
+     * @throws \yii\base\InvalidConfigException
      */
     public static function blank(int $userId): self
     {
@@ -133,10 +136,12 @@ class Profile extends ActiveRecord
 
     /**
      * @param int $id
+     * @throws \yii\base\InvalidConfigException
      */
     public function setUserId(int $id): void
     {
-        $repository = new UserRepository();
+        /** @var UserRepository $repository */
+        $repository = Instance::ensure(UserRepository::class);
 
         if (!$repository->existsById($id)) {
             throw new DomainException('Unable to set field because the user not found');

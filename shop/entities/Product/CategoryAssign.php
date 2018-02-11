@@ -12,6 +12,7 @@ use DomainException;
 use shop\entities\repositories\Product\CategoryRepository;
 use shop\entities\repositories\Product\ProductRepository;
 use yii\db\ActiveRecord;
+use yii\di\Instance;
 
 
 /**
@@ -35,11 +36,14 @@ class CategoryAssign extends ActiveRecord
      * @param int $productId
      * @param int $categoryId
      * @return static
+     * @throws \yii\base\InvalidConfigException
      */
     public static function create(int $productId, int $categoryId)
     {
-        $productRepository = new ProductRepository();
-        $categoryRepository = new CategoryRepository();
+        /** @var ProductRepository $productRepository */
+        $productRepository = Instance::ensure(ProductRepository::class);
+        /** @var CategoryRepository $categoryRepository */
+        $categoryRepository = Instance::ensure(CategoryRepository::class);
 
         if (!$productRepository->existsById($productId)) {
             throw new DomainException('Unable to create model because product not found');

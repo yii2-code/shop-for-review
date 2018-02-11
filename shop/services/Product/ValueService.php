@@ -77,6 +77,7 @@ class ValueService
      * @param int $productId
      * @param ValueType $type
      * @return Value
+     * @throws \yii\base\InvalidConfigException
      */
     public function create(int $productId, ValueType $type): Value
     {
@@ -90,6 +91,7 @@ class ValueService
      * @param int $productId
      * @param int $characteristicId
      * @return Value
+     * @throws \yii\base\InvalidConfigException
      */
     public function blank(int $productId, int $characteristicId): Value
     {

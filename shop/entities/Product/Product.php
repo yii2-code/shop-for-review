@@ -24,6 +24,7 @@ use shop\entities\repositories\Product\CategoryRepository;
 use shop\helpers\ProductHelper;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -98,6 +99,7 @@ class Product extends ActiveRecord
      * @param int $categoryMainId
      * @param int|null $oldPrice
      * @return Product
+     * @throws \yii\base\InvalidConfigException
      */
     public static function create(
         string $title,
@@ -128,6 +130,7 @@ class Product extends ActiveRecord
      * @param int $status
      * @param int $brandId
      * @param int $categoryMainId
+     * @throws \yii\base\InvalidConfigException
      */
     public function edit(
         string $title,
@@ -162,10 +165,12 @@ class Product extends ActiveRecord
 
     /**
      * @param int $id
+     * @throws \yii\base\InvalidConfigException
      */
     public function setBrandId(int $id): void
     {
-        $repository = new BrandRepository();
+        /** @var BrandRepository $repository */
+        $repository = Instance::ensure(BrandRepository::class);
         if (!$repository->existsById($id)) {
             throw new DomainException('Incorrectly brand');
         }
@@ -174,11 +179,14 @@ class Product extends ActiveRecord
 
     /**
      * @param int $id
+     * @throws \yii\base\InvalidConfigException
      */
     public function setCategoryMainId(int $id): void
     {
-        $repository = new CategoryRepository();
-        if (!$repository->existsById($id)) {
+        /** @var CategoryRepository $categoryRepository */
+        $categoryRepository = Instance::ensure(CategoryRepository::class);
+
+        if (!$categoryRepository->existsById($id)) {
             throw new DomainException('Incorrectly category');
         }
         $this->category_main_id = $id;

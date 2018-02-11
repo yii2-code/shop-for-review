@@ -16,6 +16,7 @@ use shop\entities\query\Auth\UserQuery;
 use shop\entities\repositories\Auth\UserRepository;
 use shop\helpers\UserHelper;
 use yii\db\ActiveRecord;
+use yii\di\Instance;
 use yii\web\IdentityInterface;
 
 /**
@@ -105,6 +106,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $login
      * @param string $email
      * @return User
+     * @throws \yii\base\InvalidConfigException
      */
     public static function createAdmin(
         string $password,
@@ -122,10 +124,13 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * @param string $email
+     * @throws \yii\base\InvalidConfigException
      */
     public function setEmail(string $email): void
     {
-        $repository = new UserRepository();
+        /** @var UserRepository $repository */
+        $repository = Instance::ensure(UserRepository::class);
+
         if ($repository->existsByEmail($email)) {
             throw new DomainException(sprintf('Email "%s" has already been token', $email));
         }
@@ -134,10 +139,12 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * @param string $login
+     * @throws \yii\base\InvalidConfigException
      */
     public function setLogin(string $login)
     {
-        $repository = new UserRepository();
+        /** @var UserRepository $repository */
+        $repository = Instance::ensure(UserRepository::class);
         if ($repository->existsByLogin($login)) {
             throw new DomainException(sprintf('Login "%s" has already been token', $login));
         }
@@ -275,6 +282,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $source
      * @param string $sourceId
      * @return Auth
+     * @throws \yii\base\InvalidConfigException
      */
     public function attachAuth(string $source, string $sourceId): Auth
     {
@@ -289,6 +297,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * @return Profile
+     * @throws \yii\base\InvalidConfigException
      */
     public function attachProfileBlank(): Profile
     {
