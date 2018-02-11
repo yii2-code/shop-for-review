@@ -33,32 +33,17 @@ class ProductService
     private $productRepository;
 
     /**
-     * @var ValueService
-     */
-    private $valueService;
-    /**
-     * @var CategoryAssignService
-     */
-    private $categoryAssignService;
-
-    /**
      * ProductService constructor.
      * @param BaseService $baseService
      * @param ProductRepository $productRepository
-     * @param ValueService $valueService
-     * @param CategoryAssignService $categoryAssignService
      */
     public function __construct(
         BaseService $baseService,
-        ProductRepository $productRepository,
-        ValueService $valueService,
-        CategoryAssignService $categoryAssignService
+        ProductRepository $productRepository
     )
     {
         $this->baseService = $baseService;
         $this->productRepository = $productRepository;
-        $this->valueService = $valueService;
-        $this->categoryAssignService = $categoryAssignService;
     }
 
     /**
@@ -101,10 +86,10 @@ class ProductService
             $product->attachImages();
             $product->attachTags(explode(',', $productType->tags));
             foreach ($values as $value) {
-                $this->valueService->create($product->id, $value);
+                $product->attachValue($value);
             }
             foreach ($productType->category->categories as $category) {
-                $this->categoryAssignService->create($product->id, $category);
+                $product->attachCategory($category);
             }
             $transaction->commit();
         } catch (Exception $exception) {

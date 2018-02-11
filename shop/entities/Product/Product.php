@@ -23,6 +23,9 @@ use shop\entities\query\Product\ProductQuery;
 use shop\entities\repositories\Product\BrandRepository;
 use shop\entities\repositories\Product\CategoryRepository;
 use shop\helpers\ProductHelper;
+use shop\services\Product\CategoryAssignService;
+use shop\services\Product\ValueService;
+use shop\types\Product\ValueType;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\di\Instance;
@@ -319,5 +322,27 @@ class Product extends ActiveRecord
         /** @var TagAssignService $service */
         $service = Instance::ensure(TagAssignService::class);
         $service->assign(static::class, $this->id, $tags);
+    }
+
+    /**
+     * @param ValueType $type
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function attachValue(ValueType $type): void
+    {
+        /** @var ValueService $service */
+        $service = Instance::ensure(ValueService::class);
+        $service->create($this->id, $type);
+    }
+
+    /**
+     * @param int $id
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function attachCategory(int $id): void
+    {
+        /** @var CategoryAssignService $service */
+        $service = Instance::ensure(CategoryAssignService::class);
+        $service->create($this->id, $id);
     }
 }
