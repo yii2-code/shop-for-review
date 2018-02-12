@@ -252,7 +252,7 @@ class Product extends ActiveRecord
      */
     public function getImages()
     {
-        return $this->hasMany(Image::class, ['record_id' => 'id'])->andWhere(['model' => static::class]);
+        return $this->hasMany(Image::class, ['record_id' => 'id'])->andWhere(['class' => static::class]);
     }
 
     /**
@@ -267,7 +267,7 @@ class Product extends ActiveRecord
      * @return \app\modules\image\TDO\ImageTdo[]|array
      * @throws \yii\base\InvalidConfigException
      */
-    public function getImageDto()
+    public function getImagesDto()
     {
         /** @var ImageManager $manager */
         $manager = \Yii::createObject(ImageManagerInterface::class);

@@ -6,6 +6,8 @@
  * Time: 17:51
  */
 
+use yii\helpers\Url;
+
 /** @var $this \yii\web\View */
 /** @var $model \shop\entities\Product\Product */
 
@@ -17,8 +19,7 @@
         <div class="caption">
             <p><?= $model->announce ?></p>
             <div class="btn-group">
-                <button type="button" class="btn btn-sm">View</button>
-                <button type="button" class="btn btn-sm">Edit</button>
+                <a href="<?= Url::to(['/product/product/view', 'id' => $model->id]) ?>" class="btn btn-sm btn-success">View</a>
             </div>
         </div>
     </div>
