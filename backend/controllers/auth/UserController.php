@@ -12,7 +12,7 @@ namespace backend\controllers\auth;
 use DomainException;
 use RuntimeException;
 use shop\entities\repositories\Auth\UserRepository;
-use shop\search\UserSearch;
+use shop\search\auth\UserSearch;
 use shop\services\Auth\UserService;
 use shop\services\BaseService;
 use shop\types\Auth\UserType;

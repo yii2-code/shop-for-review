@@ -6,7 +6,7 @@
  * Time: 22:01
  */
 
-namespace shop\search;
+namespace shop\search\auth;
 
 
 use shop\entities\Auth\User;

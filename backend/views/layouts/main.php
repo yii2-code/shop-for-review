@@ -42,6 +42,7 @@ AppAsset::register($this);
             'label' => 'User',
             'items' => [
                 ['label' => 'User', 'url' => ['/auth/user/index']],
+                ['label' => 'Profile', 'url' => ['/auth/profile/index']],
             ],
         ],
         [
