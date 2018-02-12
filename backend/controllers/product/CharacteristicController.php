@@ -11,7 +11,7 @@ namespace backend\controllers\product;
 use DomainException;
 use RuntimeException;
 use shop\entities\repositories\Product\CharacteristicRepository;
-use shop\search\CharacteristicSearch;
+use shop\search\product\CharacteristicSearch;
 use shop\services\BaseService;
 use shop\services\Product\CharacteristicService;
 use Yii;
@@ -77,6 +77,8 @@ class CharacteristicController extends Controller
 
     /**
      * @return string
+     * @throws \Exception
+     * @throws \yii\db\Exception
      */
     public function actionCreate()
     {

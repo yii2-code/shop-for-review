@@ -13,7 +13,7 @@ use DomainException;
 use RuntimeException;
 use shop\entities\repositories\Product\ProductRepository;
 use shop\entities\repositories\Product\ValueRepository;
-use shop\search\ProductSearch;
+use shop\search\product\ProductSearch;
 use shop\services\BaseService;
 use shop\services\Product\CategoryAssignService;
 use shop\services\Product\ProductService;

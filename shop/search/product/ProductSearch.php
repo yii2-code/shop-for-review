@@ -6,7 +6,7 @@
  * Time: 13:41
  */
 
-namespace shop\search;
+namespace shop\search\product;
 
 
 use shop\entities\Product\Product;

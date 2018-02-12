@@ -16,7 +16,7 @@ use yii\jui\DatePicker;
 
 /** @var $this \yii\web\View */
 /** @var $dataProvider \yii\data\ActiveDataProvider */
-/** @var $modelSearch \shop\search\BrandSearch */
+/** @var $modelSearch \shop\search\product\BrandSearch */
 
 $this->title = 'Brand';
 

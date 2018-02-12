@@ -17,7 +17,7 @@ use yii\helpers\Url;
 use yii\jui\DatePicker;
 
 /** @var $this \yii\web\View */
-/** @var $searchModel \shop\search\ProductSearch */
+/** @var $searchModel \shop\search\product\ProductSearch */
 /** @var $dataProvider \yii\data\ActiveDataProvider */
 
 $this->title = 'Product';

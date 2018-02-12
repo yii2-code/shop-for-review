@@ -12,7 +12,7 @@ namespace backend\controllers\product;
 use DomainException;
 use RuntimeException;
 use shop\entities\repositories\Product\BrandRepository;
-use shop\search\BrandSearch;
+use shop\search\product\BrandSearch;
 use shop\services\BaseService;
 use shop\services\Product\BrandService;
 use Yii;

@@ -8,12 +8,11 @@
 
 namespace frontend\controllers\product;
 
+use shop\entities\read\ProductRead;
 use shop\entities\repositories\Product\CategoryRepository;
 use shop\entities\repositories\Product\ProductRepository;
 use shop\services\BaseService;
 use yii\base\Module;
-use yii\data\ActiveDataProvider;
-use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 
 /**
@@ -34,6 +33,10 @@ class CategoryController extends Controller
      * @var ProductRepository
      */
     private $productRepository;
+    /**
+     * @var ProductRead
+     */
+    private $productRead;
 
     /**
      * CategoryController constructor.
@@ -42,6 +45,7 @@ class CategoryController extends Controller
      * @param CategoryRepository $categoryRepository
      * @param BaseService $baseService
      * @param ProductRepository $productRepository
+     * @param ProductRead $productRead
      * @param array $config
      */
     public function __construct(
@@ -50,6 +54,7 @@ class CategoryController extends Controller
         CategoryRepository $categoryRepository,
         BaseService $baseService,
         ProductRepository $productRepository,
+        ProductRead $productRead,
         array $config = []
     )
     {
@@ -57,6 +62,7 @@ class CategoryController extends Controller
         $this->categoryRepository = $categoryRepository;
         $this->baseService = $baseService;
         $this->productRepository = $productRepository;
+        $this->productRead = $productRead;
     }
 
     /**
@@ -69,14 +75,9 @@ class CategoryController extends Controller
         $category = $this->categoryRepository->findOne($id);
         $this->baseService->notFoundHttpException($category);
 
-        $categoryIds = array_merge([$category->id], ArrayHelper::getColumn($category->getDescendants()->all(), 'id'));
-        $query = $this->productRepository->queryByCategoryMains($categoryIds);
-
         $parents = $category->getParents()->notRoot()->all();
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query
-        ]);
+        $dataProvider = $this->productRead->findAllByCategory($category);
 
         return $this->render('index', ['dataProvider' => $dataProvider, 'parents' => $parents, 'category' => $category]);
     }
