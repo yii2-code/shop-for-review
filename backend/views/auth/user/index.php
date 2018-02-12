@@ -67,10 +67,7 @@ $this->title = 'User';
                 ]),
                 'format' => 'datetime',
             ],
-            [
-                'class' => ActionColumn::class,
-                'template' => '{view} {update}'
-            ]
+            ['class' => ActionColumn::class,]
         ]
     ]) ?>
 </div>

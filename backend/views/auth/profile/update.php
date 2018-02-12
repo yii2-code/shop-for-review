@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
 
     <?= $form->field($type, 'lastName') ?>
 
-    <?= $form->field($type, 'about')->textarea() ?>
+    <?= $form->field($type, 'about')->textarea(['class' => 'wysihtml5 form-control']) ?>
 
     <?= $form->field($type, 'src')->fileInput() ?>
 

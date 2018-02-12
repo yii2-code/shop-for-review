@@ -64,7 +64,10 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                 ]),
                 'format' => 'datetime',
             ],
-            ['class' => ActionColumn::class]
+            [
+                'class' => ActionColumn::class,
+                'template' => '{view} {update}'
+            ]
         ]
     ]) ?>
 </div>
