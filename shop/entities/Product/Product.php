@@ -15,6 +15,7 @@ use app\behaviors\TimestampBehavior;
 use app\modules\image\models\Image;
 use app\modules\image\services\ImageManager;
 use app\modules\image\services\ImageManagerInterface;
+use app\modules\image\TDO\ImageTdo;
 use app\modules\tag\models\Tag;
 use app\modules\tag\models\TagAssign;
 use app\modules\tag\services\TagAssignService;
@@ -264,7 +265,7 @@ class Product extends ActiveRecord
     }
 
     /**
-     * @return \app\modules\image\TDO\ImageTdo[]|array
+     * @return ImageTdo[]|array
      * @throws \yii\base\InvalidConfigException
      */
     public function getImagesDto()
@@ -276,11 +277,14 @@ class Product extends ActiveRecord
 
 
     /**
-     * @return \app\modules\image\TDO\ImageTdo
+     * @return ImageTdo
      * @throws \yii\base\InvalidConfigException
      */
-    public function getMainImageDto()
+    public function getMainImageDto(): ?ImageTdo
     {
+        if (is_null($this->mainImage)) {
+            return null;
+        }
         /** @var ImageManager $manager */
         $manager = \Yii::createObject(ImageManagerInterface::class);
         return $manager->createImageTdo($this->mainImage);

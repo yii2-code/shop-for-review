@@ -56,8 +56,8 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
     <div class="col-md-2">
         <p>Brand: <?= $model->brand->title ?></p>
         <p>Category: <?= $model->categoryMain->title ?></p>
-        <?php if (!empty($model->categoryAssigns)): ?>
-            <p>Additional Category: <?= implode(',', ArrayHelper::getColumn($model->categoryAssigns, 'title')) ?></p>
+        <?php if (!empty($model->categories)): ?>
+            <p>Additional Category: <?= implode(',', ArrayHelper::getColumn($model->categories, 'title')) ?></p>
         <?php endif; ?>
         <p>Price: <?= Yii::$app->formatter->asCurrency($model->price) ?></p>
         <p>Old price: <?= Yii::$app->formatter->asCurrency($model->old_price) ?></p>
