@@ -6,6 +6,8 @@
  * Time: 21:45
  */
 
+use yii\helpers\ArrayHelper;
+
 /** @var $this \yii\web\View */
 /** @var $model \shop\entities\Product\Product */
 /** @var $parents \shop\entities\Product\Category */
@@ -52,6 +54,12 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         </div>
     </div>
     <div class="col-md-2">
-
+        <p>Brand: <?= $model->brand->title ?></p>
+        <p>Category: <?= $model->categoryMain->title ?></p>
+        <?php if (!empty($model->categoryAssigns)): ?>
+            <p>Additional Category: <?= implode(',', ArrayHelper::getColumn($model->categoryAssigns, 'title')) ?></p>
+        <?php endif; ?>
+        <p>Price: <?= Yii::$app->formatter->asCurrency($model->price) ?></p>
+        <p>Old price: <?= Yii::$app->formatter->asCurrency($model->old_price) ?></p>
     </div>
 </div>

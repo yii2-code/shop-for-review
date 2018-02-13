@@ -44,6 +44,7 @@ $config = [
             ]
         ],
         'i18n' => [
+
             'translations' => [
                 'shop' => [
                     'class' => 'yii\i18n\PhpMessageSource',
@@ -61,6 +62,9 @@ $config = [
                     'basePath' => '@backend/messages',
                 ],
             ],
+        ],
+        'formatter' => [
+            'numberFormatterSymbols' => [NumberFormatter::CURRENCY_SYMBOL => '₽'],
         ],
         'db' => require __DIR__ . '/require/db.php',
         'mailer' => [
