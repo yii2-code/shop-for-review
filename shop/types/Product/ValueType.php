@@ -77,7 +77,7 @@ class ValueType extends Model
     public function getDropDownList(): array
     {
         $list = array_combine($this->characteristic->variants, $this->characteristic->variants);
-        if (!empty($this->characteristic->default)) {
+        if (!is_null($this->characteristic->default)) {
             $list = [$this->characteristic->default => $this->characteristic->default] + $list;
         }
         return $list;
