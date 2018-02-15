@@ -9,18 +9,21 @@
 namespace shop\search\product;
 
 
+use app\type\CompositeType;
 use shop\entities\Product\CategoryAssign;
 use shop\entities\Product\Product;
 use shop\entities\query\Product\ProductQuery;
 use shop\entities\repositories\Product\CategoryRepository;
-use yii\base\Model;
+use shop\entities\repositories\Product\CharacteristicRepository;
 use yii\data\ActiveDataProvider;
 
 /**
  * Class SearchType
  * @package shop\search\product
+ *
+ * @property ValueSearch[] $values
  */
-class SearchType extends Model
+class SearchType extends CompositeType
 {
     /**
      * @var CategoryRepository
@@ -31,20 +34,40 @@ class SearchType extends Model
      * @var ProductQuery
      */
     protected $query;
+    /**
+     * @var CharacteristicRepository
+     */
+    private $characteristicRepository;
 
     /**
      * SearchType constructor.
      * @param CategoryRepository $categoryRepository
+     * @param CharacteristicRepository $characteristicRepository
      * @param array $config
      */
     public function __construct(
         CategoryRepository $categoryRepository,
+        CharacteristicRepository $characteristicRepository,
         array $config = []
     )
     {
         parent::__construct($config);
         $this->categoryRepository = $categoryRepository;
+        $this->characteristicRepository = $characteristicRepository;
+        $characteristics = $characteristicRepository->findAll();
+
+        $values = [];
+        foreach ($characteristics as $characteristic) {
+            $values[] = new ValueSearch($characteristic);
+        }
+        $this->values = $values;
     }
+
+    protected function internalForms(): array
+    {
+        return ['values'];
+    }
+
 
     /**
      * @return SearchType|object

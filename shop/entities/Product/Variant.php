@@ -42,6 +42,7 @@ class Variant extends Object
      */
     public $rule;
 
+    public $search;
     /**
      *
      */
@@ -67,6 +68,7 @@ class Variant extends Object
             'cast' => 'strval',
             'validator' => 'is_string',
             'rule' => 'string',
+            'search' => ['equal', 'string'],
         ],
         '2' => [
             'id' => 2,
@@ -74,6 +76,7 @@ class Variant extends Object
             'cast' => 'intval',
             'validator' => 'is_numeric',
             'rule' => 'integer',
+            'search' => [['from', 'to'], 'integer'],
         ],
         '3' => [
             'id' => 3,
@@ -81,6 +84,7 @@ class Variant extends Object
             'cast' => 'floatval',
             'validator' => 'is_numeric',
             'rule' => 'number',
+            'search' => [['from', 'to'], 'integer'],
         ],
     ];
 

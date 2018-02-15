@@ -125,10 +125,10 @@ class Characteristic extends ActiveRecord
      */
     public function setPosition(int $position = null): void
     {
-        /** @var CharacteristicRepository $repository */
-        $repository = Instance::ensure(CharacteristicRepository::class);
-
         if (is_null($position)) {
+            /** @var CharacteristicRepository $repository */
+            $repository = Instance::ensure(CharacteristicRepository::class);
+
             $position = $repository->maxPosition();
             $position++;
         }
@@ -157,6 +157,14 @@ class Characteristic extends ActiveRecord
     public function getVariant(): Variant
     {
         return Variant::findOne($this->type);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNumber()
+    {
+        return $this->type == Variant::TYPE_INTEGER || $this->type == Variant::TYPE_FLOAT;
     }
 
     /**

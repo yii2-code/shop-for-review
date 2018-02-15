@@ -11,6 +11,7 @@ use app\modules\tag\widgets\TagWidget;
 use shop\entities\Product\Product;
 use shop\helpers\BrandHelper;
 use shop\helpers\CategoryHelper;
+use shop\helpers\CharacteristicHelper;
 use shop\helpers\ProductHelper;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
@@ -58,7 +59,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         <div class="panel-body">
             <?php foreach ($type->values as $index => $value): ?>
                 <?php if ($value->characteristic->isDropDownList()): ?>
-                    <?= $form->field($value, '[]value', ['enableClientValidation' => false])->dropDownList($value->getDropDownList()) ?>
+                    <?= $form->field($value, '[]value', ['enableClientValidation' => false])->dropDownList(CharacteristicHelper::getVariantsDropDown($value->characteristic)) ?>
                 <?php else: ?>
                     <?= $form->field($value, '[]value', ['enableClientValidation' => false])->textInput(['value' => $value->characteristic->default]) ?>
                 <?php endif; ?>

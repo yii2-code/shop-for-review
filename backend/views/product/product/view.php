@@ -8,6 +8,7 @@
 
 use app\modules\image\widgets\ImageWidget;
 use shop\helpers\CategoryHelper;
+use shop\helpers\CharacteristicHelper;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use yii\bootstrap\Modal;
@@ -55,7 +56,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         <?php foreach ($updateValues as $value): ?>
 
             <?php if ($value->characteristic->isDropDownList()): ?>
-                <?= $form->field($value, '[]value', ['enableClientValidation' => false])->dropDownList($value->getDropDownList()) ?>
+                <?= $form->field($value, '[]value', ['enableClientValidation' => false])->dropDownList(CharacteristicHelper::getVariantsDropDown($value->characteristic)) ?>
             <?php else: ?>
                 <?= $form->field($value, '[]value', ['enableClientValidation' => false])->textInput() ?>
             <?php endif; ?>

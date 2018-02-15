@@ -27,4 +27,17 @@ class CharacteristicHelper
             Characteristic::REQUIRED_YES => \Yii::t('yii', 'Yes')
         ];
     }
+
+    /**
+     * @param Characteristic $characteristic
+     * @return array
+     */
+    public static function getVariantsDropDown(Characteristic $characteristic): array
+    {
+        $list = array_combine($characteristic->variants, $characteristic->variants);
+        if (!is_null($characteristic->default)) {
+            $list = [$characteristic->default => $characteristic->default] + $list;
+        }
+        return $list;
+    }
 }

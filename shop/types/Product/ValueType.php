@@ -70,16 +70,4 @@ class ValueType extends Model
     {
         return ['value' => $this->characteristic->title . ' (' . $this->characteristic->getVariant()->name . ')'];
     }
-
-    /**
-     * @return array
-     */
-    public function getDropDownList(): array
-    {
-        $list = array_combine($this->characteristic->variants, $this->characteristic->variants);
-        if (!is_null($this->characteristic->default)) {
-            $list = [$this->characteristic->default => $this->characteristic->default] + $list;
-        }
-        return $list;
-    }
 }

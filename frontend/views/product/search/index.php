@@ -8,6 +8,7 @@
 
 use shop\helpers\BrandHelper;
 use shop\helpers\CategoryHelper;
+use shop\helpers\CharacteristicHelper;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
@@ -26,12 +27,52 @@ $this->params['breadcrumbs'][] = ['label' => $this->title]
     <div class="col-md-12">
         <?php $form = ActiveForm::begin(['action' => [''], 'method' => 'get']); ?>
 
-        <?= $form->field($type, 'keywords') ?>
+        <?= $form->field($type, 'keywords')->textInput() ?>
 
         <?= $form->field($type, 'brandId')->dropDownList(['' => ''] + BrandHelper::getDropDown()) ?>
 
         <?= $form->field($type, 'categoryId')->dropDownList(['' => ''] + CategoryHelper::getTree()) ?>
 
+        <?php foreach ($type->values as $value): ?>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <?= $value->characteristic->title ?>
+                    </div>
+                </div>
+                <?php if ($value->characteristic->isNumber()): ?>
+                    <div class="col-md-5 form-horizontal">
+                        <?= $form->field(
+                            $value,
+                            'from',
+                            [
+                                'template' => "{label}\n<div class='col-md-11'>{input}</div>\n{hint}\n{error}"
+                            ]
+                        )->textInput()->label(null, ['class' => 'control-label col-md-1'])
+                        ?>
+                    </div>
+                    <div class="col-md-5 form-horizontal">
+                        <?= $form->field(
+                            $value,
+                            'to',
+                            [
+                                'template' => "{label}\n<div class='col-md-11'>{input}</div>\n{hint}\n{error}"
+                            ]
+                        )->textInput()->label(null, ['class' => 'control-label col-md-1'])
+                        ?>
+                    </div>
+
+                <?php else: ?>
+                    <div class="col-md-10 form-inlie">
+                        <?php if ($value->characteristic->isDropDownList()): ?>
+                            <?= $form->field($value, 'equal')->dropDownList(CharacteristicHelper::getVariantsDropDown($value->characteristic))->label(false) ?>
+                        <?php else: ?>
+                            <?= $form->field($value, 'equal')->textInput()->label(false) ?>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
         <div class="form-group">
             <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
             <?= Html::a('Reset', [''], ['class' => 'btn btn-success']) ?>
