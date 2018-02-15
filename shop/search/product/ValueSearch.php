@@ -54,4 +54,28 @@ class ValueSearch extends Model
     {
         return [$this->characteristic->getVariant()->search];
     }
+
+    /**
+     * @return bool
+     */
+    public function isFill(): bool
+    {
+        return !empty($this->equal) || !empty($this->from) || !empty($this->to);
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->characteristic->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function formName()
+    {
+        return 'v';
+    }
 }

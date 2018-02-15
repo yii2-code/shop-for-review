@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title]
 
         <?= $form->field($type, 'categoryId')->dropDownList(['' => ''] + CategoryHelper::getTree()) ?>
 
-        <?php foreach ($type->values as $value): ?>
+        <?php foreach ($type->values as $index => $value): ?>
             <div class="row">
                 <div class="col-md-2">
                     <div class="form-group">
@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title]
                     <div class="col-md-5 form-horizontal">
                         <?= $form->field(
                             $value,
-                            'from',
+                            '[' . $index . ']from',
                             [
                                 'template' => "{label}\n<div class='col-md-11'>{input}</div>\n{hint}\n{error}"
                             ]
@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title]
                     <div class="col-md-5 form-horizontal">
                         <?= $form->field(
                             $value,
-                            'to',
+                            '[' . $index . ']to',
                             [
                                 'template' => "{label}\n<div class='col-md-11'>{input}</div>\n{hint}\n{error}"
                             ]
@@ -65,9 +65,9 @@ $this->params['breadcrumbs'][] = ['label' => $this->title]
                 <?php else: ?>
                     <div class="col-md-10 form-inlie">
                         <?php if ($value->characteristic->isDropDownList()): ?>
-                            <?= $form->field($value, 'equal')->dropDownList(CharacteristicHelper::getVariantsDropDown($value->characteristic))->label(false) ?>
+                            <?= $form->field($value, '[' . $index . ']equal')->dropDownList(['' => ''] + CharacteristicHelper::getVariantsDropDown($value->characteristic))->label(false) ?>
                         <?php else: ?>
-                            <?= $form->field($value, 'equal')->textInput()->label(false) ?>
+                            <?= $form->field($value, '[' . $index . ']equal')->textInput()->label(false) ?>
                         <?php endif; ?>
                     </div>
                 <?php endif; ?>

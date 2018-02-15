@@ -12,6 +12,7 @@ namespace shop\search\product;
 use app\type\CompositeType;
 use shop\entities\Product\CategoryAssign;
 use shop\entities\Product\Product;
+use shop\entities\Product\Value;
 use shop\entities\query\Product\ProductQuery;
 use shop\entities\repositories\Product\CategoryRepository;
 use shop\entities\repositories\Product\CharacteristicRepository;
@@ -120,6 +121,7 @@ class SearchType extends CompositeType
             return $dataProvider;
         }
         $this->filterByCategory();
+        $this->filterByValue();
         $this->query->andFilterWhere([Product::tableName() . '.[[brand_id]]' => $this->brandId]);
         $this->query->andFilterWhere(['LIKE', Product::tableName() . '.[[title]]', $this->keywords]);
 
@@ -142,6 +144,26 @@ class SearchType extends CompositeType
                     [CategoryAssign::tableName() . '.[[category_id]]' => $categoryIds]
                 ]
             );
+        }
+    }
+
+    public function filterByValue()
+    {
+        $foundIds = null;
+        foreach ($this->values as $value) {
+            if ($value->isFill()) {
+                $query = Value::find();
+                $query->characteristic($value->getId());
+
+                $query->andFilterWhere(['>=', 'CAST(value as SIGNET)', $value->from]);
+                $query->andFilterWhere(['<=', 'CAST(value as SIGNET)', $value->from]);
+                $query->andFilterWhere(['value' => $value->equal]);
+                $productIds = $query->select('product_id')->column();
+                $foundIds = $foundIds == null ? $productIds : array_intersect($productIds, $foundIds);
+            }
+        }
+        if (!is_null($foundIds)) {
+            $this->query->andWhere(['IN', Product::tableName() . '.[[id]]', $foundIds]);
         }
     }
 
