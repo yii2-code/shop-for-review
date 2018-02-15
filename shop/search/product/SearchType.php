@@ -64,6 +64,9 @@ class SearchType extends CompositeType
         $this->values = $values;
     }
 
+    /**
+     * @return array
+     */
     protected function internalForms(): array
     {
         return ['values'];
@@ -147,6 +150,9 @@ class SearchType extends CompositeType
         }
     }
 
+    /**
+     *
+     */
     public function filterByValue()
     {
         $foundIds = null;
@@ -155,8 +161,8 @@ class SearchType extends CompositeType
                 $query = Value::find();
                 $query->characteristic($value->getId());
 
-                $query->andFilterWhere(['>=', 'CAST(value as SIGNET)', $value->from]);
-                $query->andFilterWhere(['<=', 'CAST(value as SIGNET)', $value->from]);
+                $query->andFilterWhere(['>=', 'CAST(value as SIGNED)', $value->from]);
+                $query->andFilterWhere(['<=', 'CAST(value as SIGNED)', $value->to]);
                 $query->andFilterWhere(['value' => $value->equal]);
                 $productIds = $query->select('product_id')->column();
                 $foundIds = $foundIds == null ? $productIds : array_intersect($productIds, $foundIds);
