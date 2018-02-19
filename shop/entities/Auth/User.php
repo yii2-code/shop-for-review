@@ -174,7 +174,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function setEmail(string $email): void
     {
-        if (!$this->isAttributeChanged('email')) {
+        if (!$this->isNewRecord && !$this->isAttributeChanged('email')) {
             return;
         }
 
@@ -193,7 +193,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function setLogin(string $login): void
     {
-        if (!$this->isAttributeChanged('login')) {
+        if (!$this->isNewRecord && !$this->isAttributeChanged('login')) {
             return;
         }
         /** @var UserRepository $repository */
