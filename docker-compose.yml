@@ -65,6 +65,21 @@ services:
         user: 1000:1000
         volumes:
             - ./:/var/www/html
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:6.2.1
+        environment:
+            - cluster.name=shop-cluster
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - ./docker/server/elasticsearch:/usr/share/elasticsearch/data
+        networks:
+            self:
+                ipv4_address: ${ELASTICSEARCH_HOST}
 networks:
     self:
         driver: bridge
